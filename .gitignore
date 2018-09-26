@@ -12,3 +12,14 @@
 # pas les executables ou les logs.
 log/
 target/
+
+# Ignore les fichiers de configuration de Netbeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+nbactions.xml
+licenseheader.txt
+nb-configuration.xml
