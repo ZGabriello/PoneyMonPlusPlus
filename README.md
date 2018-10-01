@@ -3,20 +3,6 @@
 An awesome game featuring poneys challenging themselves in an intense fight to win a race !
 
 
-## How to play
-
-In the current version, there is no menu to choose poneys,
-so we chose to instantiate 5 poneys. The first and fifth ones
-can be played by humans and the power can be used with the keys
-NUMPAD1 and NUMPAD5 respectively. The power can only be used once.
-
-### Poneys controlled by IA
-
-* The 2nd poney implements the "MoreSpeedNyanStrategy" which uses the power when he has a high speed (> 0.5), 1 being the highest speed
-* The 3rd poney implements the "NotEnoughSpeedNyanStrategy" which uses the power when he has a low speed (< 0.4)
-* The 4th poney implements the "ImStillHereNyanStrategy" which uses the power when he can reduce the distance between him and the leading poney by 0.5, with 1 being a full turn 
-
-
 ## Documentation
 
 All the documentation is in the doc/ folder.
@@ -113,10 +99,13 @@ Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
 * [Dia](http://dia-installer.de/index.html.fr) - Diagram Editor
 
 
-## Authors
+## Acteurs
 
-* **Jonathan CABEZAS p1513280** - *Main Developper*
-* **Rémy NEVEU p1710792** - *Main Developper*
+* **Jonathan CABEZAS p1513280** - *SCRUM Master et référent technique JavaFX*
+* **Louis POITEVIN p1410541** - *Référent technique Animation et Sprites*
+* **Gabriello ZAFIFOMENDRAHA p1311399** - *Responsable qualité*
+* **Alexandre HOET p1502007** - *Tracker et référent technique réseau*
+* **Elodie MONTCARMEL p1710323** - *Product Owner*
 
 
 ## Acknowledgments
