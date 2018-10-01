@@ -1,4 +1,4 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.model;
+package fr.univ_lyon1.info.m1.poneymon_fx.model.notification;
 
 /**
  * Classe décrivant les changements du modèle aux Observers.

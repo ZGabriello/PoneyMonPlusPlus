@@ -1,5 +1,11 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.ImStillHereNyanStrategy;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.NotEnoughSpeedNyanStrategy;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.MoreSpeedNyanStrategy;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.ProgressNotification;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.StartNotification;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.WinNotification;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -15,7 +21,8 @@ public class FieldModel extends Observable {
     
     /** Poneys. */
     int nbPoneys;
-    ArrayList<PoneyModel> poneys = new ArrayList<>();
+    List<PoneyModel> poneys = new ArrayList<>();
+    List<Double> progresses = new ArrayList<>();
     String[] colorMap =
     new String[] {"blue", "green", "orange", "purple", "yellow"};
     
@@ -32,30 +39,36 @@ public class FieldModel extends Observable {
         this.nbPoneys = nbPoneys;
         /* On initialise le terrain de course */
         for (int i = 0; i < nbPoneys; i++) {
-            poneys.add(new NyanPoneyModel(colorMap[i]));
-            
+            poneys.add(new NyanPoneyModel(colorMap[i % 5], i, this));
+            progresses.add(0.0);
         }
-        poneys.get(1).addStrategy(new MoreSpeedStrategy(this,1));
-        poneys.get(2).addStrategy(new NotEnoughSpeedStrategy(this,2));
+        
+        // Tant qu'il n'y a pas de menus permettant de choisir les poneys
+        // on part d'une partie avec 3 ia sur les poneys centraux, et 5 poneys au total
+        if (nbPoneys == 5) {
+            NyanPoneyModel p = (NyanPoneyModel)poneys.get(1);
+            p.setStrategy(new MoreSpeedNyanStrategy(this, p, 1));
+            
+            p = (NyanPoneyModel)poneys.get(2);
+            p.setStrategy(new NotEnoughSpeedNyanStrategy(this, p, 2));
+            
+            p = (NyanPoneyModel)poneys.get(3);
+            p.setStrategy(new ImStillHereNyanStrategy(this, p, 3));
+        }
     }
-    
-    public void usePower(int i) {
-        poneys.get(i).usePower();
-    }
-    
+
     /**
      *Avancée des différents poneys. 
      */
     public void step() {
-        List<Double> progresses = new ArrayList<>();
         for (int i = 0; i < nbPoneys; i++) {
             // la fonction step() dans PoneyModel renvoie le nouveau progrès après mise à jour
-            progresses.add(poneys.get(i).step());
+            progresses.set(i, poneys.get(i).step());
             
             if (poneys.get(i).getNbTours() == winAt && winner == -1) {
                 winner = i;
                 setChanged();
-                notifyObservers(new WinNotification(winner));
+                notifyObservers(new WinNotification(winner, poneys.get(i).getColor()));
             }
         }
         
@@ -66,6 +79,7 @@ public class FieldModel extends Observable {
     /**
      * Initialisation des observeurs du modèle du terrain.
      */
+    @Override
     public void addObserver(Observer obs) {
         super.addObserver(obs);
         
@@ -78,7 +92,15 @@ public class FieldModel extends Observable {
         notifyObservers(new StartNotification(nbPoneys, poneyTypes));
     }
     
+    public int getNbPoneys() {
+        return nbPoneys;
+    }
+    
     public PoneyModel getPoneyModel(int i) {
         return poneys.get(i);
+    }
+    
+    public int getWinAt() {
+        return winAt;
     }
 }

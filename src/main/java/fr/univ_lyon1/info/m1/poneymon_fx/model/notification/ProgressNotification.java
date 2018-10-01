@@ -1,4 +1,4 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.model;
+package fr.univ_lyon1.info.m1.poneymon_fx.model.notification;
 
 import java.util.List;
 
@@ -7,10 +7,14 @@ import java.util.List;
  *
  */
 public class ProgressNotification extends Notification {
-    public List<Double> progresses;
+    List<Double> progresses;
     
     public ProgressNotification(List<Double> progresses) {
         super("PROGRESS");
         this.progresses = progresses;
+    }
+    
+    public List<Double> getProgresses() {
+        return progresses;
     }
 }

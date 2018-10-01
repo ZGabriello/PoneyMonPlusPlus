@@ -1,7 +1,8 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.model.Notification;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.PowerNotification;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.Notification;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PoneyStartNotification;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,14 +12,21 @@ import javafx.scene.image.Image;
  * Vue gérant l'affichage du Poney.
  *
  */
-public class PoneyView implements View, Observer {
-    static final double X_OFFSET = -100; // à fixer, doit être la taille de l'image
+public class PoneyView implements Observer {
+    static final double X_OFFSET = -93;
     static final double Y_OFFSET = 20;
+    // espace entre chaque poney
+    static final double Y_PADDING = 10;
+    static final int IMAGE_WIDTH = 123;
+    static final int IMAGE_HEIGHT = 99;
     
-    double x;       // position horizontale du poney
-    final double y; // position verticale du poney
-    final int width;
+    // position du poney dans le FieldModel
+    int position;
     
+    double x; // position horizontale du poney
+    double y; // position verticale du poney
+    
+    String color;
     // On cree trois images globales pour ne pas les recreer en permanence
     Image currentPoney;
     Image poneyImage;
@@ -26,26 +34,19 @@ public class PoneyView implements View, Observer {
 
     GraphicsContext graphicsContext;
     
-    PoneyView(GraphicsContext gc, String color, int yInit, int w) {
+    // Taille à parcourir par le poney en pixels, taille du terrain + taille du poney
+    int width;
+    
+    PoneyView(GraphicsContext gc, int w) {
         // Tous les voisins commencent a gauche du canvas,
         // on commence a -100 pour les faire apparaitre progressivement
-        x = X_OFFSET;
-        y = yInit + Y_OFFSET;
-        width = w;
-        
-        if (gc != null) {
-            // gc == null can be provided for testing
-            graphicsContext = gc;
-
-            // On charge l'image associée au poney
-            poneyImage = new Image("assets/pony-" + color + "-running.gif");
-
-            currentPoney = poneyImage;
-        }
+        setX(0.0);
+        width = w + IMAGE_WIDTH;
+        graphicsContext = gc;
     }
     
     public void setX(double progress) {
-        x = progress * width + X_OFFSET;
+        x = (progress * width) - IMAGE_WIDTH + X_OFFSET;
     }
     
     public void displayPowerAnimation() {
@@ -56,33 +57,60 @@ public class PoneyView implements View, Observer {
         currentPoney = poneyImage;
     }
     
+    
+    /**
+     * Gère l'initialisation du PoneyView à partir des données du PoneyModel.
+     * @param psn notification pour initialiser le poney
+     */
+    public void initialize(PoneyStartNotification psn) {
+        this.color = psn.getColor();
+        this.position = psn.getPosition();
+        
+        y = (IMAGE_HEIGHT + Y_PADDING) * position + Y_OFFSET;
+        
+        if (graphicsContext != null) {
+            // On charge l'image associée au poney
+            poneyImage = new Image("assets/pony-" + color + "-running.gif");
+
+            currentPoney = poneyImage;
+        }
+    }
+    
     /**
      * Gère le changement d'affichage lorsqu'un pouvoir est utilisé.
      * @param pn notification de l'utilisation du pouvoir
      */
     public void powerUsed(PowerNotification pn) {
-        boolean state = pn.state;
-        if (pn.state == true) {
+        boolean state = pn.getState();
+        
+        if (state == true) {
             displayPowerAnimation();
         } else {
             displayNormalAnimation();
         }
     }
     
+    /**
+     * Appel des différents traitements suivant la notification reçue.
+     */
     @Override
     public void update(Observable obs, Object o) {
         Notification n = (Notification) o;
         
         switch (n.name) {
+            case "START":
+                initialize((PoneyStartNotification) n);
+                break;
             case "POWER":
                 powerUsed((PowerNotification) n);
                 break;
             default:
                 System.err.println("Erreur : Notification de nom '" + n.name + "' inconnue !");
         }
+        
+        display();
     }
     
-    @Override
     public void display() {
         graphicsContext.drawImage(currentPoney, x, y);
     }

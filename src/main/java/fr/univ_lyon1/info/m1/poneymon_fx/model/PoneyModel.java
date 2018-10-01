@@ -1,44 +1,76 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.Strategy;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PoneyStartNotification;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
 /**
  * Classe gérant la logique du Poney.
  *
  */
-public class PoneyModel extends Observable {
-    static final int speedDivider = 200;
-    static final double minSpeed = 0.1;
-    static final double maxSpeed = 0.9;
+public abstract class PoneyModel extends Observable {
+    static final int SPEED_DIVIDER = 200;
+    static final double MIN_SPEED = 0.1;
+    static final double MAX_SPEED = 0.9;
     
     double progress;
     double speed;
     String color;
+    int position;
     
     boolean powerState;
+    int nbPowers;
     
     int nbTurns;
-    
-    Strategy strat;
+
+    Strategy strategy;
+    boolean ia;
     
     Random randomGen;
     
     /**
-     * Constructeur du PoneyModel.
+     * Constructeur du PoneyModel sans paramètres, pour tests.
      *
-     * @param color Contient la couleur du poney
      */
-    public PoneyModel(String color) {
+    public PoneyModel() {
         progress = 0.0;
-        this.color = color;
-        //this.neighs = poneys;
+
         powerState = false;
+        nbPowers = 0;
         
         nbTurns = 0;
-        
-        strat = new Strategy();
+        ia = false;
+
         setRandSpeed();
+    }
+    
+    /**
+     * Constructeur de PoneyModel.
+     *
+     * @param color Contient la couleur du poney
+     * @param position position du poney sur le terrain
+     */
+    public PoneyModel(String color, int position) {
+        this();
+        this.color = color;
+        this.position = position;
+    }
+    
+    /**
+     * Constructeur de PoneyModel avec IA.
+     *
+     * @param color Contient la couleur du poney
+     * @param position position du poney sur le terrain
+     * @param strategy stratégie à utiliser pour l'ia
+     */
+    public PoneyModel(String color, int position, Strategy strategy) {
+        ia = true;
+        this.strategy = strategy;
     }
     
     /**
@@ -46,25 +78,34 @@ public class PoneyModel extends Observable {
      * @return position du poney
      */
     public double step() {
-        progress += speed;
-        if (progress > 1.0) {
-            progress = 0;
-            nbTurns++;
-            setRandSpeed();
+        if (ia) {
+            strategy.checkPower();
         }
-        strat.action();        
+        
+        progress += (speed / SPEED_DIVIDER);
+        
+        if (progress > 1.0) {
+            newTurn();
+        }
+
         return progress;
     }
     
+    
     /**
-     * Changement d'etat du poney (Utilisation du pouvoir).
+     * Action à effectuer au début d'un nouveau tour.
+     */
+    protected void newTurn() {
+        progress = 0;
+        nbTurns++;
+        setRandSpeed();
+    }
+    
+    /**
+     * Utilisation du pouvoir.
      */
     public void usePower() {
-        if (powerState == false) {
-            powerState = true;
-            setChanged();
-            notifyObservers(new PowerNotification(true));
-        }
+        
     }
     
     /**
@@ -77,16 +118,25 @@ public class PoneyModel extends Observable {
     }
     
     /**
+     * Initialisation des observeurs du modèle du poney.
+     */
+    @Override
+    public void addObserver(Observer obs) {
+        super.addObserver(obs);
+        
+        setChanged();
+        notifyObservers(new PoneyStartNotification(color, position));
+    }
+    
+    /**
      * Controle de la vitesse du poney.
      */
-    public void controlSpeed() {
-        if (speed > maxSpeed) {
-            speed = maxSpeed;
-        } else if (speed < minSpeed) {
-            speed = minSpeed;
+    private void controlSpeed() {
+        if (speed > MAX_SPEED) {
+            speed = MAX_SPEED;
+        } else if (speed < MIN_SPEED) {
+            speed = MIN_SPEED;
         }
-        
-        speed /= speedDivider;
     }
     
     /**
@@ -100,10 +150,6 @@ public class PoneyModel extends Observable {
         controlSpeed();
     }
     
-    public double getSpeed() {
-        return speed;
-    }
-    
     /**
      * Mutateur pour donner une vitesse aléatoire au poney.
      * 
@@ -115,9 +161,25 @@ public class PoneyModel extends Observable {
         
         controlSpeed();
     }
+
+    public void setProgress(double p) {
+        progress = p;
+    }
+    
+    public void setIa(boolean b) {
+        ia = b;
+    }
+    
+    public double getSpeed() {
+        return speed;
+    }
+    
+    public String getColor() {
+        return color;
+    }
     
     public int getSpeedDivider() {
-        return speedDivider;
+        return SPEED_DIVIDER;
     }
     
     public int getNbTours() {
@@ -128,12 +190,17 @@ public class PoneyModel extends Observable {
         return progress;
     }
     
-    // 
-    public double distanceTo(PoneyModel poney) { 
-        return progress - poney.progress;
+    public boolean isIa() {
+        return ia;
     }
     
-    public void addStrategy(Strategy s) {
-        strat = s;
+    /**
+     * Calcul la distance avec le poney donné en prenant en compte les tours,
+     * une distance positive veut dire qu'on est devant, et négative l'inverse.
+     * 
+     * @param poney poney par rapport auquel on calcule la distance
+     */
+    public double distanceTo(PoneyModel poney) { 
+        return (progress + nbTurns) - (poney.progress + poney.nbTurns);
     }
 }

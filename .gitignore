@@ -8,11 +8,6 @@
 *.iml
 *.iws
 
-# Ignore les fichiers produits par Maven pour ne versionner que le code,
-# pas les executables ou les logs.
-log/
-target/
-
 # Ignore les fichiers de configuration de Netbeans
 nbproject/private/
 build/
@@ -23,3 +18,14 @@ nbdist/
 nbactions.xml
 licenseheader.txt
 nb-configuration.xml
+
+# Ignore les fichiers produits par Maven pour ne versionner que le code,
+# pas les executables ou les logs.
+log/
+target/
+
+# Ignore les fichiers temporaires de Vim
+*.swp
+
+# Ignore fichier de la commande nohup
+nohup.out

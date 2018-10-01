@@ -2,10 +2,10 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.Notification;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.ProgressNotification;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.StartNotification;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.WinNotification;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.Notification;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.ProgressNotification;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.StartNotification;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.WinNotification;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -23,20 +23,12 @@ import javafx.scene.text.TextAlignment;
  * Classe gérant l'affichage du Field.
  *
  */
-public class FieldView extends Canvas implements View, Observer {
+public class FieldView extends Canvas implements Observer {
     int nbPoneys = -1;
     List<PoneyView> poneys = new ArrayList<>();
     
     FieldModel model;
     Controller controller;
-    
-    /** Couleurs possibles. */
-    String[] colorMap =
-        new String[] {"blue", "green", "orange", "purple", "yellow"};
-    /** Inputs pour activer le pouvoir des poneys. */
-    KeyCode[] inputs =
-        new KeyCode[]{KeyCode.NUMPAD1, KeyCode.NUMPAD2, KeyCode.NUMPAD3,
-                      KeyCode.NUMPAD4, KeyCode.NUMPAD5};
 
     String middleText;
     
@@ -67,8 +59,6 @@ public class FieldView extends Canvas implements View, Observer {
 
         gc = this.getGraphicsContext2D();
         
-        setOnKeyReleasedEvent();
-        
         model.addObserver(this);
     }
     
@@ -77,17 +67,19 @@ public class FieldView extends Canvas implements View, Observer {
      * @param sn Notification d'initialisation
      */
     public void initialize(StartNotification sn) {      
-        nbPoneys = sn.nbPoneys;
+        nbPoneys = sn.getNbPoneys();
+        List<String> poneyTypes = sn.getPoneyTypes();
         
         /* On initialise le terrain de course */
         for (int i = 0; i < nbPoneys; i++) {
             PoneyView newPoney = null;
-            switch (sn.poneyTypes.get(i)) {
+            
+            switch (poneyTypes.get(i)) {
                 case "NyanPoneyModel":
-                    newPoney = new NyanPoneyView(gc, colorMap[i], i * 110, width);
+                    newPoney = new NyanPoneyView(gc, width);
                     break;
                 default:
-                    newPoney = new PoneyView(gc, colorMap[i], i * 110, width);
+                    newPoney = new PoneyView(gc, width);
             }
             poneys.add(newPoney);
             model.getPoneyModel(i).addObserver(newPoney);
@@ -99,18 +91,21 @@ public class FieldView extends Canvas implements View, Observer {
      * @param pn notification de l'avancement des poneys du modèle
      */
     public void progress(ProgressNotification pn) {
+        List<Double> progresses = pn.getProgresses();
+        
         for (int i = 0; i < nbPoneys; i++) {
-            poneys.get(i).setX(pn.progresses.get(i));
+            poneys.get(i).setX(progresses.get(i));
         }
     }
 
     public void displayWinner(WinNotification wn) {
-        middleText = "The " + colorMap[wn.winner] + " poney has won the race !";
+        middleText = "The " + wn.getWinnerColor() + " poney has won the race !";
     }
     
     /**
-     * Appel des différents observeurs suivant la notification reçue.
+     * Appel des différents traitements suivant la notification reçue.
      */
+    @Override
     public void update(Observable obs, Object o) {
         Notification n = (Notification) o;
         
@@ -164,38 +159,5 @@ public class FieldView extends Canvas implements View, Observer {
                     Math.round(height / 2)
             );
         }
-    }
-    
-    /**
-     * Event Listener du clavier.
-     * quand une touche est pressee on la rajoute a la liste d'input
-     *
-     */
-    public void setOnKeyPressedEvent() {
-
-        this.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            public void handle(KeyEvent e) {
-                ; // TODO
-            }
-        });
-    }
-    
-    /**
-     * Event Listener du clavier.
-     * quand une touche est relachee on l'enleve de la liste d'input
-     *
-     */
-    public void setOnKeyReleasedEvent() {
-
-        this.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            public void handle(KeyEvent e) {
-                System.out.println(e.getCode());
-                for (int i = 0; i < inputs.length; i++) {
-                    if (inputs[i].equals(e.getCode())) {
-                        controller.usePower(i);
-                    }
-                }
-            }
-        });
     }
 }

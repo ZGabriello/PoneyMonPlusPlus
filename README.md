@@ -1,88 +1,125 @@
-# PoneyMonPlusPlus
+# Poneymon
 
-One Paragraph of project description goes here
+An awesome game featuring poneys challenging themselves in an intense fight to win a race !
+
+
+## How to play
+
+In the current version, there is no menu to choose poneys,
+so we chose to instantiate 5 poneys. The first and fifth ones
+can be played by humans and the power can be used with the keys
+NUMPAD1 and NUMPAD5 respectively. The power can only be used once.
+
+### Poneys controlled by IA
+
+* The 2nd poney implements the "MoreSpeedNyanStrategy" which uses the power when he has a high speed (> 0.5), 1 being the highest speed
+* The 3rd poney implements the "NotEnoughSpeedNyanStrategy" which uses the power when he has a low speed (< 0.4)
+* The 4th poney implements the "ImStillHereNyanStrategy" which uses the power when he can reduce the distance between him and the leading poney by 0.5, with 1 being a full turn 
+
+
+## Documentation
+
+All the documentation is in the doc/ folder.
+
+### DIA
+
+The DIA diagrams are in doc/dia/.
+
+### Javadoc
+
+The javadoc can be accessed at doc/javadoc/index.html
+
+### Report
+
+The report is at doc/rapport_poneymon.pdf
+
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+To get a copy of the project working, run the following command :
+
+```
+clone https://forge.univ-lyon1.fr/p1513280/poneymon.git
+```
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+Make sure you have Maven installed :
 
 ```
-Give examples
+mvn --version
 ```
 
-### Installing
+### Running the program
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+To run the program in command line :
 
 ```
-Give the example
+mvn compile
+mvn exec:java
 ```
 
-And repeat
+### Running the tests
 
 ```
-until finished
+mvn test
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+### Building the program
 
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+To build the program and run the tests :
 
 ```
-Give an example
+mvn install
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
+It will produce a .jar that you can run giving the main class :
 
 ```
-Give an example
+java -cp target/poneymon_fx-0.0.1-SNAPSHOT.jar fr.univ_lyon1.info.m1.poneymon_fx.App
 ```
 
-## Deployment
 
-Add additional notes about how to deploy this on a live system
+## Packaging
+
+It will also produce a package containing all the dependances that you can run anywhere :
+
+```
+java -jar target/poneymon_fx-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+```
+
+## Coding style tests
+
+Based on
+Checkstyle configuration that checks the Google coding conventions from Google Java Style
+that can be found at https://google.github.io/styleguide/javaguide.html.
+ 
+Checkstyle is very configurable. Documentation can be read at
+http://checkstyle.sf.net.
+
+To completely disable a check, just comment it out or delete it from the file.
+
+Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
+
+
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
 * [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
-## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+## Software used
 
-## Versioning
+* [Dia](http://dia-installer.de/index.html.fr) - Diagram Editor
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Jonathan CABEZAS p1513280** - *Main Developper*
+* **Rémy NEVEU p1710792** - *Main Developper*
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
-
+* Hat tip to the teachers for providing the initial code and idea
+* Thanks to everyone who gave advice on MVC
