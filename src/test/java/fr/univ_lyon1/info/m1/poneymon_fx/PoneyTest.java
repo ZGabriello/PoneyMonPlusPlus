@@ -11,18 +11,13 @@ import org.junit.Test;
  * Unit test for the PoneyModel class.
  */
 public class PoneyTest {
-    @Test
-    public void testTrueIsTrue() {
-        assertTrue(true);
-    }
-
     /**
      * On teste que les poneys avancent bien a la bonne vitesse.
      */
     @Test
     public void testMoveSpeed() {
         // Given
-        PoneyModel p = new PoneyModel("green");
+        PoneyModel p = new NyanPoneyModel();
         p.setSpeed(0.42);
         double expectedSpeed = 0.42 / p.getSpeedDivider();
         
@@ -37,9 +32,9 @@ public class PoneyTest {
      * On teste que les poneys ne sortent pas du terrain.
      */
     @Test
-    public void testboundaries() {
+    public void testBoundaries() {
         // Given
-        PoneyModel p = new PoneyModel("orange");
+        PoneyModel p = new NyanPoneyModel();
         p.setRandSpeed();
 
         
@@ -53,37 +48,60 @@ public class PoneyTest {
     }
     
     /**
-     * On teste que les super poneys sont bien boostés.
+     * On teste que les super poneys soient bien boostés.
      */
     @Test
-    public void testboost() {
+    public void testBoost() {
         // Given
-        NyanPoneyModel p = new NyanPoneyModel("blue");
+        NyanPoneyModel p = new NyanPoneyModel();
         p.setSpeed(0.42);
-        double expectedSpeed = 0.42 / p.getSpeedDivider();
-        expectedSpeed*=p.getSpeedMultiplier();
+        
+        double expectedProgress = 0.42 / p.getSpeedDivider();
+        expectedProgress *= p.getSpeedMultiplier();
+        
         //When
         p.usePower();
-        p.step();     
+        p.step();
+        
         //Then
-        assertEquals(p.getProgress(), expectedSpeed, 0.001);
+        assertEquals(p.getProgress(), expectedProgress, 0.001);
     }
     
     /**
-     * On teste que les super poneys ne sont pas trop dopés.
+     * On teste que les super poneys ne conservent pas leur boost de vitesse après la fin du pouvoir.
      */
-    
     @Test
-    public void testtoomuchboost() {
+    public void testTooMuchBoost() {
         // Given
-        NyanPoneyModel p = new NyanPoneyModel("blue");
+        NyanPoneyModel p = new NyanPoneyModel();
         p.setSpeed(0.42);
-        double expectedSpeed = 0.42 / p.getSpeedDivider();
+        double expectedSpeed = 0.42;
+        
         //When
         p.usePower();
         p.endPower();
-       p.setSpeed(0.42);
+        p.setSpeed(0.42);
+        
+        //Then
+        assertEquals(p.getSpeed(), expectedSpeed, 0.001);
+    }
+    
+    /**
+     * On teste que les super poneys ne puissent pas réutiliser leur pouvoir une 2ème fois.
+     */
+    @Test
+    public void testBoostUsedTwice() {
+        // Given
+        NyanPoneyModel p = new NyanPoneyModel();
+        p.setSpeed(0.42);
+        double expectedSpeed = 0.42;
+        
+        //When
         p.usePower();
+        p.endPower();
+        p.setSpeed(0.42);
+        p.usePower();
+        
         //Then
         assertEquals(p.getSpeed(), expectedSpeed, 0.001);
     }
