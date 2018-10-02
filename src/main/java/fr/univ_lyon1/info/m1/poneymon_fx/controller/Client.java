@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -10,10 +11,13 @@ import java.net.UnknownHostException;
  */
 public class Client {
     Socket sock;
+    Thread t;
+    ClientToServerProcessor processor;
     public Client(String _addresse, int _port){
         try{
-            sock = new Socket(_addresse,_port);
-            Thread t = new Thread(new ClientToServerProcessor(sock));
+            sock = new Socket(InetAddress.getByName(_addresse),_port);
+            processor = new ClientToServerProcessor(sock);
+            t = new Thread(processor);
             t.start();
         }
         catch (UnknownHostException e){

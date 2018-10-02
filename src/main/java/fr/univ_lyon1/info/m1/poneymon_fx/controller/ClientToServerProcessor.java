@@ -51,13 +51,21 @@ class ClientToServerProcessor implements Runnable {
         }
     }
     
-    private String read() throws IOException{
+    String read() throws IOException{
         String reponse;
         int stream;
         byte[] b = new byte[4096];
         stream = reader.read(b);
         reponse = new String(b,0,stream);
+        
         return reponse;
+    }
+    
+    
+    void sendCommand(String byteCode){
+        System.out.println("handling command...");
+        writer.write(byteCode);
+        writer.flush();
     }
     
     private void handleServerCommand(String code) {

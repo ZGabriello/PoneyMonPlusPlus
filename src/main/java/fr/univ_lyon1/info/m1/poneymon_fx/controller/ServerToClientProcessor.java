@@ -14,6 +14,7 @@ class ServerToClientProcessor implements Runnable {
     PrintWriter writer = null;
     BufferedInputStream reader = null;
     boolean connexionFermee = false;
+    
     public ServerToClientProcessor(Socket client) {
         cSocket = client;
     }
@@ -23,11 +24,7 @@ class ServerToClientProcessor implements Runnable {
         
         while (!cSocket.isClosed()){
             try{
-                writer = new PrintWriter(cSocket.getOutputStream());
-                reader = new BufferedInputStream(cSocket.getInputStream());
-                String reponse = read();
-                handleClientCommand(reponse);
-                
+                                
                 if (connexionFermee){
                     System.out.println("connexion fermée");
                     writer = null;
@@ -35,6 +32,16 @@ class ServerToClientProcessor implements Runnable {
                     cSocket.close();
                     break;
                 }
+                else{
+                    System.out.println("server running ...1");
+                    writer = new PrintWriter(cSocket.getOutputStream());
+                    reader = new BufferedInputStream(cSocket.getInputStream());
+                    System.out.println("server running ...2");
+                    String reponse = read();
+                    handleClientCommand(reponse);
+
+                }
+
             
             }
             catch (SocketException e){
@@ -47,7 +54,7 @@ class ServerToClientProcessor implements Runnable {
     }
     
     
-    private String read() throws IOException{
+    String read() throws IOException{
         String reponse;
         int stream;
         byte[] b = new byte[4096];
@@ -56,10 +63,19 @@ class ServerToClientProcessor implements Runnable {
         return reponse;
     }
 
+    
+    void sendCommand(String byteCode){
+        System.out.println("handling command...");
+        writer.write(byteCode);
+        writer.flush();
+    }
+    
+    
     private void handleClientCommand(String code) {
         String toSend;
         
         switch (code.toUpperCase()){
+            
             case "CLOSE":
                 toSend = "fin  de communication";
                 connexionFermee = true;
