@@ -9,12 +9,12 @@ import java.net.SocketException;
  *
  * @author Alex
  */
-class ClientProcessor implements Runnable {
+class ServerToClientProcessor implements Runnable {
     Socket cSocket;
     PrintWriter writer = null;
     BufferedInputStream reader = null;
     boolean connexionFermee = false;
-    public ClientProcessor(Socket client) {
+    public ServerToClientProcessor(Socket client) {
         cSocket = client;
     }
 

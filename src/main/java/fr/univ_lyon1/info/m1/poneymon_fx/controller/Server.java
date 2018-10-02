@@ -43,7 +43,7 @@ public class Server {
                     try {
                         Socket client = sSocket.accept();
                         System.out.println("connexion reçue");
-                        Thread t = new Thread(new ClientProcessor(client));
+                        Thread t = new Thread(new ServerToClientProcessor(client));
                         t.start();
                     } catch (IOException e) {
                         e.printStackTrace();
