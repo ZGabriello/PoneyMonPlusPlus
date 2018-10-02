@@ -10,6 +10,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Vue d'une partie.
@@ -30,6 +36,8 @@ public class GameView extends StackPane {
     HBox buttons;
     Button menuButton;
     Button pauseButton;
+    
+    Map<KeyCode, Button> hm = new LinkedHashMap<>();
     
     /** Inputs pour activer le pouvoir des poneys. */
     KeyCode[] powerInputs =
@@ -118,8 +126,14 @@ public class GameView extends StackPane {
             public void handle(KeyEvent e) {
                 System.out.println(e.getCode());
                 for (int i = 0; i < powerInputs.length; i++) {
-                    if (powerInputs[i].equals(e.getCode())) {
-                        controller.usePower(i);
+                    hm.put(powerInputs[i],new Button("e.getCode()"));
+                    Set<Entry<KeyCode, Button>> setHm = hm.entrySet();
+                    Iterator<Entry<KeyCode, Button>> it = setHm.iterator();
+                    while(it.hasNext()){
+                        Entry<KeyCode, Button> entry = it.next();
+                        if (entry.getKey().equals(e.getCode())) {
+                            controller.usePower(i);
+                        }
                     }
                 }
             }

@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import java.util.Arrays;
 import java.util.List;
 import javafx.animation.TranslateTransition;
@@ -55,7 +56,7 @@ public class MenuControles extends StackPane {
     
     
     /**
-     * Constructeur du Menu.
+     * Constructeur du Menu de controles.
      * @param c Contrôleur
      * @param w largeur de la vue
      * @param h hauteur de la vue
