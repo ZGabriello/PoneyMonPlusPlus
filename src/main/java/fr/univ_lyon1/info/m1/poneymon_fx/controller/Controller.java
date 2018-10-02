@@ -40,6 +40,7 @@ public class Controller {
      */
     public void addMainView(MainView view) {
         view.setController(this);
+        initializeMainView(view);
         
         // Si il y a déjà des vues, la nouvelle doit afficher la même chose que les autres
         if (!views.isEmpty()) {
@@ -47,16 +48,20 @@ public class Controller {
             if (model != null) {
                 view.setModel(model);
                 view.createGameView();
-            } else {
-                view.createMenuParameters();
-                view.createMenuView();
             }
+            String activeView = views.get(0).getActiveView();
+            view.setActiveView(activeView);
         } else {
-            view.createMenuParameters();
-            view.createMenuView();
+            view.setActiveView("MenuView");
         }
         
         views.add(view);
+    }
+    
+    public void initializeMainView(MainView view){
+        view.createMenuView();
+        view.createMenuParameters();
+        view.createMenuControles();
     }
     
     /**
@@ -69,6 +74,7 @@ public class Controller {
         for (MainView view : views) {
             view.setModel(model);
             view.createGameView();
+            view.setActiveView("GameView");
         }
         
         gameUnpause(); // La partie démarre en pause
@@ -110,13 +116,22 @@ public class Controller {
     /**
      * Permet de retourner au menu.
      */
-    public void menu() {
+    public void menuFromGame() {
         for (MainView view : views) {
             view.setActiveView("MenuView");
             view.deleteView("GameView");
-            view.deleteView("MenuParameters");
             view.setModel(null);
             System.out.println("Je suis dans le menu");
+        }
+    }
+    
+     /**
+     * Permet d'aller dans le menu controles.
+     */
+    public void menuControles() {
+        for (MainView view : views) {
+            view.setActiveView("MenuControles");
+            System.out.println("Je suis dans les controles");
         }
     }
     
@@ -126,9 +141,6 @@ public class Controller {
     public void menuParameters() {
         for (MainView view : views) {
             view.setActiveView("MenuParameters");
-            view.deleteView("MenuView");
-            view.deleteView("GameView");
-            view.setModel(null);
             System.out.println("Je suis dans les paramètres");
         }
     }

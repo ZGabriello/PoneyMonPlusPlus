@@ -23,11 +23,12 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+
 /**
- * Vue du menu paramètre.
+ * Vue du menu.
  *
  */
-public class MenuParameters extends StackPane {
+public class MenuControles extends StackPane {
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
     
     /**
@@ -59,7 +60,7 @@ public class MenuParameters extends StackPane {
      * @param w largeur de la vue
      * @param h hauteur de la vue
      */
-    public MenuParameters(Controller c, int w, int h) {
+    public MenuControles(Controller c, int w, int h) {
         setPrefSize(w, h);
         
         controller = c;
@@ -69,20 +70,22 @@ public class MenuParameters extends StackPane {
     }
     
     private void createContent() {
-        MenuItem sonItem = new MenuItem("Son");
-        
-        MenuItem controlesItem = new MenuItem("Contrôles");
-        controlesItem.setOnActivate(() -> controller.menuControles());
+        //ce serait mieux de faire une boucle avec la taille des inputs et faire un menuItem sur i 
+        MenuItem firstPowerItem = new MenuItem("Pouvoir Nyan 1");
+        MenuItem secondPowerItem = new MenuItem("Pouvoir Nyan 2");
+        MenuItem thirdPowerItem = new MenuItem("Pouvoir Nyan 3");
+        MenuItem fourthPowerItem = new MenuItem("Pouvoir Nyan 4");
+        MenuItem fifthPowerItem = new MenuItem("Pouvoir Nyan 5");
         
         MenuItem retourItem = new MenuItem("Retour");
-        retourItem.setOnActivate(() -> controller.menuFromGame());
-        
-        MenuItem resolutionItem = new MenuItem("Resolution");
+        retourItem.setOnActivate(() -> controller.menuParameters());
    
         menuItems = Arrays.asList(
-                sonItem,
-                controlesItem,
-                resolutionItem,
+                firstPowerItem,
+                secondPowerItem,
+                thirdPowerItem,
+                fourthPowerItem,
+                fifthPowerItem,
                 retourItem);
         Node title = createTitle("Poneymon");
         

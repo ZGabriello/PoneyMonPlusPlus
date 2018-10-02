@@ -14,7 +14,7 @@ import javafx.stage.Stage;
  */
 public class MainView {
     HashMap<String, Pane> views = new HashMap<>();
-    String currentView;
+    String activeView;
     
     FieldModel model;
     Controller controller;
@@ -57,8 +57,6 @@ public class MainView {
     public void createMenuView() {
         MenuView mv = new MenuView(controller, width, height);
         views.put("MenuView", mv);    
-        
-        setActiveView("MenuView");
     }
     
     /**
@@ -67,8 +65,6 @@ public class MainView {
     public void createGameView() {
         GameView gv = new GameView(model, controller, width, height);
         views.put("GameView", gv);
-        
-        setActiveView("GameView");
     }
     
     
@@ -78,8 +74,14 @@ public class MainView {
     public void createMenuParameters() {
         MenuParameters mp = new MenuParameters(controller, width, height);
         views.put("MenuParameters", mp);
-        
-        setActiveView("MenuParameters");
+    }
+    
+     /**
+     * Crée et ajoute au cache des vues pour les touches de controles.
+     */
+    public void createMenuControles() {
+        MenuControles mc = new MenuControles(controller, width, height);
+        views.put("MenuControles", mc);
     }
     
     public void deleteView(String view) {
@@ -92,10 +94,10 @@ public class MainView {
      */
     public void setActiveView(String view) {
         if (views.containsKey(view)) {
-            if (currentView != null) {
-                root.getChildren().remove(views.get(currentView));
+            if (activeView != null) {
+                root.getChildren().remove(views.get(activeView));
             }
-            currentView = view;
+            activeView = view;
             
             Pane pane = views.get(view);
             root.getChildren().add(pane);
@@ -105,6 +107,10 @@ public class MainView {
         } else {
             System.err.println("The view '" + view + "' doesn't exist in this MainView!");
         }
+    }
+    
+    public String getActiveView(){
+        return activeView;
     }
     
     /**
