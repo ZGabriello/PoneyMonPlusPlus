@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.List;
 import javafx.animation.TranslateTransition;
@@ -9,9 +10,11 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -23,6 +26,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import java.awt.*;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
@@ -30,7 +34,7 @@ import static javafx.scene.layout.Region.USE_PREF_SIZE;
  * Vue du menu.
  *
  */
-public class MenuView extends StackPane {
+public class MenuParameters extends StackPane {
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
     
     /**
@@ -53,7 +57,14 @@ public class MenuView extends StackPane {
     Controller controller;
     
     private List<MenuItem> menuItems;
-    int currentItem = 0;
+    
+    /** Les boutons. */
+    HBox buttonMenu;
+    VBox buttonsControl;
+    Button menuButton;
+    Button nianButton;
+    Button powerButton;
+    
     
     /**
      * Constructeur du Menu.
@@ -61,44 +72,56 @@ public class MenuView extends StackPane {
      * @param w largeur de la vue
      * @param h hauteur de la vue
      */
-    public MenuView(Controller c, int w, int h) {
+    public MenuParameters(Controller c, int w, int h) {
         setPrefSize(w, h);
         
         controller = c;
-        
+    
         createContent();
-        setOnKeyPressedEvent();
+        addButtons();
+    }
+    
+     /**
+     * Boutons du jeu.   
+     */
+    public void addButtons() {
+        buttonMenu = new HBox(); // Boite où ranger les éléments horizontalement
+
+        menuButton = new Button("Menu principal");
+        menuButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent arg0) {
+                controller.menu();
+            }
+        });
+
+        buttonMenu.getChildren().add(menuButton);
+        this.getChildren().add(buttonMenu);
     }
     
     private void createContent() {
-        // On démarre par défaut une partie avec 5 poneys
-        MenuItem startGameItem = new MenuItem("Start a game");
-        startGameItem.setOnActivate(() -> controller.startGame(5));
-        
-        MenuItem exitItem = new MenuItem("Exit");
-        exitItem.setOnActivate(() -> Platform.exit());
-        
-        MenuItem parameters = new MenuItem("Parameters");
-        parameters.setOnActivate(()-> controller.menuParameters()); //on se dirige vers la vue qu'il faut afficher 
-
-        menuItems = Arrays.asList(
-                startGameItem,
-                parameters,
-                exitItem);
-
         Node title = createTitle("Poneymon");
+        
+        nianButton = new Button ("Nian");
+        powerButton = new Button ("Power");
+        
         VBox container = new VBox(10, title);
         
         VBox.setMargin(title, new Insets(0, 0, 110, 0));
-        
-        container.getChildren().addAll(menuItems);
-        container.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
-
-        getMenuItem(0).setActive(true);
 
         setBackground(new Background(
                       new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-
+        
+        container.setAlignment(Pos.CENTER);
+         
+        MenuItem itemSons = new MenuItem("Son");
+        MenuItem itemControles = new MenuItem("Contrôles");
+        MenuItem itemResolution = new MenuItem("Résolutions");
+        
+        container.getChildren().add(itemSons);
+        container.getChildren().add(itemControles);
+        container.getChildren().add(nianButton);
+        container.getChildren().add(powerButton);
+        container.getChildren().add(itemResolution);
         getChildren().add(container);
     }
     
@@ -125,31 +148,4 @@ public class MenuView extends StackPane {
         return letters;
     }
     
-    private MenuItem getMenuItem(int index) {
-        return menuItems.get(index);
-    }
-    
-    private void setOnKeyPressedEvent() {
-        this.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            public void handle(KeyEvent e) {
-                if (e.getCode() == KeyCode.UP) {
-                    if (currentItem > 0) {
-                        getMenuItem(currentItem).setActive(false);
-                        getMenuItem(--currentItem).setActive(true);
-                    }
-                }
-                
-                if (e.getCode() == KeyCode.DOWN) {
-                    if (currentItem < menuItems.size() - 1) {
-                        getMenuItem(currentItem).setActive(false);
-                        getMenuItem(++currentItem).setActive(true);
-                    }
-                }
-                
-                if (e.getCode() == KeyCode.ENTER) {
-                    getMenuItem(currentItem).activate();
-                }
-            }
-        });
-    }
 }

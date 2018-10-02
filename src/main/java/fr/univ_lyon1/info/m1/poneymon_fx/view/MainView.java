@@ -71,6 +71,17 @@ public class MainView {
         setActiveView("GameView");
     }
     
+    
+    /**
+     * Crée et ajoute au cache des vues les paramètres.
+     */
+    public void createMenuParameters() {
+        MenuParameters mp = new MenuParameters(controller, width, height);
+        views.put("MenuParameters", mp);
+        
+        setActiveView("MenuParameters");
+    }
+    
     public void deleteView(String view) {
         views.remove(view);
     }

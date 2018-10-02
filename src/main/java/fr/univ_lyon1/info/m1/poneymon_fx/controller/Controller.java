@@ -48,9 +48,11 @@ public class Controller {
                 view.setModel(model);
                 view.createGameView();
             } else {
+                view.createMenuParameters();
                 view.createMenuView();
             }
         } else {
+            view.createMenuParameters();
             view.createMenuView();
         }
         
@@ -112,7 +114,22 @@ public class Controller {
         for (MainView view : views) {
             view.setActiveView("MenuView");
             view.deleteView("GameView");
+            view.deleteView("MenuParameters");
             view.setModel(null);
+            System.out.println("Je suis dans le menu");
+        }
+    }
+    
+    /**
+     * Permet d'aller dans le menu paramètres.
+     */
+    public void menuParameters() {
+        for (MainView view : views) {
+            view.setActiveView("MenuParameters");
+            view.deleteView("MenuView");
+            view.deleteView("GameView");
+            view.setModel(null);
+            System.out.println("Je suis dans les paramètres");
         }
     }
 }
