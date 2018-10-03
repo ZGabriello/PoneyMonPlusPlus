@@ -13,8 +13,8 @@ class ServerToClientProcessor implements Runnable {
     Socket cSocket;
     PrintWriter writer = null;
     BufferedInputStream reader = null;
+    boolean connexionFermeeDemande = false;
     boolean connexionFermee = false;
-    
     public ServerToClientProcessor(Socket client) {
         cSocket = client;
     }
@@ -22,14 +22,15 @@ class ServerToClientProcessor implements Runnable {
     @Override
     public void run() {
         
-        while (!cSocket.isClosed()){
+        while (!connexionFermee){
             try{
                                 
-                if (connexionFermee){
+                if (connexionFermeeDemande){
                     System.out.println("connexion fermée");
                     writer = null;
                     reader = null;
                     cSocket.close();
+                    connexionFermee = true;
                     break;
                 }
                 else{
@@ -78,7 +79,7 @@ class ServerToClientProcessor implements Runnable {
             
             case "CLOSE":
                 toSend = "fin  de communication";
-                connexionFermee = true;
+                connexionFermeeDemande = true;
                 break;
             default:
                 toSend = "commande non reconnue";

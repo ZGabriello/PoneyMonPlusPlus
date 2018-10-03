@@ -34,7 +34,6 @@ class ClientToServerProcessor implements Runnable {
                 handleServerCommand(reponse);
                 
                 if (connexionFermee){
-                    System.out.println("connexion fermée");
                     writer = null;
                     reader = null;
                     sock.close();
