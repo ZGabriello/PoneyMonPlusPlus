@@ -131,7 +131,6 @@ public class Controller {
     public void menuControles() {
         for (MainView view : views) {
             view.setActiveView("MenuControles");
-            System.out.println("Je suis dans les controles");
         }
     }
     
@@ -141,7 +140,6 @@ public class Controller {
     public void menuParameters() {
         for (MainView view : views) {
             view.setActiveView("MenuParameters");
-            System.out.println("Je suis dans les paramètres");
         }
     }
 }

@@ -54,7 +54,7 @@ public class MenuParameters extends StackPane {
     
     
     /**
-     * Constructeur du Menu.
+     * Constructeur du Menu des paramètres.
      * @param c Contrôleur
      * @param w largeur de la vue
      * @param h hauteur de la vue

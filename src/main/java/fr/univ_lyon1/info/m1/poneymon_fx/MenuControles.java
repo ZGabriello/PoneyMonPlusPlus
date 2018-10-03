@@ -3,12 +3,15 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -50,6 +53,9 @@ public class MenuControles extends StackPane {
     new Color[] { LIGHTBLUE, LIGHTGREEN, LIGHTORANGE, LIGHTPURPLE, LIGHTYELLOW };
     
     Controller controller;
+    GameView gv;
+    
+    /*Map<KeyCode, Button> hm = new LinkedHashMap<>();*/
     
     private List<MenuItem> menuItems;
     int currentItem = 0;
@@ -65,7 +71,7 @@ public class MenuControles extends StackPane {
         setPrefSize(w, h);
         
         controller = c;
-    
+        
         createContent();
         setOnKeyPressedEvent();
     }
@@ -77,6 +83,11 @@ public class MenuControles extends StackPane {
         MenuItem thirdPowerItem = new MenuItem("Pouvoir Nyan 3");
         MenuItem fourthPowerItem = new MenuItem("Pouvoir Nyan 4");
         MenuItem fifthPowerItem = new MenuItem("Pouvoir Nyan 5");
+        
+        /*for (int i= 0;i<gv.powerInputs.length;i++){
+            hm.put(gv.powerInputs[i], new Button("gv.powerInputs[i]"));
+            System.out.println(hm.get(hm.keySet().toArray()[0]));
+        }*/
         
         MenuItem retourItem = new MenuItem("Retour");
         retourItem.setOnActivate(() -> controller.menuParameters());

@@ -10,7 +10,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -45,7 +44,7 @@ public class GameView extends StackPane {
                       KeyCode.NUMPAD4, KeyCode.NUMPAD5};
     
     /**
-     * Constructeur de JfxView.    
+     * Constructeur de GameView.    
      * @param m Modèle de la partie
      * @param c Contrôleur
      * @param w largeur de la vue
@@ -127,6 +126,8 @@ public class GameView extends StackPane {
                 System.out.println(e.getCode());
                 for (int i = 0; i < powerInputs.length; i++) {
                     hm.put(powerInputs[i],new Button("e.getCode()"));
+                    System.out.println(hm.get(hm.keySet().toArray()[i]));
+                    System.out.println(hm.values().toArray()[i]);
                     Set<Entry<KeyCode, Button>> setHm = hm.entrySet();
                     Iterator<Entry<KeyCode, Button>> it = setHm.iterator();
                     while(it.hasNext()){
