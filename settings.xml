@@ -1,0 +1,22 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+  <proxies>
+  </proxies>
+  <pluginGroups>
+<pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
+</pluginGroups>
+<profiles>
+<profile>
+<id>sonar</id>
+<activation>
+<activeByDefault>true</activeByDefault>
+</activation>
+<properties>
+<sonar.host.url>
+192.168.74.210:8080
+</sonar.host.url>
+</properties>
+</profile>
+</profiles
+  
+</settings>
