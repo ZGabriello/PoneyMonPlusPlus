@@ -23,4 +23,4 @@ junit:
     - cat ~/.m2/settings.xml
   script:
     -  mvn test --batch-mode
-	-  mvn --global-settings settings.xml sonar:sonar
+    -  mvn --global-settings settings.xml sonar:sonar
