@@ -35,8 +35,7 @@ public class ClientToServerProcessorTest {
         Thread.sleep(50);
         s.processor.sendCommand("CLOSE");
         Thread.sleep(50);
-        //assert(instance.connexionFermee);
-        assert(true);
+        assert(instance.connexionFermee);
         c.close();
         s.close();
     }

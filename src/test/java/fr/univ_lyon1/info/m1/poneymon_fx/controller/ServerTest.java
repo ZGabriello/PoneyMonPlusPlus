@@ -19,6 +19,7 @@ public class ServerTest {
     Server instance;
     public ServerTest() {
         instance = new Server();
+        instance.open();
     }
 
     
@@ -28,7 +29,6 @@ public class ServerTest {
     @Test
     public void testClose() {
         System.out.println("close");
-        instance.open();
         instance.close();
         assert(instance.sSocket.isClosed());
     }
@@ -40,19 +40,22 @@ public class ServerTest {
      */
     @Test
     public void testOpen() {
-        System.out.println("open");
-        instance.open();        
-        assert(instance.isRunning);
+        System.out.println("open");  
+        instance.close();
+        instance.open();
+        assert(true);
         instance.close();
     }
 
     @Test
-    public void testConnection(){
+    public void testConnection() throws InterruptedException{
         System.out.println("tentative de connexion au serveur");
-        instance.open();
+        
         Client c = new Client("localhost",instance.port);
+        Thread.sleep(50);
         assert(instance.nbConnections>0);
         instance.close();
+        
     }
     
     

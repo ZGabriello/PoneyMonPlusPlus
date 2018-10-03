@@ -5,6 +5,8 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,7 +26,7 @@ public class Server {
         try {
             sSocket = new ServerSocket(port,32,Inet4Address.getByName("localhost"));
             ip = sSocket.getInetAddress().toString();
-            isRunning = true;
+            
             System.out.println("server online");
         } catch (IOException e) {
             System.err.println("erreur Constructeur serveur");
@@ -42,6 +44,14 @@ public class Server {
     }
 
     public void open() {
+        if (sSocket==null){
+            try {
+                sSocket = new ServerSocket(port,32,Inet4Address.getByName("localhost"));
+            } catch (IOException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        isRunning = true;
         Thread mainThread = new Thread(new Runnable() {
             @Override
             public void run() {

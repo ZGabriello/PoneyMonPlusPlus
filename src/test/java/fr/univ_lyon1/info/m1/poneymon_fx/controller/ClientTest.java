@@ -27,8 +27,9 @@ public class ClientTest {
         s.open();
         Client instance = new Client("127.0.0.1",9000);
         instance.close();
-        assert(instance.sock.isClosed());
         s.close();
+        assert(instance.sock.isClosed());
+        
     }
     
 }
