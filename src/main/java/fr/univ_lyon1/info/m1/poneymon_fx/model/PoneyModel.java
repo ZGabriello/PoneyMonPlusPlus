@@ -3,8 +3,6 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.Strategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PoneyStartNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -32,7 +30,8 @@ public abstract class PoneyModel extends Observable {
     boolean ia;
     
     Random randomGen;
-    
+   
+   
     /**
      * Constructeur du PoneyModel sans paramètres, pour tests.
      *

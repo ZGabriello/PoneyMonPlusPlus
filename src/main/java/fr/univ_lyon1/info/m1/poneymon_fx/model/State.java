@@ -9,19 +9,8 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
  *
  * @author Elo
  */
-public enum Bonus {
-    NyanPoney("NyanPoney");
+public interface State {
+        
+    public void applyState();     
     
-    
-
-    private final String name;
-
-    Bonus(final String s) {
-        this.name = s;
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
 }
