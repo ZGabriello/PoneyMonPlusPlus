@@ -67,4 +67,8 @@ public class MenuItem extends HBox {
             script.run();
         }
     }
+    
+    public void setText(String insideText){
+        text.setText(insideText);
+    }
 }

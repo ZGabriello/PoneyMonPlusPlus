@@ -1,7 +1,9 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.view;
+package fr.univ_lyon1.info.m1.poneymon_fx;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.GameView;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.MenuItem;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -12,6 +14,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -172,57 +175,20 @@ public class MenuControles extends StackPane {
     public void waitKeyCode(MenuItem m){
        //rajouter un addEventHandler 
        System.out.println("je suis dans wait keycode");
-       hmControles.put("pouvoirNian1",KeyCode.A);
-       System.out.println(hmControles.keySet().toArray()[0].toString()); 
-       System.out.println(hmControles.values().toArray()[0]);
-       this.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            public void handle(KeyEvent e) {
-                System.out.println(e.getCode());
-                final Set<Entry<String, KeyCode>> mapValue = (Set<Entry<String, KeyCode>>) hmControles.entrySet();
-                final int mapLength = mapValue.size();
-                final Entry<String, KeyCode>[] test = new Entry[mapLength];
-                hmControles.put("pouvoirNian1",e.getCode());
-                System.out.println(hmControles.keySet().toArray()[0].toString()); 
-                System.out.println(hmControles.values().toArray()[0]);
-                e.consume();
-            }
-       });
-       m = new MenuItem("changement");
+       m.setText(hmControles.keySet().toArray()[0].toString() + " : " + "Appuyer sur une touche");
+       this.addEventHandler(KeyEvent.KEY_PRESSED,(e)->{ChangeKeyCode(m,e.getCode());});
+       this.removeEventHandler(KeyEvent.KEY_PRESSED,(e)->controller.menuControles());
     }
     
     public void ChangeKeyCode(MenuItem mi, KeyCode newKeyCode){
         System.out.println("je suis dans change key code");
-        Entry<String, KeyCode> entry = (Entry<String, KeyCode>) hmControles.entrySet();
-        if(entry.getKey().equals(mi.toString())){
-            hmControles.replace(entry.getKey(), entry.getValue(), newKeyCode);
-            mi = new MenuItem(entry.getKey()+" : "+ newKeyCode);
-        }
+        /*final Set<Entry<String, KeyCode>> mapValue = (Set<Entry<String, KeyCode>>) hmControles.entrySet();
+        final int mapLength = mapValue.size();
+        final Entry<String, KeyCode>[] test1 = new Entry[mapLength];*/
+        hmControles.put("pouvoirNian1",newKeyCode);
+        System.out.println(hmControles.keySet().toArray()[0].toString()); 
+        System.out.println(hmControles.values().toArray()[0]);
+        mi.setText(hmControles.keySet().toArray()[0].toString()+ " : "+hmControles.values().toArray()[0]);
     }
-    
-    /**
-     * Event Listener du clavier.
-     * quand une touche est relachee
-     *
-     *
-    public void setOnKeyReleasedEvent() {
-        this.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            public void handle(KeyEvent e) {
-                System.out.println(e.getCode());
-                for (int i = 0; i < powerInputs.length; i++) {
-                    hm.put(powerInputs[i],new Button("e.getCode()"));
-                    System.out.println(hm.get(hm.keySet().toArray()[i]));
-                    System.out.println(hm.values().toArray()[i]);
-                    Set<Entry<KeyCode, Button>> setHm = hm.entrySet();
-                    Iterator<Entry<KeyCode, Button>> it = setHm.iterator();
-                    while(it.hasNext()){
-                        Entry<KeyCode, Button> entry = it.next();
-                        if (entry.getKey().equals(e.getCode())) {
-                            controller.usePower(i);
-                        }
-                    }
-                }
-            }
-        });
-    }*/
     
 }
