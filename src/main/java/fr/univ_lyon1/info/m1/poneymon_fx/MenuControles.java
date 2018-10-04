@@ -2,10 +2,14 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -55,9 +59,9 @@ public class MenuControles extends StackPane {
     Controller controller;
     GameView gv;
     
-    /*Map<KeyCode, Button> hm = new LinkedHashMap<>();*/
+    Map<String, KeyCode> hmControles = new LinkedHashMap<>();
     
-    private List<MenuItem> menuItems;
+    private List<MenuItem> menuItems = new ArrayList<MenuItem>();
     int currentItem = 0;
     
     
@@ -76,29 +80,30 @@ public class MenuControles extends StackPane {
         setOnKeyPressedEvent();
     }
     
+    public Map<String, KeyCode> getControles(){
+        return hmControles;
+    }
+    
     private void createContent() {
-        //ce serait mieux de faire une boucle avec la taille des inputs et faire un menuItem sur i 
-        MenuItem firstPowerItem = new MenuItem("Pouvoir Nyan 1");
-        MenuItem secondPowerItem = new MenuItem("Pouvoir Nyan 2");
-        MenuItem thirdPowerItem = new MenuItem("Pouvoir Nyan 3");
-        MenuItem fourthPowerItem = new MenuItem("Pouvoir Nyan 4");
-        MenuItem fifthPowerItem = new MenuItem("Pouvoir Nyan 5");
         
-        /*for (int i= 0;i<gv.powerInputs.length;i++){
-            hm.put(gv.powerInputs[i], new Button("gv.powerInputs[i]"));
-            System.out.println(hm.get(hm.keySet().toArray()[0]));
-        }*/
+        String defaultControlName[] = {"pouvoirNian1","pouvoirNian2","pouvoirNian3","pouvoirNian4","pouvoirNian5"};
+        
+        KeyCode defaultKeyCode[] = {KeyCode.NUMPAD1,KeyCode.NUMPAD2,KeyCode.NUMPAD3,KeyCode.NUMPAD4,KeyCode.NUMPAD5};
+        
+        //liste des controles 
+        for (int i = 0; i< defaultControlName.length;i++){
+            hmControles.put(defaultControlName[i],defaultKeyCode[i]);
+            MenuItem temp = new MenuItem(hmControles.keySet().toArray()[i].toString() + " : " + hmControles.values().toArray()[i]);
+            temp.setOnActivate(()->waitKeyCode(temp));
+            menuItems.add(temp);
+        }
+  
         
         MenuItem retourItem = new MenuItem("Retour");
         retourItem.setOnActivate(() -> controller.menuParameters());
    
-        menuItems = Arrays.asList(
-                firstPowerItem,
-                secondPowerItem,
-                thirdPowerItem,
-                fourthPowerItem,
-                fifthPowerItem,
-                retourItem);
+        menuItems.add(retourItem);
+        
         Node title = createTitle("Poneymon");
         
         VBox container = new VBox(10, title);
@@ -163,5 +168,61 @@ public class MenuControles extends StackPane {
             }
         });
     }
+    
+    public void waitKeyCode(MenuItem m){
+       //rajouter un addEventHandler 
+       System.out.println("je suis dans wait keycode");
+       hmControles.put("pouvoirNian1",KeyCode.A);
+       System.out.println(hmControles.keySet().toArray()[0].toString()); 
+       System.out.println(hmControles.values().toArray()[0]);
+       this.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent e) {
+                System.out.println(e.getCode());
+                final Set<Entry<String, KeyCode>> mapValue = (Set<Entry<String, KeyCode>>) hmControles.entrySet();
+                final int mapLength = mapValue.size();
+                final Entry<String, KeyCode>[] test = new Entry[mapLength];
+                hmControles.put("pouvoirNian1",e.getCode());
+                System.out.println(hmControles.keySet().toArray()[0].toString()); 
+                System.out.println(hmControles.values().toArray()[0]);
+                e.consume();
+            }
+       });
+       m = new MenuItem("changement");
+    }
+    
+    public void ChangeKeyCode(MenuItem mi, KeyCode newKeyCode){
+        System.out.println("je suis dans change key code");
+        Entry<String, KeyCode> entry = (Entry<String, KeyCode>) hmControles.entrySet();
+        if(entry.getKey().equals(mi.toString())){
+            hmControles.replace(entry.getKey(), entry.getValue(), newKeyCode);
+            mi = new MenuItem(entry.getKey()+" : "+ newKeyCode);
+        }
+    }
+    
+    /**
+     * Event Listener du clavier.
+     * quand une touche est relachee
+     *
+     *
+    public void setOnKeyReleasedEvent() {
+        this.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent e) {
+                System.out.println(e.getCode());
+                for (int i = 0; i < powerInputs.length; i++) {
+                    hm.put(powerInputs[i],new Button("e.getCode()"));
+                    System.out.println(hm.get(hm.keySet().toArray()[i]));
+                    System.out.println(hm.values().toArray()[i]);
+                    Set<Entry<KeyCode, Button>> setHm = hm.entrySet();
+                    Iterator<Entry<KeyCode, Button>> it = setHm.iterator();
+                    while(it.hasNext()){
+                        Entry<KeyCode, Button> entry = it.next();
+                        if (entry.getKey().equals(e.getCode())) {
+                            controller.usePower(i);
+                        }
+                    }
+                }
+            }
+        });
+    }*/
     
 }

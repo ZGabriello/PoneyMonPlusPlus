@@ -44,7 +44,7 @@ public class MenuItem extends HBox {
         getChildren().addAll(p1, text, p2);
         setActive(false);
     }
-
+    
     /**
      * Donne un effet spécial à un item lorsqu'il a le focus.
      * @param b booléan servant à activer ou désactiver l'effet
