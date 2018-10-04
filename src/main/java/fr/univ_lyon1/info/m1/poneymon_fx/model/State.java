@@ -3,14 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
 /**
+ * Interface représentant l'état (bonus/malus) d'un poney.
  *
- * @author Elo
  */
 public interface State {
-        
-    public void applyState();     
-    
+
+    /**
+     * Applique un état au poney.
+     *
+     */
+    public void applyState();
+
 }

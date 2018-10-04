@@ -15,7 +15,7 @@ public class ImStillHereNyanStrategy extends NyanStrategy {
         if (myPoney.getProgress() == 0.0) {
             // Si l'on rattrape le poney en tête ou que c'est le dernier tour
             if (catchingUp() || (myPoney.getNbTours() == field.getWinAt() - 1)) {
-                myPoney.usePower();
+                myPoney.applyState();
             }
         }
     }

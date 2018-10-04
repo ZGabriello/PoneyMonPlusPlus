@@ -60,7 +60,7 @@ public class PoneyTest {
         expectedProgress *= p.getSpeedMultiplier();
         
         //When
-        p.usePower();
+        p.applyState();
         p.step();
         
         //Then

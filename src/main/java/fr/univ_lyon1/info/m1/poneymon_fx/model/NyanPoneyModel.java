@@ -13,8 +13,6 @@ public class NyanPoneyModel extends PoneyModel implements State {
 
     static final int SPEED_MULTIPLIER = 3;
 
-    private boolean isTimeOver;
-
     private Timestamp beginningTime;
     private Timestamp endTime;
 
@@ -25,7 +23,7 @@ public class NyanPoneyModel extends PoneyModel implements State {
         super();
     }
 
-    /** 
+    /**
      * Constructeur de NyanPoney pour joueur humain.
      *
      * @param color couleur du poney
@@ -68,20 +66,19 @@ public class NyanPoneyModel extends PoneyModel implements State {
     public void usePower() {
 
         this.beginningTime = new Timestamp(System.currentTimeMillis());
-        this.endTime = new Timestamp(beginningTime.getTime() + 10000); //+10 sec
+        this.endTime = new Timestamp(beginningTime.getTime() + 5000); //+5 sec       
 
-        while (isTimeOver() == false) {
+        // while (System.currentTimeMillis() != this.endTime.getTime()) {
+        if (powerState == false && nbPowers < 1) {
+            ++nbPowers;
+            powerState = true;
 
-            if (powerState == false && nbPowers < 1) {
-                ++nbPowers;
-                powerState = true;
+            speed *= SPEED_MULTIPLIER;
 
-                speed *= SPEED_MULTIPLIER;
-
-                setChanged();
-                notifyObservers(new PowerNotification(true));
-            }
+            setChanged();
+            notifyObservers(new PowerNotification(true));
         }
+        //}
     }
 
     public static int getSpeedMultiplier() {
@@ -93,24 +90,4 @@ public class NyanPoneyModel extends PoneyModel implements State {
         usePower();
     }
 
-    private boolean isTimeOver() {
-
-        int count = 0;
-        for (;;) {
-            try {
-                Thread.sleep(10000); //10sec
-                count++;
-
-                if (beginningTime.getTime() + count == endTime.getTime()) {
-                    return this.isTimeOver = true;
-
-                } else {
-                    return this.isTimeOver = false;
-                }
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-            }
-        }
-
-    }
 }

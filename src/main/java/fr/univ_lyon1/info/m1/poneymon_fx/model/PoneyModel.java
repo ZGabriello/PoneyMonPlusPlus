@@ -11,7 +11,7 @@ import java.util.Random;
  * Classe gérant la logique du Poney.
  *
  */
-public abstract class PoneyModel extends Observable {
+public abstract class PoneyModel extends Observable implements State {
     static final int SPEED_DIVIDER = 200;
     static final double MIN_SPEED = 0.1;
     static final double MAX_SPEED = 0.9;
@@ -201,5 +201,10 @@ public abstract class PoneyModel extends Observable {
      */
     public double distanceTo(PoneyModel poney) { 
         return (progress + nbTurns) - (poney.progress + poney.nbTurns);
+    }
+    
+    @Override
+    public void applyState() {
+        usePower();
     }
 }

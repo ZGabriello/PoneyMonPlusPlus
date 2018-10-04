@@ -79,7 +79,7 @@ public class Controller {
     public void usePower(int i) {
         PoneyModel pm = model.getPoneyModel(i);
         if (!pm.isIa()) {
-            model.getPoneyModel(i).usePower();
+            model.getPoneyModel(i).applyState();
         }
     }
     
