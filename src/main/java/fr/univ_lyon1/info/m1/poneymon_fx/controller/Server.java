@@ -9,8 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Alex
+ * Classe implémentant le serveur et gérant les communicatoin avec les clients.
+ * @author Alex.
  */
 public class Server {
 
@@ -22,31 +22,39 @@ public class Server {
     ServerToClientProcessor processor;
     Thread t;
 
+    /**
+     * contructeur par défaut, se connecte sur localHost sur le port 9000 par défaut.
+     */
     public Server() {
         try {
-            sSocket = new ServerSocket(port,32,Inet4Address.getByName("localhost"));
+            sSocket = new ServerSocket(port, 32, Inet4Address.getByName("localhost"));
             ip = sSocket.getInetAddress().toString();
-            
-            System.out.println("server online");
         } catch (IOException e) {
-            System.err.println("erreur Constructeur serveur");
             e.printStackTrace();
         }
     }
 
-    public Server(String _ipAdress, int _port) {
+    /**
+     * constructeur spécialisé, se connecte sur l'addresse ip et le port indiqués.
+     * @param ipaddress addresse sur laquelle le serveur doit se connecter.
+     * @param iport port sur lequel le serveur doit se connecter.
+     */
+    public Server(String ipaddress, int iport) {
         try {
-            sSocket = new ServerSocket(port);
+            sSocket = new ServerSocket(iport);
             ip = sSocket.getInetAddress().toString();
         } catch (IOException e) {
-            System.err.println("le port 9000 est déja utilisé");
+            e.printStackTrace();
         }
     }
 
+    /**
+     * ouvre le serveur en lançant un thread qui attends les connexions client.
+     */
     public void open() {
-        if (sSocket==null){
+        if (sSocket == null) {
             try {
-                sSocket = new ServerSocket(port,32,Inet4Address.getByName("localhost"));
+                sSocket = new ServerSocket(port, 32, Inet4Address.getByName("localhost"));
             } catch (IOException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -55,14 +63,14 @@ public class Server {
         Thread mainThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                
+
                 while (isRunning) {
                     try {
-                        
+
                         Socket client = sSocket.accept();
                         nbConnections++;
                         System.out.println("connexion reçue");
-                        processor = new ServerToClientProcessor(client);
+                        processor = new ServerToClientProcessor(Server.this, client);
                         System.out.println(processor.connexionFermee);
                         t = new Thread(processor);
                         t.start();
@@ -76,7 +84,10 @@ public class Server {
         });
         mainThread.start();
     }
-
+    
+    /**
+     * ferme le serveur.
+     */
     public void close() {
         isRunning = false;
         try {

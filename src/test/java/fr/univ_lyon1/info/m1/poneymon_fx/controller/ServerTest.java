@@ -12,53 +12,50 @@ import static org.junit.Assert.*;
  *
  * @author Alex
  */
-
-
-
 public class ServerTest {
+
     Server instance;
+
     public ServerTest() {
         instance = new Server();
         instance.open();
     }
 
-    
     /**
      * Test of close method, of class Server.
      */
     @Test
-    public void testClose() {
+    public void testClose() throws InterruptedException {
         System.out.println("close");
         instance.close();
-        assert(instance.sSocket.isClosed());
+        Thread.sleep(50);
+        assert (instance.sSocket.isClosed());
     }
-    
-    
-    
+
     /**
      * Test of open method, of class Server.
      */
     @Test
-    public void testOpen() {
-        System.out.println("open");  
+    public void testOpen() throws InterruptedException {
+        System.out.println("open");
         instance.close();
+        Thread.sleep(50);
         instance.open();
-        assert(true);
+        assert (instance.isRunning);
         instance.close();
+        Thread.sleep(50);
     }
 
     @Test
-    public void testConnection() throws InterruptedException{
+    public void testConnection() throws InterruptedException {
         System.out.println("tentative de connexion au serveur");
-        
-        Client c = new Client("localhost",instance.port);
+
+        Client c = new Client("localhost", instance.port);
         Thread.sleep(50);
-        assert(instance.nbConnections>0);
+        assert (instance.nbConnections > 0);
         instance.close();
-        
+        Thread.sleep(50);
+
     }
-    
-    
-    
-    
+
 }

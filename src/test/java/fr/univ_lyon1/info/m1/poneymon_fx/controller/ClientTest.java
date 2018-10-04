@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
  * @author Alex
  */
 public class ClientTest {
-    
+
     public ClientTest() {
     }
 
@@ -25,11 +25,11 @@ public class ClientTest {
         System.out.println("close");
         Server s = new Server();
         s.open();
-        Client instance = new Client("127.0.0.1",9000);
+        Client instance = new Client("127.0.0.1", 9000);
         instance.close();
         s.close();
-        assert(instance.sock.isClosed());
-        
+        assert (instance.sock.isClosed());
+
     }
-    
+
 }

@@ -14,15 +14,16 @@ import static org.junit.Assert.*;
  * @author Alex
  */
 public class ClientToServerProcessorTest {
-    
-        Server s;
-        Client c;
-        ClientToServerProcessor instance;
+
+    Server s;
+    Client c;
+    ClientToServerProcessor instance;
+
     public ClientToServerProcessorTest() {
-         s = new Server();
-         s.open();
-         c = new Client("localhost",s.port);
-         instance = c.processor;
+        s = new Server();
+        s.open();
+        c = new Client("localhost", s.port);
+        instance = c.processor;
 
     }
 
@@ -35,11 +36,9 @@ public class ClientToServerProcessorTest {
         Thread.sleep(50);
         s.processor.sendCommand("CLOSE");
         Thread.sleep(50);
-        assert(instance.connexionFermee);
+        assert (instance.connexionFermee);
         c.close();
         s.close();
     }
-    
 
-    
 }
