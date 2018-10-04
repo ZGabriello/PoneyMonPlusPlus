@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.Strategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PoneyStartNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -11,7 +12,7 @@ import java.util.Random;
  * Classe gérant la logique du Poney.
  *
  */
-public abstract class PoneyModel extends Observable implements State {
+public abstract class PoneyModel extends Observable {
     static final int SPEED_DIVIDER = 200;
     static final double MIN_SPEED = 0.1;
     static final double MAX_SPEED = 0.9;
@@ -30,6 +31,8 @@ public abstract class PoneyModel extends Observable implements State {
     boolean ia;
     
     Random randomGen;
+    
+    ArrayList<State> states;
    
    
     /**
@@ -37,13 +40,15 @@ public abstract class PoneyModel extends Observable implements State {
      *
      */
     public PoneyModel() {
-        progress = 0.0;
-
-        powerState = false;
-        nbPowers = 0;
         
-        nbTurns = 0;
-        ia = false;
+        this.states = new ArrayList<>();
+        this.progress = 0.0;
+
+        this.powerState = false;
+        this.nbPowers = 0;
+        
+        this.nbTurns = 0;
+        this.ia = false;
 
         setRandSpeed();
     }
@@ -79,6 +84,12 @@ public abstract class PoneyModel extends Observable implements State {
     public double step() {
         if (ia) {
             strategy.checkPower();
+        }
+        
+        for (State state : states) {
+            if (state.checkExpired() == true) {
+                state.unapplyState(this);
+            }            
         }
         
         progress += (speed / SPEED_DIVIDER);
@@ -203,8 +214,12 @@ public abstract class PoneyModel extends Observable implements State {
         return (progress + nbTurns) - (poney.progress + poney.nbTurns);
     }
     
-    @Override
-    public void applyState() {
-        usePower();
+    public void addState(State state) {        
+        states.add(state);
     }
+    
+    public void removeState(State state) {        
+        states.remove(state);
+    }
+    
 }

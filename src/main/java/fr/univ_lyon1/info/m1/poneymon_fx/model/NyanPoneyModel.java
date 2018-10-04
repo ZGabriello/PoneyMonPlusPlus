@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  * Classe gérant la logique du NyanPoney.
  *
  */
-public class NyanPoneyModel extends PoneyModel implements State {
+public class NyanPoneyModel extends PoneyModel {
 
     static final int SPEED_MULTIPLIER = 3;
 
@@ -65,10 +65,6 @@ public class NyanPoneyModel extends PoneyModel implements State {
     @Override
     public void usePower() {
 
-        this.beginningTime = new Timestamp(System.currentTimeMillis());
-        this.endTime = new Timestamp(beginningTime.getTime() + 5000); //+5 sec       
-
-        // while (System.currentTimeMillis() != this.endTime.getTime()) {
         if (powerState == false && nbPowers < 1) {
             ++nbPowers;
             powerState = true;
@@ -78,16 +74,11 @@ public class NyanPoneyModel extends PoneyModel implements State {
             setChanged();
             notifyObservers(new PowerNotification(true));
         }
-        //}
+
     }
 
     public static int getSpeedMultiplier() {
         return SPEED_MULTIPLIER;
-    }
-
-    @Override
-    public void applyState() {
-        usePower();
     }
 
 }
