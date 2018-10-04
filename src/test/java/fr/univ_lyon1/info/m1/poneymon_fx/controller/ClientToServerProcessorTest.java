@@ -20,6 +20,7 @@ public class ClientToServerProcessorTest {
     ClientToServerProcessor instance;
 
     public ClientToServerProcessorTest() {
+        
         s = new Server();
         s.open();
         c = new Client("localhost", s.port);
@@ -35,7 +36,7 @@ public class ClientToServerProcessorTest {
         System.out.println("run");
         Thread.sleep(50);
         s.processor.sendCommand("CLOSE");
-        Thread.sleep(50);
+        Thread.sleep(500);
         assert (instance.connexionFermee);
         c.close();
         s.close();

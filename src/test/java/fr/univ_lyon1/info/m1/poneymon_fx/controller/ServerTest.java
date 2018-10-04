@@ -17,6 +17,7 @@ public class ServerTest {
     Server instance;
 
     public ServerTest() {
+        
         instance = new Server();
         instance.open();
     }

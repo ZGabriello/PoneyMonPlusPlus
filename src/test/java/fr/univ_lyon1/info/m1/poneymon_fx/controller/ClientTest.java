@@ -21,13 +21,16 @@ public class ClientTest {
      * Test of close method, of class Client.
      */
     @Test
-    public void testClose() {
+    public void testClose() throws InterruptedException {
         System.out.println("close");
         Server s = new Server();
         s.open();
+        Thread.sleep(50);
         Client instance = new Client("127.0.0.1", 9000);
+        Thread.sleep(50);
         instance.close();
         s.close();
+        Thread.sleep(50);
         assert (instance.sock.isClosed());
 
     }

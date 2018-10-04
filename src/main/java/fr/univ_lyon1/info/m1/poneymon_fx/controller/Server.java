@@ -5,6 +5,8 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,7 +15,7 @@ import java.util.logging.Logger;
  * @author Alex.
  */
 public class Server {
-
+    Lobby lobby;
     int nbConnections = 0;
     ServerSocket sSocket;
     String ip = "127.0.0.1";
@@ -21,6 +23,8 @@ public class Server {
     boolean isRunning = false;
     ServerToClientProcessor processor;
     Thread t;
+    List<Socket> clients = new ArrayList<Socket>();
+    
 
     /**
      * contructeur par défaut, se connecte sur localHost sur le port 9000 par défaut.
@@ -71,8 +75,8 @@ public class Server {
                         nbConnections++;
                         System.out.println("connexion reçue");
                         processor = new ServerToClientProcessor(Server.this, client);
-                        System.out.println(processor.connexionFermee);
                         t = new Thread(processor);
+                        clients.add(client);
                         t.start();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -85,6 +89,9 @@ public class Server {
         mainThread.start();
     }
     
+    public void setLobby(Lobby l){
+        this.lobby = l;
+    }
     /**
      * ferme le serveur.
      */
@@ -97,6 +104,14 @@ public class Server {
             e.printStackTrace();
             sSocket = null;
         }
+    }
+    
+    public List<String> getIpsClients(){
+        List<String> toRet = new ArrayList<String>();
+        for (int i = 0 ; i < clients.size(); i++){
+            toRet.add(clients.get(i).getInetAddress().getHostAddress());
+        }
+        return toRet;
     }
 
 }

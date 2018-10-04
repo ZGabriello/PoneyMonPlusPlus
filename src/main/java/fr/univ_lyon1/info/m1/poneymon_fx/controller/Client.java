@@ -44,5 +44,9 @@ public class Client {
             sock = null;
         }
     }
+    
+    public void sendCommand(String command){
+        processor.sendCommand(command.toUpperCase());
+    }
 
 }
