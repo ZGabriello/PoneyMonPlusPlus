@@ -13,9 +13,6 @@ public class NyanPoneyModel extends PoneyModel {
 
     static final int SPEED_MULTIPLIER = 3;
 
-    private Timestamp beginningTime;
-    private Timestamp endTime;
-
     /**
      * Constructeur de NyanPoney sans modèle et autres paramètres, pour tests.
      */
