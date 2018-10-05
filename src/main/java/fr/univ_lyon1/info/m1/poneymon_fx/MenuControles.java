@@ -175,20 +175,20 @@ public class MenuControles extends StackPane {
     public void waitKeyCode(MenuItem m){
        //rajouter un addEventHandler 
        System.out.println("je suis dans wait keycode");
-       m.setText(hmControles.keySet().toArray()[0].toString() + " : " + "Appuyer sur une touche");
+       final String controlName = m.getText().substring(0,12);
+       m.setText(controlName + " : " + "Appuyer sur une touche");
        this.addEventHandler(KeyEvent.KEY_PRESSED,(e)->{ChangeKeyCode(m,e.getCode());});
        this.removeEventHandler(KeyEvent.KEY_PRESSED,(e)->controller.menuControles());
     }
     
     public void ChangeKeyCode(MenuItem mi, KeyCode newKeyCode){
         System.out.println("je suis dans change key code");
-        /*final Set<Entry<String, KeyCode>> mapValue = (Set<Entry<String, KeyCode>>) hmControles.entrySet();
-        final int mapLength = mapValue.size();
-        final Entry<String, KeyCode>[] test1 = new Entry[mapLength];*/
-        hmControles.put("pouvoirNian1",newKeyCode);
+        final String controlName = mi.getText().substring(0,12);
+        System.out.println(mi.getText().substring(0,12));
+        hmControles.put(controlName,newKeyCode);
         System.out.println(hmControles.keySet().toArray()[0].toString()); 
         System.out.println(hmControles.values().toArray()[0]);
-        mi.setText(hmControles.keySet().toArray()[0].toString()+ " : "+hmControles.values().toArray()[0]);
+        mi.setText(controlName + " : "+ newKeyCode.toString());
     }
     
 }
