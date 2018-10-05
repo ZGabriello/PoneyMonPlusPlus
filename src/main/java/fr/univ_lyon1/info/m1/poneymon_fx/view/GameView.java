@@ -23,28 +23,28 @@ import java.util.Set;
 public class GameView extends StackPane {
     FieldModel model;
     Controller controller;
-    
+
     FieldView fview;
-    
+
     Group root;
-    
+
     final int width;
     final int height;
-    
+
     /** Les boutons. */
     HBox buttons;
     Button menuButton;
     Button pauseButton;
-    
+
     Map<KeyCode, Button> hm = new LinkedHashMap<>();
-    
+
     /** Inputs pour activer le pouvoir des poneys. */
     KeyCode[] powerInputs =
         new KeyCode[]{KeyCode.NUMPAD1, KeyCode.NUMPAD2, KeyCode.NUMPAD3,
                       KeyCode.NUMPAD4, KeyCode.NUMPAD5};
-    
+
     /**
-     * Constructeur de GameView.    
+     * Constructeur de GameView.
      * @param m Modèle de la partie
      * @param c Contrôleur
      * @param w largeur de la vue
@@ -60,12 +60,12 @@ public class GameView extends StackPane {
         this.getChildren().add(fview);
 
         addButtons();
-        
+
         setOnKeyReleasedEvent();
     }
-    
+
     /**
-     * Boutons du jeu.   
+     * Boutons du jeu.
      */
     public void addButtons() {
         buttons = new HBox(); // Boite où ranger les éléments horizontalement
@@ -92,15 +92,15 @@ public class GameView extends StackPane {
         buttons.getChildren().add(pauseButton);
         this.getChildren().add(buttons);
     }
-    
+
     public void pause() {
         pauseButton.setText("Continuer");
     }
-    
+
     public void unpause() {
         pauseButton.setText("Pause");
     }
-    
+
     /**
      * Event Listener du clavier.
      * quand une touche est pressee
@@ -114,7 +114,7 @@ public class GameView extends StackPane {
             }
         });
     }
-    
+
     /**
      * Event Listener du clavier.
      * quand une touche est relachee
@@ -125,12 +125,12 @@ public class GameView extends StackPane {
             public void handle(KeyEvent e) {
                 System.out.println(e.getCode());
                 for (int i = 0; i < powerInputs.length; i++) {
-                    hm.put(powerInputs[i],new Button("e.getCode()"));
+                    hm.put(powerInputs[i], new Button("e.getCode()"));
                     System.out.println(hm.get(hm.keySet().toArray()[i]));
                     System.out.println(hm.values().toArray()[i]);
                     Set<Entry<KeyCode, Button>> setHm = hm.entrySet();
                     Iterator<Entry<KeyCode, Button>> it = setHm.iterator();
-                    while(it.hasNext()){
+                    while (it.hasNext()) {
                         Entry<KeyCode, Button> entry = it.next();
                         if (entry.getKey().equals(e.getCode())) {
                             controller.usePower(i);

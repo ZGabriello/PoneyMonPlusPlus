@@ -14,7 +14,7 @@ import javafx.animation.AnimationTimer;
 public class Controller {
     FieldModel model;
     List<MainView> views = new ArrayList<>();
-    
+
     AnimationTimer timer;
 
     /**
@@ -33,7 +33,7 @@ public class Controller {
             }
         };
     }
-    
+
     /**
      * Ajoute une vue qui sera suivie par le contrôleur.
      * @param view vue à suivre dans le contrôleur
@@ -41,7 +41,7 @@ public class Controller {
     public void addMainView(MainView view) {
         view.setController(this);
         initializeMainView(view);
-        
+
         // Si il y a déjà des vues, la nouvelle doit afficher la même chose que les autres
         if (!views.isEmpty()) {
             // Si le modèle existe, une partie est en cours
@@ -54,32 +54,32 @@ public class Controller {
         } else {
             view.setActiveView("MenuView");
         }
-        
+
         views.add(view);
     }
-    
+
     public void initializeMainView(MainView view){
         view.createMenuView();
         view.createMenuParameters();
         view.createMenuControles();
     }
-    
+
     /**
      * Démarre une nouvelle partie en créant un modèle et en le fournissant aux vues suivies.
      * @param nbPoneys nombre de poneys
      */
     public void startGame(int nbPoneys) {
         model = new FieldModel(nbPoneys);
-        
+
         for (MainView view : views) {
             view.setModel(model);
             view.createGameView();
             view.setActiveView("GameView");
         }
-        
+
         gameUnpause(); // La partie démarre en pause
     }
-    
+
     /**
      * Utilise le pouvoir sur le poney si ce n'est pas une IA.
      * @param i position du poney dans le modèle
@@ -90,29 +90,29 @@ public class Controller {
             model.getPoneyModel(i).usePower();
         }
     }
-    
+
     /**
      * Permet de relancer la partie après une pause.
      */
     public void gameUnpause() {
         timer.start();
-        
+
         for (MainView view : views) {
             view.gameUnpause();
         }
     }
-    
+
     /**
      * Permet de mettre le jeu en pause.
      */
     public void gamePause() {
         timer.stop();
-        
+
         for (MainView view : views) {
             view.gamePause();
         }
     }
-    
+
     /**
      * Permet de retourner au menu.
      */
@@ -121,10 +121,9 @@ public class Controller {
             view.setActiveView("MenuView");
             view.deleteView("GameView");
             view.setModel(null);
-            System.out.println("Je suis dans le menu");
         }
     }
-    
+
      /**
      * Permet d'aller dans le menu controles.
      */
@@ -133,7 +132,7 @@ public class Controller {
             view.setActiveView("MenuControles");
         }
     }
-    
+
     /**
      * Permet d'aller dans le menu paramètres.
      */

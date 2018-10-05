@@ -16,18 +16,18 @@ import javafx.stage.Stage;
 public class MainView {
     HashMap<String, Pane> views = new HashMap<>();
     String activeView;
-    
+
     FieldModel model;
     Controller controller;
-    
+
     Stage stage;
     Group root;
     Scene scene;
-    
+
     final int width;
     final int height;
-    
-    
+
+
     /**
      * Constructeur de la vue principale contenant toutes les vues.
      * @param s stage dans lequel afficher les vues
@@ -37,29 +37,29 @@ public class MainView {
     public MainView(Stage s, int w, int h) {
         width = w;
         height = h;
-        
+
         root = new Group();
         scene = new Scene(root);
-        
+
         // Nom de la fenetre
         stage = s;
         stage.setTitle("Poneymon");
-        
+
         // On ajoute la scene a la fenetre
         stage.setScene(scene);
-        
+
         // Pour empêcher de changer la taille de la fenêtre
         stage.setResizable(false);
     }
-    
+
     /**
      * Crée et ajoute au cache des vues le menu.
      */
     public void createMenuView() {
         MenuView mv = new MenuView(controller, width, height);
-        views.put("MenuView", mv);    
+        views.put("MenuView", mv);
     }
-    
+
     /**
      * Crée et ajoute au cache des vues une partie.
      */
@@ -67,8 +67,8 @@ public class MainView {
         GameView gv = new GameView(model, controller, width, height);
         views.put("GameView", gv);
     }
-    
-    
+
+
     /**
      * Crée et ajoute au cache des vues les paramètres.
      */
@@ -76,7 +76,7 @@ public class MainView {
         MenuParameters mp = new MenuParameters(controller, width, height);
         views.put("MenuParameters", mp);
     }
-    
+
      /**
      * Crée et ajoute au cache des vues pour les touches de controles.
      */
@@ -84,11 +84,11 @@ public class MainView {
         MenuControles mc = new MenuControles(controller, width, height);
         views.put("MenuControles", mc);
     }
-    
+
     public void deleteView(String view) {
         views.remove(view);
     }
-    
+
     /**
      * Permet de changer la vue actuellement affichée dans le stage.
      * @param view vue à afficher
@@ -99,21 +99,21 @@ public class MainView {
                 root.getChildren().remove(views.get(activeView));
             }
             activeView = view;
-            
+
             Pane pane = views.get(view);
             root.getChildren().add(pane);
             pane.requestFocus();
-            
+
             stage.show();
         } else {
             System.err.println("The view '" + view + "' doesn't exist in this MainView!");
         }
     }
-    
+
     public String getActiveView(){
         return activeView;
     }
-    
+
     /**
      * Mutateur du modèle associé à la vue.
      * @param m modèle
@@ -129,7 +129,7 @@ public class MainView {
             model = null;
         }
     }
-    
+
     /**
      * Mutateur du contrôleur associé à la vue.
      * @param c contrôleur
@@ -145,7 +145,7 @@ public class MainView {
             controller = null;
         }
     }
-    
+
     /**
      * Met à jour la vue de la partie pour montrer la pause.
      */
@@ -155,7 +155,7 @@ public class MainView {
             gv.pause();
         }
     }
-    
+
     /**
      * Met à jour la vue de la partie pour montrer la reprise de la partie.
      */

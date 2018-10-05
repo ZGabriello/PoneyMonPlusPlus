@@ -32,7 +32,7 @@ import static javafx.scene.layout.Region.USE_PREF_SIZE;
  */
 public class MenuView extends StackPane {
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
-    
+
     /**
      * Couleurs récupérées de la crinière des poneys.
      */
@@ -46,15 +46,15 @@ public class MenuView extends StackPane {
     static final Color LIGHTPURPLE = Color.web("#CB44EC");
     static final Color YELLOW = Color.web("#E47702");
     static final Color LIGHTYELLOW = Color.web("#FCB31F");
-    
+
     Color[] titleColors =
     new Color[] { LIGHTBLUE, LIGHTGREEN, LIGHTORANGE, LIGHTPURPLE, LIGHTYELLOW };
-    
+
     Controller controller;
-    
+
     private List<MenuItem> menuItems;
     int currentItem = 0;
-    
+
     /**
      * Constructeur du Menu.
      * @param c Contrôleur
@@ -63,23 +63,23 @@ public class MenuView extends StackPane {
      */
     public MenuView(Controller c, int w, int h) {
         setPrefSize(w, h);
-        
+
         controller = c;
-        
+
         createContent();
         setOnKeyPressedEvent();
     }
-    
+
     private void createContent() {
         // On démarre par défaut une partie avec 5 poneys
         MenuItem startGameItem = new MenuItem("Start a game");
         startGameItem.setOnActivate(() -> controller.startGame(5));
-        
+
         MenuItem exitItem = new MenuItem("Exit");
         exitItem.setOnActivate(() -> Platform.exit());
-        
+
         MenuItem parameters = new MenuItem("Parameters");
-        parameters.setOnActivate(()-> controller.menuParameters()); //on se dirige vers la vue qu'il faut afficher 
+        parameters.setOnActivate(()-> controller.menuParameters()); //on se dirige vers la vue qu'il faut afficher
 
         menuItems = Arrays.asList(
                 startGameItem,
@@ -88,9 +88,9 @@ public class MenuView extends StackPane {
 
         Node title = createTitle("Poneymon");
         VBox container = new VBox(10, title);
-        
+
         VBox.setMargin(title, new Insets(0, 0, 110, 0));
-        
+
         container.getChildren().addAll(menuItems);
         container.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
 
@@ -101,17 +101,17 @@ public class MenuView extends StackPane {
 
         getChildren().add(container);
     }
-    
+
     private Node createTitle(String title) {
         HBox letters = new HBox(0);
         letters.setAlignment(Pos.CENTER);
-        
+
         for (int i = 0; i < title.length(); i++) {
             Text letter = new Text(title.charAt(i) + "");
             letter.setFont(FONT);
             letter.setFill(titleColors[i % titleColors.length]);
             letters.getChildren().add(letter);
-            
+
             TranslateTransition tt = new TranslateTransition(Duration.seconds(2), letter);
             tt.setDelay(Duration.millis(i * 50));
             tt.setToY(-25);
@@ -119,16 +119,16 @@ public class MenuView extends StackPane {
             tt.setCycleCount(TranslateTransition.INDEFINITE);
             tt.play();
         }
-        
+
         letters.setEffect(new GaussianBlur(2));
-        
+
         return letters;
     }
-    
+
     private MenuItem getMenuItem(int index) {
         return menuItems.get(index);
     }
-    
+
     private void setOnKeyPressedEvent() {
         this.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent e) {
@@ -138,14 +138,14 @@ public class MenuView extends StackPane {
                         getMenuItem(--currentItem).setActive(true);
                     }
                 }
-                
+
                 if (e.getCode() == KeyCode.DOWN) {
                     if (currentItem < menuItems.size() - 1) {
                         getMenuItem(currentItem).setActive(false);
                         getMenuItem(++currentItem).setActive(true);
                     }
                 }
-                
+
                 if (e.getCode() == KeyCode.ENTER) {
                     getMenuItem(currentItem).activate();
                 }
