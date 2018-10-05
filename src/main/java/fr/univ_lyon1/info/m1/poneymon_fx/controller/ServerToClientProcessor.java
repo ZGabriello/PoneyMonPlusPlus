@@ -19,8 +19,7 @@ class ServerToClientProcessor extends Processor {
     Server parent;
     
     
-    boolean connexionFermeeDemande = false;
-    boolean connexionFermee = false;
+
 
     public ServerToClientProcessor(Server serveur, Socket client){
         try {
@@ -39,7 +38,7 @@ class ServerToClientProcessor extends Processor {
         while (!connexionFermee) {
             try {                
                 String reponse = read();
-                handleClientCommand(reponse);
+                parseMessage(reponse);
                 if (connexionFermeeDemande) {
                     System.out.println("connexion fermée");
                     writer = null;
@@ -56,8 +55,6 @@ class ServerToClientProcessor extends Processor {
                 e.printStackTrace();
             }
         }
-        
-        
     }
 
     private void handleClientCommand(String code) {

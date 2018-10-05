@@ -15,8 +15,6 @@ import java.util.logging.Logger;
 class ClientToServerProcessor extends Processor {
 
     Socket sock;
-    boolean connexionFermee = false;
-    boolean connexionFermeeDemande = false;
     public ClientToServerProcessor(Socket isock) {
         sock = isock;
         try {
@@ -34,7 +32,7 @@ class ClientToServerProcessor extends Processor {
             try {
                 
                 String reponse = read();
-                handleServerCommand(reponse);
+                parseMessage(reponse);
 
                 if (connexionFermeeDemande) {
                     System.out.println("le client ferme");

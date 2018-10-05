@@ -73,6 +73,7 @@ public class Server {
 
                         Socket client = sSocket.accept();
                         nbConnections++;
+                        lobby.addConnection(client);
                         System.out.println("connexion reçue");
                         processor = new ServerToClientProcessor(Server.this, client);
                         t = new Thread(processor);
@@ -112,6 +113,27 @@ public class Server {
             toRet.add(clients.get(i).getInetAddress().getHostAddress());
         }
         return toRet;
+    }
+    
+    public void sendToAll(String type, String message){
+        switch (type){
+            case "COMMAND":
+                for (int i = 0; i<clients.size(); i++){
+                    processor.sendCommand(message);
+                }
+                break;
+            case "INPUT":
+                for (int i = 0; i<clients.size(); i++){
+                    processor.sendInput(message);
+                }
+                break;
+            case "DATA":
+                for (int i = 0; i<clients.size(); i++){
+                    processor.sendData(message);
+                }
+                break;
+        }
+        
     }
 
 }

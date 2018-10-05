@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
 import java.io.BufferedInputStream;
@@ -19,14 +14,13 @@ import java.util.Map;
 public abstract class Processor implements Runnable {
     PrintWriter writer;
     BufferedInputStream reader;
-    public static final Map<String, Byte> SERVER_HEADERS;
-    static{
-        Map<String, Byte> aMap = new HashMap<>();
-        aMap.put("STRINGCOMMAND",(byte) 1);
-        aMap.put("DATA", (byte) 2);
-        // à compléter
-        SERVER_HEADERS = Collections.unmodifiableMap(aMap);
-    }        
+    //HEADERS 
+    static final char H_COMMAND = 'c';
+    static final char H_DATA = 'd';
+    static final char H_INPUT = 'i';
+    //---
+    boolean connexionFermeeDemande = false;
+    boolean connexionFermee = false;
             
             
             
@@ -40,9 +34,54 @@ public abstract class Processor implements Runnable {
         return reponse;
     }
 
-    void sendCommand(String byteCode) {
-        System.out.println("handling command...");
-        writer.write(byteCode);
+    void sendCommand(String s){
+        System.out.println("sending command...");
+        String toSend = H_COMMAND + s;
+        writer.write(toSend); 
         writer.flush();
     }
+    
+    void sendInput(String s){
+        System.out.println("sending input...");
+        String toSend = H_INPUT + s;
+        writer.write(toSend); 
+        writer.flush();
+    }
+    
+    void sendData(String s){
+        System.out.println("sending data...");
+        String toSend = H_DATA + s;
+        writer.write(toSend); 
+        writer.flush();
+    }
+    
+    void parseMessage(String message){
+        switch (message.charAt(0)){
+            case H_COMMAND :
+                parseCommand(message.substring(1));
+                break;
+            case H_INPUT :
+                parseInput(message.substring(1));
+                break;
+            case H_DATA :
+                parseData(message.substring(1));
+                break;
+                
+            
+        }       
+    }
+
+    void parseCommand(String substring) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    void parseInput(String substring) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    void parseData(String substring) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

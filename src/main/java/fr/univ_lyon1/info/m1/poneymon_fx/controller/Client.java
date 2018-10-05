@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
  * @author Alex.
  */
 public class Client {
-
+    Lobby lobby;
     Socket sock;
     Thread t;
     ClientToServerProcessor processor;
@@ -45,8 +45,21 @@ public class Client {
         }
     }
     
+    
+    void setLobby(Lobby l){
+        this.lobby = l;
+    }
+    
     public void sendCommand(String command){
         processor.sendCommand(command.toUpperCase());
     }
-
+    
+    public void sendInput(String inputCode){
+        processor.sendInput(inputCode);
+    }
+    
+    public void sendData(String data){
+        processor.sendData(data);
+    }
+    
 }
