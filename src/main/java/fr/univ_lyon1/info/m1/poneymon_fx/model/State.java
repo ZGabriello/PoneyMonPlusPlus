@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
 import java.sql.Timestamp;
@@ -29,6 +30,7 @@ public abstract class State {
     /**
      * Applique un état au poney.
      *
+     * @param pm un poneyModel
      */
     public void applyState(PoneyModel pm) {
 
@@ -36,9 +38,14 @@ public abstract class State {
         this.endTime = new Timestamp(this.startTime.getTime() + duration);
 
         pm.usePower();
-        pm.step();
+        
     }
 
+    /**
+     * Vérifie si l'état a expiré.
+     * 
+     * @return vrai ou faux
+     */
     public boolean checkExpired() {
         
         if (System.currentTimeMillis() > this.endTime.getTime()) {
@@ -54,6 +61,11 @@ public abstract class State {
         return this.isExpired;
     }
 
+    /**
+     * Eliminer l'état du poney.
+     * 
+     * @param pm un poneyModel
+     */
     public void unapplyState(PoneyModel pm) {
 
         pm.endPower();
