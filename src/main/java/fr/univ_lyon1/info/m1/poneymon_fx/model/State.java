@@ -21,6 +21,11 @@ public abstract class State {
 
     boolean isExpired;
 
+    /**
+     * Constructeur de State.
+     * 
+     * @param duration une durée
+     */
     public State(long duration) {
 
         this.duration = duration;
@@ -37,7 +42,10 @@ public abstract class State {
         this.startTime = new Timestamp(System.currentTimeMillis());
         this.endTime = new Timestamp(this.startTime.getTime() + duration);
 
-        pm.usePower();
+        while (checkExpired() == false) {
+            pm.usePower();
+        }
+        unapplyState(pm);
         
     }
 

@@ -67,10 +67,30 @@ public class PoneyTest {
             p.getStates().get(i).applyState(p);
             p.step();
         }
-        
+                
         //Then
         assertEquals(p.getProgress(), expectedProgress, 0.001);
+
     }
+    
+    @Test
+    public void testStateRemove() {
+        
+        // Given
+        NyanPoneyModel p = new NyanPoneyModel();
+        p.setSpeed(0.42);
+        DoubleSpeedState state = new DoubleSpeedState(5000);
+        p.addState(state);
+
+        //When  
+        for (int i = 0; i < p.getStates().size(); i++) {
+            p.getStates().get(i).applyState(p);
+            p.step();
+        }
+        
+        //Then
+        assertEquals(0, p.getStates().size(), 0.001);
+    } 
 
     /**
      * On teste que les super poneys ne conservent pas leur boost de vitesse

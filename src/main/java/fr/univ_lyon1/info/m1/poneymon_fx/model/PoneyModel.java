@@ -92,10 +92,6 @@ public abstract class PoneyModel extends Observable {
         if (states != null) {
             for (State state : states) {
                 state.applyState(this);
-
-                if (state.checkExpired() == true) {
-                    state.unapplyState(this);
-                }
             }
         }
 

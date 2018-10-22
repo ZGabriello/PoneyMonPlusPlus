@@ -3,7 +3,6 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.ImStillHereNyanStrategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.NyanStrategy;
-import java.sql.Timestamp;
 
 /**
  * Classe gérant la logique du NyanPoney.

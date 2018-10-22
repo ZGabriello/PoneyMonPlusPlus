@@ -93,8 +93,7 @@ public class Controller {
                 for (State state : states) {
                     state.applyState(pm);
                 }
-            }
-            else {
+            } else {
                 pm.usePower();
             }
 
