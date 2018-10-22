@@ -95,7 +95,7 @@ public class Controller {
                 }
             } else {
                 pm.usePower();
-            }
+            } 
 
         }
     }

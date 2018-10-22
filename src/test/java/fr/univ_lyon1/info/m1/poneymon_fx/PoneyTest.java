@@ -81,7 +81,7 @@ public class PoneyTest {
         p.setSpeed(0.42);
         DoubleSpeedState state = new DoubleSpeedState(5000);
         p.addState(state);
-
+ 
         //When  
         for (int i = 0; i < p.getStates().size(); i++) {
             p.getStates().get(i).applyState(p);

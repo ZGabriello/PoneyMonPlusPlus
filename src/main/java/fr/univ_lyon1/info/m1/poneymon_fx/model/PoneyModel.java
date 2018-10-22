@@ -81,7 +81,7 @@ public abstract class PoneyModel extends Observable {
     /**
      * Avancée du poney.
      *
-     * @return position du poney
+     * @return position du poney 
      */
     public double step() {
         if (ia) {

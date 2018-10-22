@@ -27,7 +27,7 @@ public abstract class State {
      * @param duration une durée
      */
     public State(long duration) {
-
+ 
         this.duration = duration;
         this.isExpired = false;
     }
