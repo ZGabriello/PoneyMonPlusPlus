@@ -55,6 +55,7 @@ public class Lobby {
 
     void setSelfServer() {
         hostIp = this.usedIp;
+        isHost = true;
         server = new Server(this.usedIp, 9000);
     }
     
@@ -66,14 +67,14 @@ public class Lobby {
 
     public void launchGame() {
         if (hostIp == null ? usedIp == null : hostIp.equals(usedIp)) {
-            //TODO lancer la partie. 
+            server.sendToAll("COMMAND", "STARTGAME");
         }
     }
 
     void addConnection(Socket client) {
         ips.add(client.getInetAddress().getHostAddress());
         if (hostIp == null ? usedIp == null : hostIp.equals(usedIp)){
-            
+            server.sendToAll("COMMAND", "UPDATELOBBY");
         }
     }
     

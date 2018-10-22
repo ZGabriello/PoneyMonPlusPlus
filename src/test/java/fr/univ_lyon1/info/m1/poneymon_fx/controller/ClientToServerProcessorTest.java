@@ -35,7 +35,7 @@ public class ClientToServerProcessorTest {
     public void testReceive() throws IOException, InterruptedException {
         System.out.println("run");
         Thread.sleep(50);
-        s.processor.sendCommand("CLOSE");
+        s.processors.get(0).sendCommand("CLOSE");
         Thread.sleep(500);
         assert (instance.connexionFermee);
         c.close();

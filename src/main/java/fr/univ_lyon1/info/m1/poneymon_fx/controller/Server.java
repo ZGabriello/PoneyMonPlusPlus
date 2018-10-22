@@ -12,22 +12,24 @@ import java.util.logging.Logger;
 
 /**
  * Classe implémentant le serveur et gérant les communicatoin avec les clients.
+ *
  * @author Alex.
  */
 public class Server {
+
     Lobby lobby;
     int nbConnections = 0;
     ServerSocket sSocket;
     String ip = "127.0.0.1";
     int port = 9000;
     boolean isRunning = false;
-    ServerToClientProcessor processor;
+    List<ServerToClientProcessor> processors = new ArrayList<ServerToClientProcessor>();
     Thread t;
     List<Socket> clients = new ArrayList<Socket>();
-    
 
     /**
-     * contructeur par défaut, se connecte sur localHost sur le port 9000 par défaut.
+     * contructeur par défaut, se connecte sur localHost sur le port 9000 par
+     * défaut.
      */
     public Server() {
         try {
@@ -39,7 +41,9 @@ public class Server {
     }
 
     /**
-     * constructeur spécialisé, se connecte sur l'addresse ip et le port indiqués.
+     * constructeur spécialisé, se connecte sur l'addresse ip et le port
+     * indiqués.
+     *
      * @param ipaddress addresse sur laquelle le serveur doit se connecter.
      * @param iport port sur lequel le serveur doit se connecter.
      */
@@ -75,7 +79,8 @@ public class Server {
                         nbConnections++;
                         lobby.addConnection(client);
                         System.out.println("connexion reçue");
-                        processor = new ServerToClientProcessor(Server.this, client);
+                        ServerToClientProcessor processor = new ServerToClientProcessor(Server.this, client);
+                        processors.add(processor);
                         t = new Thread(processor);
                         clients.add(client);
                         t.start();
@@ -89,10 +94,11 @@ public class Server {
         });
         mainThread.start();
     }
-    
-    public void setLobby(Lobby l){
+
+    public void setLobby(Lobby l) {
         this.lobby = l;
     }
+
     /**
      * ferme le serveur.
      */
@@ -106,34 +112,34 @@ public class Server {
             sSocket = null;
         }
     }
-    
-    public List<String> getIpsClients(){
+
+    public List<String> getIpsClients() {
         List<String> toRet = new ArrayList<String>();
-        for (int i = 0 ; i < clients.size(); i++){
+        for (int i = 0; i < clients.size(); i++) {
             toRet.add(clients.get(i).getInetAddress().getHostAddress());
         }
         return toRet;
     }
-    
-    public void sendToAll(String type, String message){
-        switch (type){
+
+    public void sendToAll(String type, String message) {
+        switch (type) {
             case "COMMAND":
-                for (int i = 0; i<clients.size(); i++){
-                    processor.sendCommand(message);
+                for (ServerToClientProcessor client : processors) {
+                    client.sendCommand(message);
                 }
                 break;
             case "INPUT":
-                for (int i = 0; i<clients.size(); i++){
-                    processor.sendInput(message);
+                for (ServerToClientProcessor client : processors) {
+                    client.sendInput(message);
                 }
                 break;
             case "DATA":
-                for (int i = 0; i<clients.size(); i++){
-                    processor.sendData(message);
+                for (ServerToClientProcessor client : processors) {
+                    client.sendData(message);
                 }
                 break;
         }
-        
+
     }
 
 }
