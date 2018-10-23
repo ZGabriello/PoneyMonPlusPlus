@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Classe gérant la logique du Poney.
@@ -19,10 +20,21 @@ public abstract class PoneyModel extends Observable {
     static final double MIN_SPEED = 0.1;
     static final double MAX_SPEED = 0.9;
 
+    
+    
+    boolean isTouched;
+    double acceleration;
+
     double progress;
     double speed;
     String color;
     int position;
+    PowerModel power;
+
+    
+    
+    
+    
 
     boolean powerState;
     int nbPowers;
@@ -42,6 +54,18 @@ public abstract class PoneyModel extends Observable {
      */
     public PoneyModel() {
 
+        progress = 0.0;
+        
+        powerState = false;
+        nbPowers = 0;
+        
+        nbTurns = 0;
+        ia = false;
+        
+        speed = MIN_SPEED;
+        acceleration = 0.002;
+
+
         this.states = new ArrayList<>();
         this.progress = 0.0;
 
@@ -51,7 +75,8 @@ public abstract class PoneyModel extends Observable {
         this.nbTurns = 0;
         this.ia = false;
 
-        setRandSpeed();
+
+       // setRandSpeed();
     }
 
     /**
@@ -87,6 +112,12 @@ public abstract class PoneyModel extends Observable {
         if (ia) {
             strategy.checkPower();
         }
+
+        this.accelerer();
+        progress += (speed / SPEED_DIVIDER);
+        System.out.println(this.getSpeed());
+        
+
         
         //TODO : si effet immédiat, appliquer l'état
         if (states != null) {
@@ -96,6 +127,7 @@ public abstract class PoneyModel extends Observable {
         }
 
         progress += (speed / SPEED_DIVIDER);
+
 
         if (progress > 1.0) {
             newTurn();
@@ -110,7 +142,7 @@ public abstract class PoneyModel extends Observable {
     protected void newTurn() {
         progress = 0;
         nbTurns++;
-        setRandSpeed();
+        //setRandSpeed();
     }
 
     /**
@@ -119,6 +151,11 @@ public abstract class PoneyModel extends Observable {
     public void usePower() {
 
     }
+    
+    public void usePower(PoneyModel p){
+        
+    }
+    
 
     /**
      * Sortie de l'etat d'utilisation du pouvoir du poney.
@@ -149,6 +186,7 @@ public abstract class PoneyModel extends Observable {
         } else if (speed < MIN_SPEED) {
             speed = MIN_SPEED;
         }
+        
     }
 
     /**
@@ -206,6 +244,33 @@ public abstract class PoneyModel extends Observable {
         return ia;
     }
 
+    
+    public boolean getIsTouched(){
+        return isTouched;
+    }
+    
+    public void setIsTouched(boolean t){
+        this.isTouched = t;
+    }
+    
+    public double getAcceleration(){
+        return this.acceleration;
+    }
+    
+    public void setAcceleration(double a){
+        this.acceleration = a;
+    }
+    
+    public PowerModel getPower(){
+        return this.power;
+    }
+    
+    public void setPower(PowerModel p){
+        this.power = p;
+    }
+   
+    
+
     /**
      * Calcul la distance avec le poney donné en prenant en compte les tours,
      * une distance positive veut dire qu'on est devant, et négative l'inverse.
@@ -215,6 +280,71 @@ public abstract class PoneyModel extends Observable {
     public double distanceTo(PoneyModel poney) {
         return (progress + nbTurns) - (poney.progress + poney.nbTurns);
     }
+
+    
+  
+    public void accelerer() {
+        // test si l'acceleration est possible
+        if( (this.getSpeed() + this.getAcceleration()) >= MAX_SPEED){
+            this.setSpeed(MAX_SPEED);
+            
+        }
+        else{
+            this.setSpeed((this.getSpeed()+this.getAcceleration()));
+        }
+    }
+    
+    /**
+     * Surcharge de la fonction accelerer.
+     */
+    
+    public void accelerer(double a) {   
+        // test si l'acceleration est possible
+        if( (this.getSpeed() + this.getAcceleration()) >= MAX_SPEED){
+            this.setSpeed(MAX_SPEED);
+        }
+        else{
+            this.setSpeed((this.getSpeed()+ a));
+        }
+    }
+    
+    public void deccelerer() {
+        // test si la decceleration est possible
+        if((this.getSpeed() - this.getAcceleration()) <= MIN_SPEED){
+            this.setSpeed(MIN_SPEED);
+        }
+        else{
+            this.setSpeed(this.getSpeed() - this.getAcceleration());
+    }
+    }
+    
+    /**
+    * Surcharge de la fonction deccelerer.
+    */
+    public void deccelerer(double a) {
+        // test si la decceleration est possible
+        if((this.getSpeed() - a) <= MIN_SPEED){
+            this.setSpeed(MIN_SPEED);
+        }
+        else{
+            this.setSpeed(this.getSpeed() - a);
+        }
+    }
+    
+    /**
+     *  Baisse de la vitesse après que le poney ait été touché.
+     */
+    public void IsTouched() {
+        if(this.getIsTouched()) {
+           this.setSpeed(this.getSpeed() / 2 );    
+        }
+    }
+    
+   
+    
+    
+
+
 
     public void addState(State state) {
         states.add(state);
@@ -228,3 +358,4 @@ public abstract class PoneyModel extends Observable {
         return this.states;
     }
 }
+
