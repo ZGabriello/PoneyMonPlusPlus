@@ -86,14 +86,8 @@ public abstract class PoneyModel extends Observable {
     public double step() {
         if (ia) {
             strategy.checkPower();
-        }
-        
-        //TODO : si effet immédiat, appliquer l'état
-        if (states != null) {
-            for (State state : states) {
-                state.applyState(this);
-            }
-        }
+        }      
+       
 
         progress += (speed / SPEED_DIVIDER);
 
@@ -120,6 +114,9 @@ public abstract class PoneyModel extends Observable {
 
     }
 
+    public void applyState() {
+        
+    }
     /**
      * Sortie de l'etat d'utilisation du pouvoir du poney.
      */
@@ -226,5 +223,23 @@ public abstract class PoneyModel extends Observable {
 
     public List<State> getStates() {
         return this.states;
+    }
+
+    public boolean getPowerState() {
+        return this.powerState;
+    }
+
+ 
+    public void setpowerState(boolean b) {
+        this.powerState = b;
+            
+    }
+
+    public void multiplySpeed(int speedMultipler) {
+        speed *= speedMultipler;
+    }
+
+    public int getNbPowers() {
+        return this.nbPowers;
     }
 }
