@@ -6,6 +6,7 @@
 
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import static fr.univ_lyon1.info.m1.poneymon_fx.model.NyanPoneyModel.SPEED_MULTIPLIER;
 import java.sql.Timestamp;
 
 /**
@@ -23,8 +24,8 @@ public class DoubleSpeedState extends State {
         this.startTime = new Timestamp(System.currentTimeMillis());
         this.endTime = new Timestamp(this.startTime.getTime() + duration);
 
-        while (checkExpired() == false) {
-            pm.usePower();
+        while (checkExpired() == false) {            
+            pm.multiplySpeed(SPEED_MULTIPLIER);       
         }
         unapplyState(pm);
     }

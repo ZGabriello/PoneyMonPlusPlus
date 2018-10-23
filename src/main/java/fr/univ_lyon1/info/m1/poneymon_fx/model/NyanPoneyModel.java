@@ -60,17 +60,29 @@ public class NyanPoneyModel extends PoneyModel {
 
     @Override
     public void usePower() {
-
-        if (powerState == false && nbPowers < 1) {
-            ++nbPowers;
-            powerState = true;
-
-            speed *= SPEED_MULTIPLIER;
-
-            setChanged();
-            notifyObservers(new PowerNotification(true));
+        if (powerState == false && nbPowers< 1) {
+                ++nbPowers;
+                powerState = true;
+                speed *= SPEED_MULTIPLIER;
         }
+        setChanged();
+        notifyObservers(new PowerNotification(true));
+        
 
+    }
+    
+    @Override
+    public void applyState() {
+         //TODO : si effet immédiat, appliquer l'état
+        if (states != null) {
+            for (State state : states) {
+                state.applyState(this);
+            }
+        }
+        
+        setChanged();
+        notifyObservers(new PowerNotification(true));
+        
     }
 
     public static int getSpeedMultiplier() {

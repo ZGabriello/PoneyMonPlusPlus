@@ -84,20 +84,18 @@ public class Controller {
      */
     public void usePower(int i) {
         PoneyModel pm = model.getPoneyModel(i);
-        List<State> states = pm.getStates();
-
         if (!pm.isIa()) {
-
-            //TODO : si effet immediat appliquer état
-            if (states != null) {
-                for (State state : states) {
-                    state.applyState(pm);
-                }
-            } else {
-                pm.usePower();
-            } 
-
+            model.getPoneyModel(i).usePower();
         }
+
+    }
+    
+    public void applyState(int i) {
+        PoneyModel pm = model.getPoneyModel(i);
+        if (!pm.isIa()) {
+            model.getPoneyModel(i).applyState();
+        }
+
     }
 
     /**
