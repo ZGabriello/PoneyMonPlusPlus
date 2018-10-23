@@ -10,13 +10,16 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.NyanStrategy;
  */
 public class NyanPoneyModel extends PoneyModel {
 
-    static final int SPEED_MULTIPLIER = 3;
+    static final int SPEED_MULTIPLIER = 2;
+    
 
     /**
      * Constructeur de NyanPoney sans modèle et autres paramètres, pour tests.
      */
     public NyanPoneyModel() {
         super();
+        power = new PowerDoubleSpeed();
+        
     }
 
     /**
@@ -28,6 +31,7 @@ public class NyanPoneyModel extends PoneyModel {
      */
     public NyanPoneyModel(String color, int position, FieldModel f) {
         super(color, position);
+        power = new PowerDoubleSpeed();
 
         // stratégie par défaut, peut-être utile sur un joueur humain
         // en cas de déconnexion en réseau
@@ -41,8 +45,10 @@ public class NyanPoneyModel extends PoneyModel {
      * @param position position du poney dans le modèle
      * @param strategy stratégie à utiliser pour l'ia
      */
-    public NyanPoneyModel(String color, int position, NyanStrategy strategy) {
+    public NyanPoneyModel(String color, int position, NyanStrategy strategy,PowerModel p) {
         super(color, position, strategy);
+        this.setPower(p);
+        
     }
 
     public void setStrategy(NyanStrategy s) {
@@ -60,14 +66,13 @@ public class NyanPoneyModel extends PoneyModel {
 
     @Override
     public void usePower() {
-        if (powerState == false && nbPowers< 1) {
-                ++nbPowers;
-                powerState = true;
-                speed *= SPEED_MULTIPLIER;
-        }
-        setChanged();
-        notifyObservers(new PowerNotification(true));
-        
+        if (powerState == false && nbPowers < 1) {
+            ++nbPowers;
+            powerState = true;
+            power.use(this);
+            setChanged();
+            notifyObservers(new PowerNotification(true));
+        }        
 
     }
     
