@@ -6,6 +6,8 @@
 
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import java.sql.Timestamp;
+
 /**
  * Classe gérant le boost de vitesse (Bonus).
  * @author Elo
@@ -15,6 +17,16 @@ public class DoubleSpeedState extends State {
     
     public DoubleSpeedState(long duration) {
         super(duration);
+    }
+    
+    public void applyState(PoneyModel pm) {
+        this.startTime = new Timestamp(System.currentTimeMillis());
+        this.endTime = new Timestamp(this.startTime.getTime() + duration);
+
+        while (checkExpired() == false) {
+            pm.usePower();
+        }
+        unapplyState(pm);
     }
 
 }
