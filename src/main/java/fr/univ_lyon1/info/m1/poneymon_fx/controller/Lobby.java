@@ -1,5 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -50,7 +52,15 @@ public class Lobby {
     }
 
     void migrate() {
-        //TODO
+        this.controller.gamePause();
+        if (this.ips.get(0).equals(this.usedIp)){
+            setSelfServer();
+            openServer();
+        }
+        else{
+            getRemoteLobby(this.ips.get(0), 9000);
+        }
+        this.controller.gameUnpause();
     }
 
     void setSelfServer() {
@@ -78,5 +88,17 @@ public class Lobby {
         }
     }
     
+    String serializeModel() throws JsonProcessingException{
+        String toRet;
+        ObjectMapper mapper = new ObjectMapper();
+        toRet = mapper.writeValueAsString(this.controller.model);
+        return toRet;
+    }
     
+    String serializeLobby() throws JsonProcessingException{
+        String toRet;
+        ObjectMapper mapper = new ObjectMapper();
+        toRet = mapper.writeValueAsString(this);
+        return toRet;
+    }
 }

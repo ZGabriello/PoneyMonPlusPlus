@@ -25,6 +25,7 @@ public class Server {
     boolean isRunning = false;
     List<ServerToClientProcessor> processors = new ArrayList<ServerToClientProcessor>();
     Thread t;
+    TimedUpdater updater;
     List<Socket> clients = new ArrayList<Socket>();
 
     /**
@@ -68,10 +69,13 @@ public class Server {
             }
         }
         isRunning = true;
+        TimedUpdater updater;
+        updater = new TimedUpdater(this);
         Thread mainThread = new Thread(new Runnable() {
             @Override
             public void run() {
-
+                
+                new Thread(updater).start();
                 while (isRunning) {
                     try {
 
@@ -80,15 +84,19 @@ public class Server {
                         lobby.addConnection(client);
                         System.out.println("connexion reçue");
                         ServerToClientProcessor processor = new ServerToClientProcessor(Server.this, client);
+                        
                         processors.add(processor);
                         t = new Thread(processor);
+                        
+                            
+                        
                         clients.add(client);
                         t.start();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-
+                
                 close();
             }
         });
@@ -106,6 +114,7 @@ public class Server {
         isRunning = false;
         try {
             sSocket.close();
+            updater.close();
         } catch (IOException e) {
             System.out.println("suppression du socket");
             e.printStackTrace();
