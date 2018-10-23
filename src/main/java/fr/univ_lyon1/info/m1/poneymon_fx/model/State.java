@@ -39,14 +39,6 @@ public abstract class State {
      */
     public void applyState(PoneyModel pm) {
 
-        this.startTime = new Timestamp(System.currentTimeMillis());
-        this.endTime = new Timestamp(this.startTime.getTime() + duration);
-
-        while (checkExpired() == false) {
-            pm.usePower();
-        }
-        unapplyState(pm);
-        
     }
 
     /**
