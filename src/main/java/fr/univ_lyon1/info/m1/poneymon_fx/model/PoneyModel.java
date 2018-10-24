@@ -109,9 +109,6 @@ public abstract class PoneyModel extends Observable {
             strategy.checkPower();
         }
 
-       // this.accelerer();
-        progress += (speed / SPEED_DIVIDER);
-        System.out.println(this.getSpeed());
 
         progress += (speed / SPEED_DIVIDER);
 
@@ -147,6 +144,7 @@ public abstract class PoneyModel extends Observable {
     public void applyState() {
         
     }
+    
     /**
      * Sortie de l'etat d'utilisation du pouvoir du poney.
      */
@@ -235,27 +233,27 @@ public abstract class PoneyModel extends Observable {
     }
 
     
-    public boolean getIsTouched(){
+    public boolean getIsTouched() {
         return isTouched;
     }
     
-    public void setIsTouched(boolean t){
+    public void setIsTouched(boolean t) {
         this.isTouched = t;
     }
     
-    public double getAcceleration(){
+    public double getAcceleration() {
         return this.acceleration;
     }
     
-    public void setAcceleration(double a){
+    public void setAcceleration(double a) {
         this.acceleration = a;
     }
     
-    public PowerModel getPower(){
+    public PowerModel getPower() {
         return this.power;
     }
     
-    public void setPower(PowerModel p){
+    public void setPower(PowerModel p) {
         this.power = p;
     }
    
@@ -271,41 +269,43 @@ public abstract class PoneyModel extends Observable {
         return (progress + nbTurns) - (poney.progress + poney.nbTurns);
     }
 
-    
-  
+    /**
+     * Méthode gérant l'accéleration du poney.
+     * 
+     */  
     public void accelerer() {
         // test si l'acceleration est possible
-        if( (this.getSpeed() + this.getAcceleration()) >= MAX_SPEED){
+        if ((this.getSpeed() + this.getAcceleration()) >= MAX_SPEED) {
             this.setSpeed(MAX_SPEED);
             
-        }
-        else{
-            this.setSpeed((this.getSpeed()+this.getAcceleration()));
+        } else {
+            this.setSpeed((this.getSpeed() + this.getAcceleration()));
         }
     }
     
     /**
      * Surcharge de la fonction accelerer.
-     */
-    
+     */    
     public void accelerer(double a) {   
         // test si l'acceleration est possible
-        if( (this.getSpeed() + this.getAcceleration()) >= MAX_SPEED){
+        if ((this.getSpeed() + this.getAcceleration()) >= MAX_SPEED) {
             this.setSpeed(MAX_SPEED);
-        }
-        else{
-            this.setSpeed((this.getSpeed()+ a));
+        } else {
+            this.setSpeed((this.getSpeed() + a));
         }
     }
     
+    
+    /**
+     * Méthode gérant la décéleration du poney.
+     */
     public void deccelerer() {
         // test si la decceleration est possible
-        if((this.getSpeed() - this.getAcceleration()) <= MIN_SPEED){
+        if ((this.getSpeed() - this.getAcceleration()) <= MIN_SPEED) {
             this.setSpeed(MIN_SPEED);
-        }
-        else{
+        } else {
             this.setSpeed(this.getSpeed() - this.getAcceleration());
-    }
+        }
     }
     
     /**
@@ -313,10 +313,9 @@ public abstract class PoneyModel extends Observable {
     */
     public void deccelerer(double a) {
         // test si la decceleration est possible
-        if((this.getSpeed() - a) <= MIN_SPEED){
+        if ((this.getSpeed() - a) <= MIN_SPEED) {
             this.setSpeed(MIN_SPEED);
-        }
-        else{
+        } else {
             this.setSpeed(this.getSpeed() - a);
         }
     }
@@ -324,18 +323,13 @@ public abstract class PoneyModel extends Observable {
     /**
      *  Baisse de la vitesse après que le poney ait été touché.
      */
-    public void IsTouched() {
-        if(this.getIsTouched()) {
-           this.setSpeed(this.getSpeed() / 2 );    
+    public void isTouched() {
+        if (this.getIsTouched()) {
+            this.setSpeed(this.getSpeed() / 2);    
         }
     }
     
    
-    
-    
-
-
-
     public void addState(State state) {
         states.add(state);
     }

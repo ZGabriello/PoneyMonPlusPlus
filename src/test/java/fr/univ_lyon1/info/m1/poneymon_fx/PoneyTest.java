@@ -28,7 +28,7 @@ public class PoneyTest {
         p.step();
 
         // Then
-        assertEquals(p.getProgress(), expectedSpeed, 0.01);
+        assertEquals(p.getProgress(), expectedSpeed, 0.001);
     }
 
     /**
@@ -71,7 +71,7 @@ public class PoneyTest {
                 
         //Then
 
-        assertEquals(p.getProgress(), expectedProgress, 0.01);
+        assertEquals(p.getProgress(), expectedProgress, 0.001);
 
        
 
@@ -212,7 +212,7 @@ public class PoneyTest {
         
         
         // When 
-        p.IsTouched();
+        p.isTouched();
         
         
         // Then 
