@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.Strategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PoneyStartNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
@@ -30,7 +31,7 @@ public abstract class PoneyModel extends Observable {
 
     Strategy strategy;
     boolean ia;
-    
+    @JsonIgnore
     Random randomGen;
     
     /**
@@ -203,4 +204,54 @@ public abstract class PoneyModel extends Observable {
     public double distanceTo(PoneyModel poney) { 
         return (progress + nbTurns) - (poney.progress + poney.nbTurns);
     }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public boolean isPowerState() {
+        return powerState;
+    }
+
+    public void setPowerState(boolean powerState) {
+        this.powerState = powerState;
+    }
+
+    public int getNbPowers() {
+        return nbPowers;
+    }
+
+    public void setNbPowers(int nbPowers) {
+        this.nbPowers = nbPowers;
+    }
+
+    public int getNbTurns() {
+        return nbTurns;
+    }
+
+    public void setNbTurns(int nbTurns) {
+        this.nbTurns = nbTurns;
+    }
+
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public Random getRandomGen() {
+        return randomGen;
+    }
+
+    public void setRandomGen(Random randomGen) {
+        this.randomGen = randomGen;
+    }
+    
+    
 }

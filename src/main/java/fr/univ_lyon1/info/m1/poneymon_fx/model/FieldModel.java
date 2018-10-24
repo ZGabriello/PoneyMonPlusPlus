@@ -103,4 +103,38 @@ public class FieldModel extends Observable {
     public int getWinAt() {
         return winAt;
     }
+    
+    public List<PoneyModel> getPoneys(){
+        return poneys;
+    }
+    
+    
+    public List<Double> getProgresses(){
+        return progresses;
+    }
+
+    public int[] getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(int[] players) {
+        this.players = players;
+    }
+
+    public String[] getColorMap() {
+        return colorMap;
+    }
+
+    public void setColorMap(String[] colorMap) {
+        this.colorMap = colorMap;
+    }
+
+    public int getWinner() {
+        return winner;
+    }
+
+    public void setWinner(int winner) {
+        this.winner = winner;
+    }
+    
 }

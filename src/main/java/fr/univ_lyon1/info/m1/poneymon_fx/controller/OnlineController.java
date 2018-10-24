@@ -11,11 +11,7 @@ import java.util.logging.Logger;
 public class OnlineController extends Controller{
     Lobby lobby;
     void createLobby() {
-        try {
-            lobby = new Lobby();
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(OnlineController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        lobby = new Lobby();
         
         lobby.setController(this);
         lobby.setSelfServer();
@@ -23,11 +19,7 @@ public class OnlineController extends Controller{
     }
     
     void joinLobby(String ip,int port){
-        try {
-            lobby = new Lobby();
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(OnlineController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        lobby = new Lobby();
         lobby.getRemoteLobby(ip, port);
     }
     

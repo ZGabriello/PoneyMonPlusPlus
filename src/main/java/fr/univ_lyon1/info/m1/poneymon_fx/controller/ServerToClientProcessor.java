@@ -58,7 +58,7 @@ class ServerToClientProcessor extends Processor {
     }
 
     private void handleClientCommand(String code) {
-        String toSend;
+        String toSend="";
 
         switch (code.toUpperCase()) {
 
@@ -67,7 +67,18 @@ class ServerToClientProcessor extends Processor {
                 toSend = "fin  de communication";
                 connexionFermeeDemande = true;
                 break;
-            
+            case "PAUSE":
+                //TODO
+                break;
+            case "RESTART":
+                //TODO
+                break;
+            case "GIVELOBBY":
+                //TODO
+                break;
+            case "GIVEMODEL":
+                //TODO
+                break;
             default:
                 toSend = "commande non reconnue";
                 break;
@@ -76,5 +87,4 @@ class ServerToClientProcessor extends Processor {
         writer.write(toSend);
         writer.flush();
     }
-
 }

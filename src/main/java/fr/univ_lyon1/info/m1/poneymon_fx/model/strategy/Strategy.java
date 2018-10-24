@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model.strategy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 
 /**
@@ -7,6 +8,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
  *
  */
 public abstract class Strategy {
+    @JsonIgnore
     FieldModel field;
     int position;
 
@@ -21,4 +23,21 @@ public abstract class Strategy {
     }
 
     public void checkPower() {}
+
+    public FieldModel getField() {
+        return field;
+    }
+
+    public void setField(FieldModel field) {
+        this.field = field;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+    
 }

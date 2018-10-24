@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,9 +25,7 @@ class TimedUpdater implements Runnable{
                 Thread.sleep(500);
                 this.parent.sendToAll("DATA", parent.lobby.serializeModel());
                 this.parent.sendToAll("DATA", parent.lobby.serializeLobby());
-            } catch (JsonProcessingException ex) {
-                Logger.getLogger(TimedUpdater.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
+            } catch (JsonProcessingException | InterruptedException ex) {
                 Logger.getLogger(TimedUpdater.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
