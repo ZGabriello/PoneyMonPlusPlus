@@ -90,6 +90,11 @@ public class Controller {
 
     }
     
+    /**
+     * Change l'état du poney si ce n'est pas une IA.
+     * 
+     * @param i position du poney dans le modèle
+     */
     public void applyState(int i) {
         PoneyModel pm = model.getPoneyModel(i);
         if (!pm.isIa()) {
