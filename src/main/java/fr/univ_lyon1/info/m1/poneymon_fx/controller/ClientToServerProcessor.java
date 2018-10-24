@@ -72,10 +72,11 @@ class ClientToServerProcessor extends Processor {
     }
     
     // les messages commandes sont de la forme "TypeDeDonnes(sur 1 caractère)+Json"
+    @Override
     void parseData(String data){
         switch (data.charAt(0)){
             case 'f': //fieldmodel
-                parent.lobby.getModel(data.substring(1));
+                parent.lobby.getModelBinary(data.substring(1).getBytes());
                 break;
             case 'p': // poneyModel
                 break;

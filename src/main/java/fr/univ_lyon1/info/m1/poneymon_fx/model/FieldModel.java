@@ -6,6 +6,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.MoreSpeedNyanStrategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.ProgressNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.StartNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.WinNotification;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -15,7 +16,7 @@ import java.util.Observer;
  * Classe gérant la logique du Field.
  *
  */
-public class FieldModel extends Observable {
+public class FieldModel extends Observable implements Serializable{
     /** Tableau des joueurs réels. */
     int[] players = new int[] { 0, 1 };
     
@@ -78,6 +79,7 @@ public class FieldModel extends Observable {
     
     /**
      * Initialisation des observeurs du modèle du terrain.
+     * @param obs
      */
     @Override
     public void addObserver(Observer obs) {

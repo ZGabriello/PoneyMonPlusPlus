@@ -2,12 +2,13 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model.strategy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import java.io.Serializable;
 
 /**
  * Classe représentant une stratégie d'IA.
  *
  */
-public abstract class Strategy {
+public abstract class Strategy implements Serializable{
     @JsonIgnore
     FieldModel field;
     int position;

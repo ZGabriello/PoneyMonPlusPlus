@@ -5,7 +5,12 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -106,8 +111,17 @@ public class Lobby {
         String toRet;
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(Include.NON_NULL);
+        mapper.enableDefaultTyping();
         toRet = mapper.writeValueAsString(this.controller.model);
         return toRet;
+    }
+    
+    byte[] serializeModelBinary() throws IOException{
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        ObjectOutputStream stream = new ObjectOutputStream(b);
+        stream.writeObject(this.controller.model);
+        stream.close();
+        return b.toByteArray();
     }
     
     String serializeLobby() throws JsonProcessingException{
@@ -127,6 +141,17 @@ public class Lobby {
         }
         this.controller.model = m;
     } 
+    
+    void getModelBinary(byte[] data){
+        InputStream stream = new ByteArrayInputStream(data);
+        ObjectInputStream o;
+        try {
+            o = new ObjectInputStream(stream);
+            this.controller.model =(FieldModel) o.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(Lobby.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     void getLobby(String json) {
         ObjectMapper mapper = new ObjectMapper();

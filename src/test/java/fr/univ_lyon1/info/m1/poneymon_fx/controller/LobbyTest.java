@@ -6,12 +6,15 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -159,19 +162,7 @@ public class LobbyTest {
 //
 
 //
-//    /**
-//     * Test of getModel method, of class Lobby.
-//     */
-//    @Test
-//    public void testGetModel() {
-//        System.out.println("getModel");
-//        String json = "";
-//        Lobby instance = new Lobby();
-//        instance.getModel(json);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+
 
     
     @Test
@@ -206,7 +197,6 @@ public class LobbyTest {
     @Test
     public void testGetLobby() {
         System.out.println("getLobby");
-        System.out.println("serializeModel");
         FieldModel m = new FieldModel(5);
         Controller c = new Controller();
         c.model = m;
@@ -227,5 +217,80 @@ public class LobbyTest {
             Logger.getLogger(LobbyTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         assertEquals(json,toTest);
+    }
+    
+//    /**
+//     * Test of getModel method, of class Lobby.
+//     */
+//    @Test
+//    public void testGetModel() {
+//        System.out.println("getModel");
+//        ObjectMapper mapper = new ObjectMapper();
+//        FieldModel m1 = new FieldModel(5);
+//        Controller c1 = new Controller();
+//        c1.model = m1;
+//        Lobby l1 = new Lobby();
+//        l1.setController(c1);
+//        String json ="";
+//        try {
+//            json = l1.serializeModel();
+//        } catch (JsonProcessingException ex) {
+//            Logger.getLogger(LobbyTest.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        FieldModel m2 = new FieldModel(3);
+//        Controller c2 = new Controller();
+//        c2.model = m2;
+//        Lobby instance = new Lobby();
+//        instance.setController(c2);
+//        instance.getModel(json);
+//        
+//        String toTest = "";
+//        try {
+//            toTest = instance.serializeModel();
+//        } catch (JsonProcessingException ex) {
+//            Logger.getLogger(LobbyTest.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        System.out.println("json :");
+//        System.out.println(json);
+//        System.out.println("toTest :");
+//        System.out.println(toTest);
+//        assertEquals(json,toTest);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
+
+    @Test
+    public void testSerializeModelBinary() throws IOException{
+        System.out.println("serializeModelBinary");
+        FieldModel m = new FieldModel(5);
+        Controller c = new Controller();
+        c.model = m;
+        Lobby l = new Lobby();
+        l.setController(c);
+        l.serializeModelBinary();
+        
+        fail("The test case is a prototype.");
+    }
+    
+    @Test 
+    public void testGetLobbyBinary() throws IOException{
+        System.out.println("serializeModelBinary");
+        FieldModel m = new FieldModel(5);
+        Controller c = new Controller();
+        c.model = m;
+        Lobby l = new Lobby();
+        l.setController(c);
+        byte[] b1 = l.serializeModelBinary();
+        
+        
+        FieldModel m2 = new FieldModel(6);
+        Controller c2 = new Controller();
+        c2.model=m2;
+        Lobby l2 = new Lobby();
+        l2.setController(c2);
+        l2.getModelBinary(b1);
+        System.out.println("taille d'un model en binaire : " + b1.length + " octets");
+        byte[] b2 = l2.serializeModelBinary();
+        Assert.assertArrayEquals(b2,b1);
     }
 }

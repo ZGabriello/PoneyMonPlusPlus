@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,10 +23,12 @@ class TimedUpdater implements Runnable{
     public void run() {
         while (!isClosed){
             try {
-                Thread.sleep(500);
-                this.parent.sendToAll("DATA", parent.lobby.serializeModel());
+                Thread.sleep(1000);
+                this.parent.sendToAll("DATA", new String(parent.lobby.serializeModelBinary()));
                 this.parent.sendToAll("DATA", parent.lobby.serializeLobby());
             } catch (JsonProcessingException | InterruptedException ex) {
+                Logger.getLogger(TimedUpdater.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
                 Logger.getLogger(TimedUpdater.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
