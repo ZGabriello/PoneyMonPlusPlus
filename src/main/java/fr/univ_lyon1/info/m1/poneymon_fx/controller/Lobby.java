@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,11 +20,16 @@ import java.util.logging.Logger;
 public class Lobby {
 
     List<String> ips = new ArrayList<>();
+    @JsonIgnore
     String usedIp;
     String hostIp = null;
+    @JsonIgnore
     Server server = null;
+    @JsonIgnore
     Client client = null;
+    @JsonIgnore
     Controller controller;
+    @JsonIgnore
     boolean isHost = false;
     // trouver un moyen d'avoir les ips dans le même ordre sur toutes les machines.
 
@@ -133,4 +139,47 @@ public class Lobby {
         this.ips=l.ips;
         this.hostIp = l.hostIp;        
     }
+
+    public List<String> getIps() {
+        return ips;
+    }
+
+    public void setIps(List<String> ips) {
+        this.ips = ips;
+    }
+
+    public String getHostIp() {
+        return hostIp;
+    }
+
+    public void setHostIp(String hostIp) {
+        this.hostIp = hostIp;
+    }
+
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public boolean isIsHost() {
+        return isHost;
+    }
+
+    public void setIsHost(boolean isHost) {
+        this.isHost = isHost;
+    }
+    
+    
+    
 }

@@ -154,19 +154,7 @@ public class LobbyTest {
 //     */
 //
 //
-//    /**
-//     * Test of serializeLobby method, of class Lobby.
-//     */
-//    @Test
-//    public void testSerializeLobby() throws Exception {
-//        System.out.println("serializeLobby");
-//        Lobby instance = new Lobby();
-//        String expResult = "";
-//        String result = instance.serializeLobby();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+
 //
 //    /**
 //     * Test of getModel method, of class Lobby.
@@ -206,5 +194,17 @@ public class LobbyTest {
         
         fail("The test case is a prototype.");
     }
-    
+       /**
+     * Test of serializeLobby method, of class Lobby.
+     */
+    @Test
+    public void testSerializeLobby() throws Exception {
+        System.out.println("serializeLobby");
+        Lobby instance = new Lobby();
+        instance.setSelfServer();
+        String expResult = "";
+        System.out.println(instance.serializeLobby());
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 }
