@@ -10,12 +10,14 @@ import java.util.logging.Logger;
 
 /**
  * thread du client communiquant avec le serveur.
+ *
  * @author Alex.
  */
 class ClientToServerProcessor extends Processor {
 
     Socket sock;
     Client parent;
+
     public ClientToServerProcessor(Socket isock, Client c) {
         sock = isock;
         parent = c;
@@ -32,7 +34,7 @@ class ClientToServerProcessor extends Processor {
     public void run() {
         while (!connexionFermee) {
             try {
-                
+
                 String reponse = read();
                 parseMessage(reponse);
 
@@ -70,12 +72,14 @@ class ClientToServerProcessor extends Processor {
         writer.write(toSend);
         writer.flush();
     }
-    
+
     // les messages commandes sont de la forme "TypeDeDonnes(sur 1 caractère)+Json"
     @Override
-    void parseData(String data){
-        switch (data.charAt(0)){
+    void parseData(String data) {
+        System.out.println("parsing datatatatatatata");
+        switch (data.charAt(0)) {
             case 'f': //fieldmodel
+                System.out.println("tis a field");
                 parent.lobby.getModelBinary(data.substring(1).getBytes());
                 break;
             case 'p': // poneyModel
@@ -84,6 +88,7 @@ class ClientToServerProcessor extends Processor {
                 parent.lobby.getLobby(data.substring(1));
                 break;
             default:
+                System.out.print("i dunno");
                 break;
         }
     }

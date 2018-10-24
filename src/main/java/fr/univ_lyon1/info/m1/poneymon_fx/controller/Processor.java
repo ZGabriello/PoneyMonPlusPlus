@@ -56,15 +56,19 @@ public abstract class Processor implements Runnable {
     }
     
     void parseMessage(String message){
+        System.out.println("parsing message");
         switch (message.charAt(0)){
             case H_COMMAND :
+                System.out.println("tis a command");
                 parseCommand(message.substring(1));
                 break;
             case H_INPUT :
                 parseInput(message.substring(1));
+                System.out.println("tis a input");
                 break;
             case H_DATA :
                 parseData(message.substring(1));
+                System.out.println("tis a data");
                 break;
                 
             

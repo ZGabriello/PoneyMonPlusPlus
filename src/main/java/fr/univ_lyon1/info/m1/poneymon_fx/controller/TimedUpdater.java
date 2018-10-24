@@ -9,23 +9,27 @@ import java.util.logging.Logger;
  *
  * @author Alex
  */
-class TimedUpdater implements Runnable{
-    boolean isClosed =false;
+class TimedUpdater implements Runnable {
+
+    boolean isClosed = false;
     Server parent;
-    TimedUpdater(Server s){
+
+    TimedUpdater(Server s) {
         parent = s;
     }
+
     void close() {
-        this.isClosed=true;
+        this.isClosed = true;
     }
 
     @Override
     public void run() {
-        while (!isClosed){
+        while (!isClosed) {
             try {
-                Thread.sleep(1000);
-                this.parent.sendToAll("DATA", new String(parent.lobby.serializeModelBinary()));
-                this.parent.sendToAll("DATA", parent.lobby.serializeLobby());
+                Thread.sleep(100);
+                System.out.println("TimedUpdaterEnvoie");
+                this.parent.sendToAll("DATA", 'f' + new String(parent.lobby.serializeModelBinary()));
+                this.parent.sendToAll("DATA",'l' + parent.lobby.serializeLobby());
             } catch (JsonProcessingException | InterruptedException ex) {
                 Logger.getLogger(TimedUpdater.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -33,5 +37,5 @@ class TimedUpdater implements Runnable{
             }
         }
     }
-    
+
 }

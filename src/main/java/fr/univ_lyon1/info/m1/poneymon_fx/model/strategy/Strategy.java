@@ -8,13 +8,15 @@ import java.io.Serializable;
  * Classe représentant une stratégie d'IA.
  *
  */
-public abstract class Strategy implements Serializable{
+public abstract class Strategy implements Serializable {
+
     @JsonIgnore
     FieldModel field;
     int position;
 
     /**
      * Constructeur de stratégie.
+     *
      * @param f terrain de jeu
      * @param p position du poney correspondant a la strategie
      */
@@ -23,7 +25,8 @@ public abstract class Strategy implements Serializable{
         position = p;
     }
 
-    public void checkPower() {}
+    public void checkPower() {
+    }
 
     public FieldModel getField() {
         return field;
@@ -40,5 +43,5 @@ public abstract class Strategy implements Serializable{
     public void setPosition(int position) {
         this.position = position;
     }
-    
+
 }

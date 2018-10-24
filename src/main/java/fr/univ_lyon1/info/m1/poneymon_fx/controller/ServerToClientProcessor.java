@@ -17,11 +17,8 @@ class ServerToClientProcessor extends Processor {
 
     Socket cSocket;
     Server parent;
-    
-    
 
-
-    public ServerToClientProcessor(Server serveur, Socket client){
+    public ServerToClientProcessor(Server serveur, Socket client) {
         try {
             cSocket = client;
             parent = serveur;
@@ -36,7 +33,7 @@ class ServerToClientProcessor extends Processor {
     public void run() {
 
         while (!connexionFermee) {
-            try {                
+            try {
                 String reponse = read();
                 parseMessage(reponse);
                 if (connexionFermeeDemande) {
@@ -58,7 +55,7 @@ class ServerToClientProcessor extends Processor {
     }
 
     private void handleClientCommand(String code) {
-        String toSend="";
+        String toSend = "";
 
         switch (code.toUpperCase()) {
 

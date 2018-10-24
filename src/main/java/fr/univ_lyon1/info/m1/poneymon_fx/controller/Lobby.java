@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author Alex
@@ -59,11 +60,14 @@ public class Lobby {
         this.hostIp = ip;
     }
 
-    
-    
     public void getRemoteLobby(String ip, int port) {
-        client = new Client(ip ,port );
-        client.sendCommand("GIVEHOST");
+        client = new Client(ip, port);
+        //client.sendCommand("GIVEHOST");
+    }
+
+    public void getRemoteLobby(String ip) {
+        client = new Client(ip, 9000);
+        //client.sendCommand("GIVEHOST");
     }
 
     public void starMigration() {
@@ -72,12 +76,11 @@ public class Lobby {
 
     void migrate() {
         this.controller.gamePause();
-        if (this.ips.get(0).equals(this.usedIp)){
+        if (this.ips.get(0).equals(this.usedIp)) {
             setSelfServer();
             openServer();
-        }
-        else{
-            getRemoteLobby(this.ips.get(0), 9000);
+        } else {
+            getRemoteLobby(this.ips.get(0));
         }
         this.controller.gameUnpause();
     }
@@ -87,9 +90,9 @@ public class Lobby {
         isHost = true;
         server = new Server(this.usedIp, 9000);
     }
-    
-    void openServer(){
-        if ((this.hostIp.equals(this.usedIp)) && (this.server!=null)){
+
+    void openServer() {
+        if ((this.hostIp.equals(this.usedIp)) && (this.server != null)) {
             this.server.open();
         }
     }
@@ -102,12 +105,12 @@ public class Lobby {
 
     void addConnection(Socket client) {
         ips.add(client.getInetAddress().getHostAddress());
-        if (hostIp == null ? usedIp == null : hostIp.equals(usedIp)){
+        if (hostIp == null ? usedIp == null : hostIp.equals(usedIp)) {
             server.sendToAll("COMMAND", "UPDATELOBBY");
         }
     }
-    
-    String serializeModel() throws JsonProcessingException{
+
+    String serializeModel() throws JsonProcessingException {
         String toRet;
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(Include.NON_NULL);
@@ -115,23 +118,23 @@ public class Lobby {
         toRet = mapper.writeValueAsString(this.controller.model);
         return toRet;
     }
-    
-    byte[] serializeModelBinary() throws IOException{
+
+    byte[] serializeModelBinary() throws IOException {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         ObjectOutputStream stream = new ObjectOutputStream(b);
         stream.writeObject(this.controller.model);
         stream.close();
         return b.toByteArray();
     }
-    
-    String serializeLobby() throws JsonProcessingException{
+
+    String serializeLobby() throws JsonProcessingException {
         String toRet;
         ObjectMapper mapper = new ObjectMapper();
         toRet = mapper.writeValueAsString(this);
         return toRet;
     }
-    
-    void getModel(String json){
+
+    void getModel(String json) {
         ObjectMapper mapper = new ObjectMapper();
         FieldModel m = null;
         try {
@@ -140,17 +143,18 @@ public class Lobby {
             Logger.getLogger(Lobby.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.controller.model = m;
-    } 
-    
-    void getModelBinary(byte[] data){
+    }
+
+    void getModelBinary(byte[] data) {
         InputStream stream = new ByteArrayInputStream(data);
         ObjectInputStream o;
         try {
             o = new ObjectInputStream(stream);
-            this.controller.model =(FieldModel) o.readObject();
+            this.controller.model = (FieldModel) o.readObject();
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(Lobby.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("modèle mis a jour");
     }
 
     void getLobby(String json) {
@@ -161,8 +165,8 @@ public class Lobby {
         } catch (IOException ex) {
             Logger.getLogger(Lobby.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.ips=l.ips;
-        this.hostIp = l.hostIp;        
+        this.ips = l.ips;
+        this.hostIp = l.hostIp;
     }
 
     public List<String> getIps() {
@@ -204,7 +208,5 @@ public class Lobby {
     public void setIsHost(boolean isHost) {
         this.isHost = isHost;
     }
-    
-    
-    
+
 }

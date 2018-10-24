@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
  * @author Alex
  */
 public class LobbyTest {
-    
+
     public LobbyTest() {
     }
 
@@ -160,11 +160,7 @@ public class LobbyTest {
 //     */
 //
 //
-
 //
-
-
-    
     @Test
     public void testSerializeModel() throws Exception {
         System.out.println("serializeModel");
@@ -174,10 +170,11 @@ public class LobbyTest {
         Lobby l = new Lobby();
         l.setController(c);
         System.out.println(l.serializeModel());
-        
+
         fail("The test case is a prototype.");
     }
-       /**
+
+    /**
      * Test of serializeLobby method, of class Lobby.
      */
     @Test
@@ -190,7 +187,7 @@ public class LobbyTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
     /**
      * Test of getLobby method, of class Lobby.
      */
@@ -202,7 +199,7 @@ public class LobbyTest {
         c.model = m;
         Lobby l = new Lobby();
         l.setController(c);
-        String json ="";
+        String json = "";
         try {
             json = l.serializeLobby();
         } catch (JsonProcessingException ex) {
@@ -216,9 +213,9 @@ public class LobbyTest {
         } catch (JsonProcessingException ex) {
             Logger.getLogger(LobbyTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        assertEquals(json,toTest);
+        assertEquals(json, toTest);
     }
-    
+
 //    /**
 //     * Test of getModel method, of class Lobby.
 //     */
@@ -258,9 +255,8 @@ public class LobbyTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-
     @Test
-    public void testSerializeModelBinary() throws IOException{
+    public void testSerializeModelBinary() throws IOException {
         System.out.println("serializeModelBinary");
         FieldModel m = new FieldModel(5);
         Controller c = new Controller();
@@ -268,12 +264,12 @@ public class LobbyTest {
         Lobby l = new Lobby();
         l.setController(c);
         l.serializeModelBinary();
-        
+
         fail("The test case is a prototype.");
     }
-    
-    @Test 
-    public void testGetLobbyBinary() throws IOException{
+
+    @Test
+    public void testGetLobbyBinary() throws IOException {
         System.out.println("serializeModelBinary");
         FieldModel m = new FieldModel(5);
         Controller c = new Controller();
@@ -281,16 +277,15 @@ public class LobbyTest {
         Lobby l = new Lobby();
         l.setController(c);
         byte[] b1 = l.serializeModelBinary();
-        
-        
+
         FieldModel m2 = new FieldModel(6);
         Controller c2 = new Controller();
-        c2.model=m2;
+        c2.model = m2;
         Lobby l2 = new Lobby();
         l2.setController(c2);
         l2.getModelBinary(b1);
         System.out.println("taille d'un model en binaire : " + b1.length + " octets");
         byte[] b2 = l2.serializeModelBinary();
-        Assert.assertArrayEquals(b2,b1);
+        Assert.assertArrayEquals(b2, b1);
     }
 }
