@@ -5,10 +5,13 @@
  */
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -169,18 +172,7 @@ public class LobbyTest {
 //        fail("The test case is a prototype.");
 //    }
 //
-//    /**
-//     * Test of getLobby method, of class Lobby.
-//     */
-//    @Test
-//    public void testGetLobby() {
-//        System.out.println("getLobby");
-//        String json = "";
-//        Lobby instance = new Lobby();
-//        instance.getLobby(json);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+
     
     @Test
     public void testSerializeModel() throws Exception {
@@ -206,5 +198,34 @@ public class LobbyTest {
         System.out.println(instance.serializeLobby());
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+    
+    /**
+     * Test of getLobby method, of class Lobby.
+     */
+    @Test
+    public void testGetLobby() {
+        System.out.println("getLobby");
+        System.out.println("serializeModel");
+        FieldModel m = new FieldModel(5);
+        Controller c = new Controller();
+        c.model = m;
+        Lobby l = new Lobby();
+        l.setController(c);
+        String json ="";
+        try {
+            json = l.serializeLobby();
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(LobbyTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Lobby instance = new Lobby();
+        instance.getLobby(json);
+        String toTest = "";
+        try {
+            toTest = instance.serializeLobby();
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(LobbyTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        assertEquals(json,toTest);
     }
 }

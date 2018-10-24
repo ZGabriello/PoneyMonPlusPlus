@@ -130,7 +130,7 @@ public class Lobby {
 
     void getLobby(String json) {
         ObjectMapper mapper = new ObjectMapper();
-        Lobby l = null;
+        Lobby l = new Lobby();
         try {
             l = mapper.readValue(json, Lobby.class);
         } catch (IOException ex) {
