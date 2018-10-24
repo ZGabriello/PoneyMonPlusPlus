@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * Classe gérant la logique du Poney.
@@ -19,9 +18,7 @@ public abstract class PoneyModel extends Observable {
     static final int SPEED_DIVIDER = 200;
     static final double MIN_SPEED = 0.1;
     static final double MAX_SPEED = 0.9;
-
-    
-    
+        
     boolean isTouched;
     double acceleration;
 
@@ -30,7 +27,6 @@ public abstract class PoneyModel extends Observable {
     String color;
     int position;
     PowerModel power;
-
    
     boolean powerState;
     int nbPowers;
@@ -43,6 +39,7 @@ public abstract class PoneyModel extends Observable {
     Random randomGen;
 
     List<State> states;
+        
 
     /**
      * Constructeur du PoneyModel sans paramètres, pour tests.
