@@ -23,7 +23,7 @@ public class Client {
     public Client(String addresse, int port) {
         try {
             sock = new Socket(InetAddress.getByName(addresse), port);
-            processor = new ClientToServerProcessor(sock);
+            processor = new ClientToServerProcessor(sock,this);
             t = new Thread(processor);
             t.start();
         } catch (UnknownHostException e) {

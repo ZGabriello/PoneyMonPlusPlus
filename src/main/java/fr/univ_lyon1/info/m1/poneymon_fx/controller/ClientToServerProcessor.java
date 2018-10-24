@@ -15,8 +15,10 @@ import java.util.logging.Logger;
 class ClientToServerProcessor extends Processor {
 
     Socket sock;
-    public ClientToServerProcessor(Socket isock) {
+    Client parent;
+    public ClientToServerProcessor(Socket isock, Client c) {
         sock = isock;
+        parent = c;
         try {
             writer = new PrintWriter(sock.getOutputStream());
             reader = new BufferedInputStream(sock.getInputStream());
