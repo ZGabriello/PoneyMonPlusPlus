@@ -109,7 +109,7 @@ public abstract class PoneyModel extends Observable {
             strategy.checkPower();
         }
 
-        this.accelerer();
+       // this.accelerer();
         progress += (speed / SPEED_DIVIDER);
         System.out.println(this.getSpeed());
 
@@ -366,8 +366,9 @@ public abstract class PoneyModel extends Observable {
         return this.nbPowers;
     }
 
-    void divideSpeed(int SPEED_MULTIPLIER) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void divideSpeed(int speedDivider) {
+        speed /= speedDivider;
+                
     }
 }
 

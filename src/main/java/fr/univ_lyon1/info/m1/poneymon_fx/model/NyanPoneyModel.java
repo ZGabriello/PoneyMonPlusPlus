@@ -47,7 +47,7 @@ public class NyanPoneyModel extends PoneyModel {
      */
     public NyanPoneyModel(String color, int position, NyanStrategy strategy,PowerModel p) {
         super(color, position, strategy);
-        this.setPower(p);
+            this.setPower(p);
         
     }
 

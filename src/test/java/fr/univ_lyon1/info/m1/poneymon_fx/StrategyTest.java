@@ -48,7 +48,7 @@ public class StrategyTest {
         p.step();
         
         //Then
-        assertEquals(p.getSpeed(), expectedSpeed, 0.001);
+        assertEquals(expectedSpeed, p.getSpeed(), 0.001);
     }
     
     @Test
@@ -62,6 +62,7 @@ public class StrategyTest {
         
         double expectedSpeed = 0.3;
         expectedSpeed *= p.getSpeedMultiplier();
+        p.setSpeed(NyanPoneyModel.getSpeedMultiplier() * p.getSpeed());
         
         NyanPoneyModel p2=(NyanPoneyModel)f.getPoneyModel(1);
         p2.setProgress(0.5);

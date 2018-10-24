@@ -4,10 +4,6 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.DoubleSpeedState;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.EnragedPoneyModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.NyanPoneyModel;
-import java.util.HashSet;
-import java.util.Set;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -205,7 +201,7 @@ public class PoneyTest {
     }
     
     /**
-     *  On test si le poney a bien sa vitesse divisé par deux après être touché par un objet ou un pouvoir.
+     *  On teste si le poney a bien sa vitesse divisé par deux après être touché par un objet ou un pouvoir.
      */
     @Test 
     public void testIsTouched(){
@@ -224,6 +220,9 @@ public class PoneyTest {
         
     }
     
+    /**
+     * On teste si la vitesse du poney a bien doublé quand il a utilisé son pouvoir.
+     */
     @Test 
     public void testNyanPower(){
         PoneyModel p = new NyanPoneyModel();
@@ -238,6 +237,9 @@ public class PoneyTest {
         assertEquals(speedExpected, p.getSpeed(),0.001);
     }
     
+    /**
+     * On teste si le poney touché par un poney enragé voit sa vitesse divisée par 2.
+     */
     @Test
     public void testEnragedPower(){
         EnragedPoneyModel p = new EnragedPoneyModel();
@@ -253,6 +255,7 @@ public class PoneyTest {
         
     }
     
+  
     @Test 
     public void testBooleanPowerEnragedPoney(){
         EnragedPoneyModel p = new EnragedPoneyModel();
