@@ -1,6 +1,5 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.view.MenuControles;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import java.util.HashMap;
@@ -14,11 +13,14 @@ import javafx.stage.Stage;
  *
  */
 public class MainView {
+
     HashMap<String, Pane> views = new HashMap<>();
     String activeView;
 
     FieldModel model;
     Controller controller;
+    MenuControlesView menuControles;
+    MenuResolutionView menuResolution;
 
     Stage stage;
     Group root;
@@ -30,6 +32,7 @@ public class MainView {
 
     /**
      * Constructeur de la vue principale contenant toutes les vues.
+     *
      * @param s stage dans lequel afficher les vues
      * @param w largeur de la vue
      * @param h hauteur de la vue
@@ -49,7 +52,8 @@ public class MainView {
         stage.setScene(scene);
 
         // Pour empêcher de changer la taille de la fenêtre
-        stage.setResizable(false);
+        stage.setResizable(true);
+
     }
 
     /**
@@ -64,25 +68,32 @@ public class MainView {
      * Crée et ajoute au cache des vues une partie.
      */
     public void createGameView() {
-        GameView gv = new GameView(model, controller, width, height);
+        GameView gv = new GameView(model, menuControles, controller, width, height);
         views.put("GameView", gv);
     }
-
 
     /**
      * Crée et ajoute au cache des vues les paramètres.
      */
     public void createMenuParameters() {
-        MenuParameters mp = new MenuParameters(controller, width, height);
+        MenuParametersView mp = new MenuParametersView(controller, width, height);
         views.put("MenuParameters", mp);
     }
 
-     /**
+    /**
+     * Crée et ajoute au cache des vues la resolution.
+     */
+    public void createMenuResolution() {
+        MenuResolutionView mr = new MenuResolutionView(controller, width, height);
+        views.put("MenuResolution", mr);
+    }
+
+    /**
      * Crée et ajoute au cache des vues pour les touches de controles.
      */
     public void createMenuControles() {
-        MenuControles mc = new MenuControles(controller, width, height);
-        views.put("MenuControles", mc);
+        menuControles = new MenuControlesView(controller, width, height);
+        views.put("MenuControles", menuControles);
     }
 
     public void deleteView(String view) {
@@ -91,6 +102,7 @@ public class MainView {
 
     /**
      * Permet de changer la vue actuellement affichée dans le stage.
+     *
      * @param view vue à afficher
      */
     public void setActiveView(String view) {
@@ -110,12 +122,13 @@ public class MainView {
         }
     }
 
-    public String getActiveView(){
+    public String getActiveView() {
         return activeView;
     }
 
     /**
      * Mutateur du modèle associé à la vue.
+     *
      * @param m modèle
      */
     public void setModel(FieldModel m) {
@@ -132,6 +145,7 @@ public class MainView {
 
     /**
      * Mutateur du contrôleur associé à la vue.
+     *
      * @param c contrôleur
      */
     public void setController(Controller c) {
@@ -151,7 +165,7 @@ public class MainView {
      */
     public void gamePause() {
         if (views.containsKey("GameView")) {
-            GameView gv = (GameView)views.get("GameView");
+            GameView gv = (GameView) views.get("GameView");
             gv.pause();
         }
     }
@@ -161,8 +175,9 @@ public class MainView {
      */
     public void gameUnpause() {
         if (views.containsKey("GameView")) {
-            GameView gv = (GameView)views.get("GameView");
+            GameView gv = (GameView) views.get("GameView");
             gv.unpause();
         }
     }
+
 }

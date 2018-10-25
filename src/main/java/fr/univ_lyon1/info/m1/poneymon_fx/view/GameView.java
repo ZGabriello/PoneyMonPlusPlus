@@ -5,23 +5,19 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * Vue d'une partie.
  *
  */
 public class GameView extends StackPane {
+
     FieldModel model;
+    MenuControlesView menuControles;
     Controller controller;
 
     FieldView fview;
@@ -31,27 +27,25 @@ public class GameView extends StackPane {
     final int width;
     final int height;
 
-    /** Les boutons. */
+    /**
+     * Les boutons.
+     */
     HBox buttons;
     Button menuButton;
     Button pauseButton;
 
-    Map<KeyCode, Button> hm = new LinkedHashMap<>();
-
-    /** Inputs pour activer le pouvoir des poneys. */
-    KeyCode[] powerInputs =
-        new KeyCode[]{KeyCode.NUMPAD1, KeyCode.NUMPAD2, KeyCode.NUMPAD3,
-                      KeyCode.NUMPAD4, KeyCode.NUMPAD5};
-
     /**
      * Constructeur de GameView.
+     *
      * @param m Modèle de la partie
+     * @param mc Menu Controles contenant les touches de controle
      * @param c Contrôleur
      * @param w largeur de la vue
      * @param h hauteur de la vue
      */
-    public GameView(FieldModel m, Controller c, int w, int h) {
+    public GameView(FieldModel m, MenuControlesView mc, Controller c, int w, int h) {
         model = m;
+        menuControles = mc;
         controller = c;
         width = w;
         height = h;
@@ -102,8 +96,7 @@ public class GameView extends StackPane {
     }
 
     /**
-     * Event Listener du clavier.
-     * quand une touche est pressee
+     * Event Listener du clavier. quand une touche est pressee
      *
      */
     public void setOnKeyPressedEvent() {
@@ -116,25 +109,26 @@ public class GameView extends StackPane {
     }
 
     /**
-     * Event Listener du clavier.
-     * quand une touche est relachee
+     * Event Listener du clavier. quand une touche est relachee
      *
      */
     public void setOnKeyReleasedEvent() {
         this.setOnKeyReleased(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent e) {
+
+                /* affichage de la touche appuyé par l'utilisateur */
                 System.out.println(e.getCode());
-                for (int i = 0; i < powerInputs.length; i++) {
-                    hm.put(powerInputs[i], new Button("e.getCode()"));
-                    System.out.println(hm.get(hm.keySet().toArray()[i]));
-                    System.out.println(hm.values().toArray()[i]);
-                    Set<Entry<KeyCode, Button>> setHm = hm.entrySet();
-                    Iterator<Entry<KeyCode, Button>> it = setHm.iterator();
-                    while (it.hasNext()) {
-                        Entry<KeyCode, Button> entry = it.next();
-                        if (entry.getKey().equals(e.getCode())) {
-                            controller.usePower(i);
-                        }
+
+                /* affichage des touches qu'on a assigné */
+                System.out.println(menuControles.hmControles.values().toArray()[0]);
+                System.out.println(menuControles.hmControles.values().toArray()[1]);
+                System.out.println(menuControles.hmControles.values().toArray()[2]);
+                System.out.println(menuControles.hmControles.values().toArray()[3]);
+                System.out.println(menuControles.hmControles.values().toArray()[4]);
+
+                for (int i = 0; i < menuControles.hmControles.size(); i++) {
+                    if (menuControles.hmControles.values().toArray()[i].equals(e.getCode())) {
+                        controller.usePower(i);
                     }
                 }
             }

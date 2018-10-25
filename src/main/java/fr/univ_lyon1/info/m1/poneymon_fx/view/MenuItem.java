@@ -76,7 +76,7 @@ public class MenuItem extends HBox {
     }
 
     /**
-     * retourne le texte qui a dans l'item du menu.
+     * retourne le texte qu'il y a dans l'item du menu.
      * @return
      */
     public String getText(){

@@ -1,8 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.GameView;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.MenuItem;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,12 +25,12 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-
 /**
  * Vue du menu.
  *
  */
-public class MenuControles extends StackPane {
+public class MenuControlesView extends StackPane {
+
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
 
     /**
@@ -49,8 +47,8 @@ public class MenuControles extends StackPane {
     static final Color YELLOW = Color.web("#E47702");
     static final Color LIGHTYELLOW = Color.web("#FCB31F");
 
-    Color[] titleColors =
-    new Color[] { LIGHTBLUE, LIGHTGREEN, LIGHTORANGE, LIGHTPURPLE, LIGHTYELLOW };
+    Color[] titleColors
+            = new Color[]{LIGHTBLUE, LIGHTGREEN, LIGHTORANGE, LIGHTPURPLE, LIGHTYELLOW};
 
     Controller controller;
     GameView gv;
@@ -59,15 +57,16 @@ public class MenuControles extends StackPane {
 
     private List<MenuItem> menuItems = new ArrayList<MenuItem>();
     int currentItem = 0;
-
+    boolean waitingForKey = false;
 
     /**
      * Constructeur du Menu de controles.
+     *
      * @param c Contrôleur
      * @param w largeur de la vue
      * @param h hauteur de la vue
      */
-    public MenuControles(Controller c, int w, int h) {
+    public MenuControlesView(Controller c, int w, int h) {
         setPrefSize(w, h);
 
         controller = c;
@@ -76,34 +75,38 @@ public class MenuControles extends StackPane {
         setOnKeyPressedEvent();
     }
 
-    public Map<String, KeyCode> getControles(){
-        return hmControles;
+    /**
+     * Récupère le Menu de controles.
+     *
+     * @return this le menu controles
+     */
+    public MenuControlesView getMenuControles() {
+        return this;
     }
 
     private void createContent() {
 
         String defaultControlName[] = {"pouvoirNian1",
-                                       "pouvoirNian2",
-                                       "pouvoirNian3",
-                                       "pouvoirNian4",
-                                       "pouvoirNian5"};
+            "pouvoirNian2",
+            "pouvoirNian3",
+            "pouvoirNian4",
+            "pouvoirNian5"};
 
         KeyCode defaultKeyCode[] = {KeyCode.NUMPAD1,
-                                    KeyCode.NUMPAD2,
-                                    KeyCode.NUMPAD3,
-                                    KeyCode.NUMPAD4,
-                                    KeyCode.NUMPAD5};
+            KeyCode.NUMPAD2,
+            KeyCode.NUMPAD3,
+            KeyCode.NUMPAD4,
+            KeyCode.NUMPAD5};
 
         //liste des controles
         for (int i = 0; i < defaultControlName.length; i++) {
             hmControles.put(defaultControlName[i], defaultKeyCode[i]);
-            MenuItem temp = new MenuItem(hmControles.keySet().toArray()[i].toString() +
-                                         " : " +
-                                         hmControles.values().toArray()[i]);
-            temp.setOnActivate(()->waitKeyCode(temp));
+            MenuItem temp = new MenuItem(hmControles.keySet().toArray()[i].toString()
+                    + " : "
+                    + hmControles.values().toArray()[i]);
+            temp.setOnActivate(() -> waitKeyCode(temp));
             menuItems.add(temp);
         }
-
 
         MenuItem retourItem = new MenuItem("Retour");
         retourItem.setOnActivate(() -> controller.menuParameters());
@@ -116,8 +119,10 @@ public class MenuControles extends StackPane {
 
         VBox.setMargin(title, new Insets(0, 0, 110, 0));
 
+        getMenuItem(0).setActive(true);
+
         setBackground(new Background(
-                      new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+                new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
         container.getChildren().addAll(menuItems);
         container.setAlignment(Pos.CENTER);
@@ -154,22 +159,24 @@ public class MenuControles extends StackPane {
     private void setOnKeyPressedEvent() {
         this.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent e) {
-                if (e.getCode() == KeyCode.UP) {
-                    if (currentItem > 0) {
-                        getMenuItem(currentItem).setActive(false);
-                        getMenuItem(--currentItem).setActive(true);
+                if (!waitingForKey) {
+                    if (e.getCode() == KeyCode.UP) {
+                        if (currentItem > 0) {
+                            getMenuItem(currentItem).setActive(false);
+                            getMenuItem(--currentItem).setActive(true);
+                        }
                     }
-                }
 
-                if (e.getCode() == KeyCode.DOWN) {
-                    if (currentItem < menuItems.size() - 1) {
-                        getMenuItem(currentItem).setActive(false);
-                        getMenuItem(++currentItem).setActive(true);
+                    if (e.getCode() == KeyCode.DOWN) {
+                        if (currentItem < menuItems.size() - 1) {
+                            getMenuItem(currentItem).setActive(false);
+                            getMenuItem(++currentItem).setActive(true);
+                        }
                     }
-                }
 
-                if (e.getCode() == KeyCode.ENTER) {
-                    getMenuItem(currentItem).activate();
+                    if (e.getCode() == KeyCode.ENTER) {
+                        getMenuItem(currentItem).activate();
+                    }
                 }
             }
         });
@@ -177,31 +184,43 @@ public class MenuControles extends StackPane {
 
     /**
      * Attend une nouvelle touche et met à jour le texte de l'item.
+     *
      * @param m
      */
-    public void waitKeyCode(MenuItem m){
-       System.out.println("je suis dans wait keycode");
-       final String controlName = m.getText().substring(0,12);
-       m.setText(controlName + " : " + "Appuyer sur une touche");
-       this.addEventHandler(KeyEvent.KEY_PRESSED,
-               (e)-> { changeKeyCode(m, e.getCode());});
-       this.removeEventHandler(KeyEvent.KEY_PRESSED,
-               (e)->controller.menuControles());
+    public void waitKeyCode(MenuItem m) {
+        waitingForKey = true;
+        final String controlName = m.getText().substring(0, 12);
+        m.setText(controlName + " : " + "Appuyer sur une touche");
+        MenuControlesView parent = this;
+        this.addEventHandler(KeyEvent.KEY_PRESSED,
+                new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent e) {
+                changeKeyCode(m, e.getCode());
+                parent.removeEventHandler(KeyEvent.KEY_PRESSED, this);
+                waitingForKey = false;
+            }
+        });
+
     }
 
     /**
      * remplace la touche par default par une autre.
+     *
      * @param mi
      * @param newKeyCode
      */
-
-    public final void changeKeyCode(final MenuItem mi, KeyCode newKeyCode){
-        System.out.println("je suis dans change key code");
+    public final void changeKeyCode(final MenuItem mi, KeyCode newKeyCode) {
         final String controlName = mi.getText().substring(0, 12);
         hmControles.put(controlName, newKeyCode);
-        System.out.println(hmControles.keySet().toArray()[0].toString());
+
+        /* affichage des keyCode contenu dans le hashmap */
         System.out.println(hmControles.values().toArray()[0]);
-        mi.setText(controlName + " : "+ newKeyCode.toString());
+        System.out.println(hmControles.values().toArray()[1]);
+        System.out.println(hmControles.values().toArray()[2]);
+        System.out.println(hmControles.values().toArray()[3]);
+        System.out.println(hmControles.values().toArray()[4]);
+
+        mi.setText(controlName + " : " + newKeyCode.toString());
     }
 
 }

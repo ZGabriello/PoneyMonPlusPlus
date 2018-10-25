@@ -12,6 +12,7 @@ import javafx.animation.AnimationTimer;
  *
  */
 public class Controller {
+
     FieldModel model;
     List<MainView> views = new ArrayList<>();
 
@@ -23,11 +24,11 @@ public class Controller {
     public Controller() {
         timer = new AnimationTimer() {
             /**
-            * Boucle principale du jeu.
-            *
-            * handle() est appelee a chaque rafraichissement de frame
-            * soit environ 60 fois par seconde.
-            */
+             * Boucle principale du jeu.
+             *
+             * handle() est appelee a chaque rafraichissement de frame soit
+             * environ 60 fois par seconde.
+             */
             public void handle(long currentNanoTime) {
                 model.step();
             }
@@ -36,6 +37,7 @@ public class Controller {
 
     /**
      * Ajoute une vue qui sera suivie par le contrôleur.
+     *
      * @param view vue à suivre dans le contrôleur
      */
     public void addMainView(MainView view) {
@@ -58,14 +60,17 @@ public class Controller {
         views.add(view);
     }
 
-    public void initializeMainView(MainView view){
+    public void initializeMainView(MainView view) {
         view.createMenuView();
         view.createMenuParameters();
         view.createMenuControles();
+        view.createMenuResolution();
     }
 
     /**
-     * Démarre une nouvelle partie en créant un modèle et en le fournissant aux vues suivies.
+     * Démarre une nouvelle partie en créant un modèle et en le fournissant aux
+     * vues suivies.
+     *
      * @param nbPoneys nombre de poneys
      */
     public void startGame(int nbPoneys) {
@@ -82,6 +87,7 @@ public class Controller {
 
     /**
      * Utilise le pouvoir sur le poney si ce n'est pas une IA.
+     *
      * @param i position du poney dans le modèle
      */
     public void usePower(int i) {
@@ -124,7 +130,7 @@ public class Controller {
         }
     }
 
-     /**
+    /**
      * Permet d'aller dans le menu controles.
      */
     public void menuControles() {
@@ -139,6 +145,15 @@ public class Controller {
     public void menuParameters() {
         for (MainView view : views) {
             view.setActiveView("MenuParameters");
+        }
+    }
+
+    /**
+     * Permet d'aller dans le menu paramètres.
+     */
+    public void menuResolution() {
+        for (MainView view : views) {
+            view.setActiveView("MenuResolution");
         }
     }
 }
