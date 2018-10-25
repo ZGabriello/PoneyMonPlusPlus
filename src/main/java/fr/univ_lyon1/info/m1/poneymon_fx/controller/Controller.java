@@ -95,10 +95,10 @@ public class Controller {
      * 
      * @param i position du poney dans le modèle
      */
-    public void applyState(int i) {
+    public void useItem(int i) {
         PoneyModel pm = model.getPoneyModel(i);
         if (!pm.isIa()) {
-            model.getPoneyModel(i).applyState();
+            pm.getPickableUp().applyState(pm);
         }
 
     }

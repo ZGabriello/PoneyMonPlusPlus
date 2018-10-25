@@ -30,6 +30,8 @@ public class FieldModel extends Observable {
     final int winAt = 3;
     int winner = -1;
     
+    List<PickableUp> pickablesUp = new ArrayList<>();
+    
     /**
      * Constructeur du FieldModel.
      *

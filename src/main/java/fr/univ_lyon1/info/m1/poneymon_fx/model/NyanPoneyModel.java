@@ -12,14 +12,12 @@ public class NyanPoneyModel extends PoneyModel {
 
     static final int SPEED_MULTIPLIER = 2;
     
-
     /**
      * Constructeur de NyanPoney sans modèle et autres paramètres, pour tests.
      */
     public NyanPoneyModel() {
         super();
-        power = new PowerDoubleSpeed();
-        
+        power = new PowerDoubleSpeed();        
     }
 
     /**
@@ -44,11 +42,11 @@ public class NyanPoneyModel extends PoneyModel {
      * @param color couleur du poney
      * @param position position du poney dans le modèle
      * @param strategy stratégie à utiliser pour l'ia
+     * @param p pouvoir propre au poney
      */
     public NyanPoneyModel(String color, int position, NyanStrategy strategy,PowerModel p) {
         super(color, position, strategy);
-        this.setPower(p);
-        
+        this.power = p;        
     }
 
     public void setStrategy(NyanStrategy s) {
@@ -72,25 +70,10 @@ public class NyanPoneyModel extends PoneyModel {
             power.use(this);
             setChanged();
             notifyObservers(new PowerNotification(true));
-        }        
-
+        }
     }
     
-    @Override
-    public void applyState() {
-        // TODO : si effet immédiat, appliquer l'état
-     
-        if (states != null) {
-            for (State state : states) {
-                state.applyState(this);
-            }
-        }
-        
-        setChanged();
-        notifyObservers(new PowerNotification(true));
-        
-    }
-
+    
     public static int getSpeedMultiplier() {
         return SPEED_MULTIPLIER;
     }

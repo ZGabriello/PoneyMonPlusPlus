@@ -39,6 +39,9 @@ public abstract class PoneyModel extends Observable {
     Random randomGen;
 
     List<State> states;
+    
+    PickableUp pu;
+    boolean collision;
         
 
     /**
@@ -67,7 +70,6 @@ public abstract class PoneyModel extends Observable {
 
         this.nbTurns = 0;
         this.ia = false;
-
 
        // setRandSpeed();
     }
@@ -104,11 +106,22 @@ public abstract class PoneyModel extends Observable {
     public double step() {
         if (ia) {
             strategy.checkPower();
+        }       
+
+        if (states != null) {
+            for (State state : states) {
+                state.applyState(this);
+                
+                setChanged();
+                notifyObservers(new PowerNotification(true));        
+            }
         }
-
-
+        
+        if (collision) {
+            pu.collision(this);
+        }
+        
         progress += (speed / SPEED_DIVIDER);
-
 
         if (progress > 1.0) {
             newTurn();
@@ -135,12 +148,7 @@ public abstract class PoneyModel extends Observable {
     
     public void usePower(PoneyModel p){
         
-    }
-    
-
-    public void applyState() {
-        
-    }
+    }    
     
     /**
      * Sortie de l'etat d'utilisation du pouvoir du poney.
@@ -153,6 +161,7 @@ public abstract class PoneyModel extends Observable {
 
     /**
      * Initialisation des observeurs du modèle du poney.
+     * @param obs observer
      */
     @Override
     public void addObserver(Observer obs) {
@@ -253,14 +262,14 @@ public abstract class PoneyModel extends Observable {
     public void setPower(PowerModel p) {
         this.power = p;
     }
-   
-    
+       
 
     /**
      * Calcul la distance avec le poney donné en prenant en compte les tours,
      * une distance positive veut dire qu'on est devant, et négative l'inverse.
      *
      * @param poney poney par rapport auquel on calcule la distance
+     * @return la distance entre 2 poneys.
      */
     public double distanceTo(PoneyModel poney) {
         return (progress + nbTurns) - (poney.progress + poney.nbTurns);
@@ -282,6 +291,7 @@ public abstract class PoneyModel extends Observable {
     
     /**
      * Surcharge de la fonction accelerer.
+     * @param a vitesse en plus
      */    
     public void accelerer(double a) {   
         // test si l'acceleration est possible
@@ -307,6 +317,7 @@ public abstract class PoneyModel extends Observable {
     
     /**
     * Surcharge de la fonction deccelerer.
+     * @param a vitesse en moins
     */
     public void deccelerer(double a) {
         // test si la decceleration est possible
@@ -324,8 +335,7 @@ public abstract class PoneyModel extends Observable {
         if (this.getIsTouched()) {
             this.setSpeed(this.getSpeed() / 2);    
         }
-    }
-    
+    }   
    
     public void addState(State state) {
         states.add(state);
@@ -358,8 +368,19 @@ public abstract class PoneyModel extends Observable {
     }
 
     public void divideSpeed(int speedDivider) {
-        speed /= speedDivider;
-                
+        speed /= speedDivider;                
+    }
+    
+    public boolean isThereCollision() {
+        return this.collision;
+    }
+    
+    public void setCollision(boolean collision) {
+        this.collision = collision;
+    }
+    
+    public PickableUp getPickableUp() {
+        return this.pu;
     }
 }
 

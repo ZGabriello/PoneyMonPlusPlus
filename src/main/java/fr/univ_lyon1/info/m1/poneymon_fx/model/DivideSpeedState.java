@@ -20,6 +20,7 @@ public class DivideSpeedState extends State {
      * 
      * @param pm poneyModel
      */
+    @Override
     public void applyState(PoneyModel pm) {
         this.startTime = new Timestamp(System.currentTimeMillis());
         this.endTime = new Timestamp(this.startTime.getTime() + duration);

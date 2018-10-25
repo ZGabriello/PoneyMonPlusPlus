@@ -1,14 +1,31 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
 /**
- * Interface ramassable.
+ * Classe abstraite ramassable.
  * 
  * @author Elo
  */
-public interface PickableUp {
-        
-    public void immediateEffect(PoneyModel pm);
+public abstract class PickableUp {
     
-    public void useable(PoneyModel pm);
+    public State state;
+    
+    /**
+     * Gère la collision entre un ramassable et un poney.
+     * 
+     * @param pm poneyModel
+     */
+    public void collision(PoneyModel pm) {
+        
+    }
+    
+    /**
+     * Applique l'état lié au ramassable.
+     * 
+     * @param pm poneyModel
+     */
+    public void applyState(PoneyModel pm) {
+        pm.addState(state);
+        state.applyState(pm);
+    }
     
 }

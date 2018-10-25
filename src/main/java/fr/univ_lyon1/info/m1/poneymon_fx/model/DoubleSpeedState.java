@@ -20,6 +20,7 @@ public class DoubleSpeedState extends State {
      * 
      * @param pm PoneyModel
      */
+    @Override
     public void applyState(PoneyModel pm) {
         this.startTime = new Timestamp(System.currentTimeMillis());
         this.endTime = new Timestamp(this.startTime.getTime() + duration);
