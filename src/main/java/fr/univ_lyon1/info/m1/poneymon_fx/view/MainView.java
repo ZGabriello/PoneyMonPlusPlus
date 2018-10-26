@@ -13,8 +13,9 @@ import javafx.stage.Stage;
  *
  */
 public class MainView {
+    int id;
 
-    HashMap<String, Pane> views = new HashMap<>();
+    HashMap<String, View> views = new HashMap<>();
     String activeView;
 
     FieldModel model;
@@ -26,8 +27,8 @@ public class MainView {
     Group root;
     Scene scene;
 
-    final int width;
-    final int height;
+    /*final*/ int width;
+    /*final*/ int height;
 
 
     /**
@@ -52,15 +53,29 @@ public class MainView {
         stage.setScene(scene);
 
         // Pour empêcher de changer la taille de la fenêtre
-        stage.setResizable(true);
+        stage.setResizable(false);
 
+    }
+
+    /**
+     * Resize toutes les vues.
+     */
+    public void resize(int newWidth, int newHeight) {
+        stage.setWidth(newWidth);
+        stage.setHeight(newHeight);
+        width = newWidth;
+        height = newHeight;
+
+        for (View view : views.values()) {
+            view.resize(newWidth, newHeight);
+        }
     }
 
     /**
      * Crée et ajoute au cache des vues le menu.
      */
     public void createMenuView() {
-        MenuView mv = new MenuView(controller, width, height);
+        View mv = new MenuView(controller, width, height);
         views.put("MenuView", mv);
     }
 
@@ -68,7 +83,7 @@ public class MainView {
      * Crée et ajoute au cache des vues une partie.
      */
     public void createGameView() {
-        GameView gv = new GameView(model, menuControles, controller, width, height);
+        View gv = new GameView(model, menuControles, controller, width, height);
         views.put("GameView", gv);
     }
 
@@ -76,16 +91,16 @@ public class MainView {
      * Crée et ajoute au cache des vues les paramètres.
      */
     public void createMenuParameters() {
-        MenuParametersView mp = new MenuParametersView(controller, width, height);
-        views.put("MenuParameters", mp);
+        View mp = new MenuParametersView(controller, width, height);
+        views.put("MenuParametersView", mp);
     }
 
     /**
      * Crée et ajoute au cache des vues la resolution.
      */
     public void createMenuResolution() {
-        MenuResolutionView mr = new MenuResolutionView(controller, width, height);
-        views.put("MenuResolution", mr);
+        View mr = new MenuResolutionView(id, controller, width, height);
+        views.put("MenuResolutionView", mr);
     }
 
     /**
@@ -93,7 +108,7 @@ public class MainView {
      */
     public void createMenuControles() {
         menuControles = new MenuControlesView(controller, width, height);
-        views.put("MenuControles", menuControles);
+        views.put("MenuControlesView", menuControles);
     }
 
     public void deleteView(String view) {
@@ -124,6 +139,10 @@ public class MainView {
 
     public String getActiveView() {
         return activeView;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
@@ -178,6 +197,15 @@ public class MainView {
             GameView gv = (GameView) views.get("GameView");
             gv.unpause();
         }
+    }
+
+
+    public void setWidth(int newWidth) {
+        width = newWidth;
+    }
+
+    public void setHeight(int newHeight) {
+        width = newHeight;
     }
 
 }

@@ -15,7 +15,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -27,7 +26,7 @@ import javafx.util.Duration;
  * Vue du menu paramètre.
  *
  */
-public class MenuParametersView extends StackPane {
+public class MenuParametersView extends View {
 
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
 

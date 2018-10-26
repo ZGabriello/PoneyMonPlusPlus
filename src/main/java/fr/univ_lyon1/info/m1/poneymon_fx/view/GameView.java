@@ -8,13 +8,12 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 
 /**
  * Vue d'une partie.
  *
  */
-public class GameView extends StackPane {
+public class GameView extends View {
 
     FieldModel model;
     MenuControlesView menuControles;

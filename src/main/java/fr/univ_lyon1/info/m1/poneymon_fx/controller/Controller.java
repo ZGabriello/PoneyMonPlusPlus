@@ -42,6 +42,8 @@ public class Controller {
      */
     public void addMainView(MainView view) {
         view.setController(this);
+        view.setId(views.size());
+
         initializeMainView(view);
 
         // Si il y a déjà des vues, la nouvelle doit afficher la même chose que les autres
@@ -152,7 +154,7 @@ public class Controller {
      */
     public void menuControles() {
         for (MainView view : views) {
-            view.setActiveView("MenuControles");
+            view.setActiveView("MenuControlesView");
         }
     }
 
@@ -161,7 +163,7 @@ public class Controller {
      */
     public void menuParameters() {
         for (MainView view : views) {
-            view.setActiveView("MenuParameters");
+            view.setActiveView("MenuParametersView");
         }
     }
 
@@ -170,7 +172,11 @@ public class Controller {
      */
     public void menuResolution() {
         for (MainView view : views) {
-            view.setActiveView("MenuResolution");
+            view.setActiveView("MenuResolutionView");
         }
+    }
+
+    public void changeResolution(int idMainView, int newWidth, int newHeight) {
+        views.get(idMainView).resize(newWidth, newHeight);
     }
 }
