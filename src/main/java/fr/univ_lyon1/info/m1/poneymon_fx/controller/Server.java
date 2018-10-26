@@ -16,17 +16,17 @@ import java.util.logging.Logger;
  * @author Alex.
  */
 public class Server {
-
+    Thread mainThread;
     Lobby lobby;
     int nbConnections = 0;
     ServerSocket sSocket;
     String ip = "127.0.0.1";
     int port = 9000;
     boolean isRunning = false;
-    List<ServerToClientProcessor> processors = new ArrayList<ServerToClientProcessor>();
+    List<ServerToClientProcessor> processors = new ArrayList<>();
     Thread t;
     TimedUpdater updater;
-    List<Socket> clients = new ArrayList<Socket>();
+    List<Socket> clients = new ArrayList<>();
 
     /**
      * contructeur par défaut, se connecte sur localHost sur le port 9000 par
@@ -71,7 +71,7 @@ public class Server {
         isRunning = true;
         
         updater = new TimedUpdater(this);
-        Thread mainThread = new Thread(new Runnable() {
+        mainThread = new Thread(new Runnable() {
             @Override
             public void run() {
 
@@ -91,7 +91,6 @@ public class Server {
                         clients.add(client);
                         t.start();
                     } catch (IOException e) {
-                        e.printStackTrace();
                     }
                 }
 
@@ -110,6 +109,7 @@ public class Server {
      */
     public void close() {
         isRunning = false;
+        mainThread.interrupt();
         try {
             sSocket.close();
             updater.close();
@@ -117,6 +117,7 @@ public class Server {
             System.out.println("suppression du socket");
             e.printStackTrace();
             sSocket = null;
+            updater = null;
         }
     }
 
@@ -142,7 +143,7 @@ public class Server {
                 break;
             case "DATA":
                 for (ServerToClientProcessor client : processors) {
-                    System.out.println("sending data");
+                    //System.out.println("sending data : ");
                     client.sendData(message);
                 }
                 break;

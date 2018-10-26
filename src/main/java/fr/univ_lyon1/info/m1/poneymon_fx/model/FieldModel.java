@@ -17,7 +17,7 @@ import java.util.Observer;
  *
  */
 public class FieldModel extends Observable implements Serializable {
-
+    
     /**
      * Tableau des joueurs réels.
      */

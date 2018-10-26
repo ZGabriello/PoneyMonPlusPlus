@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.logging.Level;
@@ -76,11 +77,17 @@ class ClientToServerProcessor extends Processor {
     // les messages commandes sont de la forme "TypeDeDonnes(sur 1 caractère)+Json"
     @Override
     void parseData(String data) {
-        System.out.println("parsing datatatatatatata");
+        //System.out.println("parsing datatatatatatata");
         switch (data.charAt(0)) {
             case 'f': //fieldmodel
-                System.out.println("tis a field");
-                parent.lobby.getModelBinary(data.substring(1).getBytes());
+                //System.out.println("tis a field");
+        
+                try {
+                    parent.lobby.getModelBinary(data.substring(1).getBytes("ISO-8859-1"));
+                } catch (UnsupportedEncodingException ex) {
+                    Logger.getLogger(ClientToServerProcessor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        
                 break;
             case 'p': // poneyModel
                 break;

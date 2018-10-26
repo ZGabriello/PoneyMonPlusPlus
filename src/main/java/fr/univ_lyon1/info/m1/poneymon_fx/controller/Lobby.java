@@ -15,6 +15,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -116,15 +117,18 @@ public class Lobby {
         mapper.setSerializationInclusion(Include.NON_NULL);
         mapper.enableDefaultTyping();
         toRet = mapper.writeValueAsString(this.controller.model);
+        
         return toRet;
     }
 
     byte[] serializeModelBinary() throws IOException {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
-        ObjectOutputStream stream = new ObjectOutputStream(b);
-        stream.writeObject(this.controller.model);
-        stream.close();
-        return b.toByteArray();
+        try (ObjectOutputStream stream = new ObjectOutputStream(b)) {
+            stream.writeObject(this.controller.model);
+        }
+        byte[] toReturn = b.toByteArray();
+        System.out.println("SMB : " + Arrays.toString(toReturn));
+        return toReturn;
     }
 
     String serializeLobby() throws JsonProcessingException {
@@ -146,15 +150,21 @@ public class Lobby {
     }
 
     void getModelBinary(byte[] data) {
-        InputStream stream = new ByteArrayInputStream(data);
+        
+        ByteArrayInputStream stream = new ByteArrayInputStream(data);
+        
         ObjectInputStream o;
         try {
             o = new ObjectInputStream(stream);
+            System.out.println("end : " + Arrays.toString(data));
             this.controller.model = (FieldModel) o.readObject();
+            
+            o.close();
+            System.out.println("modèle mis a jour");
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(Lobby.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("modèle mis a jour");
+        
     }
 
     void getLobby(String json) {

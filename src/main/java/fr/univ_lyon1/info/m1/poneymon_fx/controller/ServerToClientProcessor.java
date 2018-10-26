@@ -3,8 +3,10 @@ package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 import java.net.Socket;
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,7 +24,7 @@ class ServerToClientProcessor extends Processor {
         try {
             cSocket = client;
             parent = serveur;
-            writer = new PrintWriter(cSocket.getOutputStream());
+            writer = new PrintWriter(new OutputStreamWriter(cSocket.getOutputStream(), StandardCharsets.ISO_8859_1));
             reader = new BufferedInputStream(cSocket.getInputStream());
         } catch (IOException ex) {
             Logger.getLogger(ServerToClientProcessor.class.getName()).log(Level.SEVERE, null, ex);
@@ -35,7 +37,9 @@ class ServerToClientProcessor extends Processor {
         while (!connexionFermee) {
             try {
                 String reponse = read();
-                parseMessage(reponse);
+                if (!"".equals(reponse)){
+                    parseMessage(reponse);
+                }
                 if (connexionFermeeDemande) {
                     System.out.println("connexion fermée");
                     writer = null;

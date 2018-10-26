@@ -24,6 +24,7 @@ public class OnlineController extends Controller {
         lobby = new Lobby();
         lobby.getRemoteLobby(ip, port);
         lobby.client.lobby = lobby;
+        lobby.setController(this);
     }
 
 }
