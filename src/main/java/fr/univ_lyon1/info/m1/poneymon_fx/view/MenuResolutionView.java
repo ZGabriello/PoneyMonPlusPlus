@@ -98,7 +98,7 @@ public class MenuResolutionView extends StackPane {
             900,
             1000};
 
-        for (int i = 0; i < width.length; i++){
+        for (int i = 0; i < width.length; i++) {
             hmResolution.put(width[i], height[i]);
         }
 
@@ -221,6 +221,9 @@ public class MenuResolutionView extends StackPane {
         });
     }
 
+    /**
+     * Change la resolution par une nouvelle.
+     */
     public final void newResolution(final int widthNew, final int heightNew) {
         setPrefSize(widthNew, heightNew);
         System.out.println(getWidthNew());

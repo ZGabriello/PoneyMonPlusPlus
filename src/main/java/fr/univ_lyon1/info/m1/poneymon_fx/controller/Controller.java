@@ -60,6 +60,9 @@ public class Controller {
         views.add(view);
     }
 
+    /**
+     * Initialisation des vues.
+     */
     public void initializeMainView(MainView view) {
         view.createMenuView();
         view.createMenuParameters();

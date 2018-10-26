@@ -70,8 +70,6 @@ public class MenuParametersView extends StackPane {
     }
 
     private void createContent() {
-        MenuItem sonItem = new MenuItem("Son");
-
         MenuItem controlesItem = new MenuItem("Contrôles");
         controlesItem.setOnActivate(() -> controller.menuControles());
 
@@ -80,6 +78,8 @@ public class MenuParametersView extends StackPane {
 
         MenuItem resolutionItem = new MenuItem("Resolution");
         resolutionItem.setOnActivate(() -> controller.menuResolution());
+
+        MenuItem sonItem = new MenuItem("Son");
 
         menuItems = Arrays.asList(
                 sonItem,

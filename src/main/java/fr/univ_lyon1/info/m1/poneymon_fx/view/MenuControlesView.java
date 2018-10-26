@@ -201,6 +201,9 @@ public class MenuControlesView extends StackPane {
                 });
     }
 
+    /**
+     * Chenge la touche par une nouvelle touche.
+     */
     public final void changeKeyCode(final MenuItem mi, KeyCode newKeyCode) {
         final String controlName = mi.getText().substring(0, 12);
         hmControles.put(controlName, newKeyCode);
