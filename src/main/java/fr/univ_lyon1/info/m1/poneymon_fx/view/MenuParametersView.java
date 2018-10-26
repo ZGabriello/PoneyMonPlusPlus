@@ -92,14 +92,14 @@ public class MenuParametersView extends StackPane {
 
         VBox.setMargin(title, new Insets(0, 0, 110, 0));
 
+        container.getChildren().addAll(menuItems);
+        container.setAlignment(Pos.CENTER);
+        getChildren().add(container);
+
         getMenuItem(0).setActive(true);
 
         setBackground(new Background(
                 new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-
-        container.getChildren().addAll(menuItems);
-        container.setAlignment(Pos.CENTER);
-        getChildren().add(container);
     }
 
     private Node createTitle(String title) {

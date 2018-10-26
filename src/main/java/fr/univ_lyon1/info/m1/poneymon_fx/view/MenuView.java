@@ -48,7 +48,11 @@ public class MenuView extends StackPane {
     static final Color LIGHTYELLOW = Color.web("#FCB31F");
 
     Color[] titleColors =
-    new Color[] { LIGHTBLUE, LIGHTGREEN, LIGHTORANGE, LIGHTPURPLE, LIGHTYELLOW };
+    new Color[] { LIGHTBLUE,
+        LIGHTGREEN,
+        LIGHTORANGE,
+        LIGHTPURPLE,
+        LIGHTYELLOW };
 
     Controller controller;
 
@@ -79,7 +83,8 @@ public class MenuView extends StackPane {
         exitItem.setOnActivate(() -> Platform.exit());
 
         MenuItem parameters = new MenuItem("Parameters");
-        parameters.setOnActivate(()-> controller.menuParameters()); //on se dirige vers la vue qu'il faut afficher
+        parameters.setOnActivate(() ->
+                controller.menuParameters());
 
         menuItems = Arrays.asList(
                 startGameItem,
@@ -112,7 +117,8 @@ public class MenuView extends StackPane {
             letter.setFill(titleColors[i % titleColors.length]);
             letters.getChildren().add(letter);
 
-            TranslateTransition tt = new TranslateTransition(Duration.seconds(2), letter);
+            TranslateTransition tt =
+                    new TranslateTransition(Duration.seconds(2), letter);
             tt.setDelay(Duration.millis(i * 50));
             tt.setToY(-25);
             tt.setAutoReverse(true);

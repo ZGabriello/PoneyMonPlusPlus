@@ -86,13 +86,13 @@ public class MenuControlesView extends StackPane {
 
     private void createContent() {
 
-        String defaultControlName[] = {"pouvoirNian1",
+        String[] defaultControlName = {"pouvoirNian1",
             "pouvoirNian2",
             "pouvoirNian3",
             "pouvoirNian4",
             "pouvoirNian5"};
 
-        KeyCode defaultKeyCode[] = {KeyCode.NUMPAD1,
+        KeyCode[] defaultKeyCode = {KeyCode.NUMPAD1,
             KeyCode.NUMPAD2,
             KeyCode.NUMPAD3,
             KeyCode.NUMPAD4,
@@ -119,14 +119,14 @@ public class MenuControlesView extends StackPane {
 
         VBox.setMargin(title, new Insets(0, 0, 110, 0));
 
+        container.getChildren().addAll(menuItems);
+        container.setAlignment(Pos.CENTER);
+        getChildren().add(container);
+
         getMenuItem(0).setActive(true);
 
         setBackground(new Background(
                 new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-
-        container.getChildren().addAll(menuItems);
-        container.setAlignment(Pos.CENTER);
-        getChildren().add(container);
     }
 
     private Node createTitle(String title) {
@@ -185,7 +185,6 @@ public class MenuControlesView extends StackPane {
     /**
      * Attend une nouvelle touche et met à jour le texte de l'item.
      *
-     * @param m
      */
     public void waitKeyCode(MenuItem m) {
         waitingForKey = true;
@@ -194,21 +193,14 @@ public class MenuControlesView extends StackPane {
         MenuControlesView parent = this;
         this.addEventHandler(KeyEvent.KEY_PRESSED,
                 new EventHandler<KeyEvent>() {
-            public void handle(KeyEvent e) {
-                changeKeyCode(m, e.getCode());
-                parent.removeEventHandler(KeyEvent.KEY_PRESSED, this);
-                waitingForKey = false;
-            }
-        });
-
+                    public void handle(KeyEvent e) {
+                        changeKeyCode(m, e.getCode());
+                        parent.removeEventHandler(KeyEvent.KEY_PRESSED, this);
+                        waitingForKey = false;
+                    }
+                });
     }
 
-    /**
-     * remplace la touche par default par une autre.
-     *
-     * @param mi
-     * @param newKeyCode
-     */
     public final void changeKeyCode(final MenuItem mi, KeyCode newKeyCode) {
         final String controlName = mi.getText().substring(0, 12);
         hmControles.put(controlName, newKeyCode);

@@ -67,19 +67,11 @@ public class MenuItem extends HBox {
         }
     }
 
-    /**
-     * change le texte de l'item du menu.
-     * @param insideText
-     */
-    public void setText(String insideText){
+    public void setText(String insideText) {
         text.setText(insideText);
     }
 
-    /**
-     * retourne le texte qu'il y a dans l'item du menu.
-     * @return
-     */
-    public String getText(){
+    public String getText() {
         return text.getText();
     }
 }

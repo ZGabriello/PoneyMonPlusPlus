@@ -79,50 +79,68 @@ public class MenuResolutionView extends StackPane {
     }
 
     private void createContent() {
-        MenuItem resolutionItem = new MenuItem("Resolution par default : " + widthSize + "x" + heightSize);
-        resolutionItem.setOnActivate(()-> newResolution(widthSize,heightSize
+        MenuItem resolutionItem = new MenuItem("Resolution par default : "
+                + widthSize
+                + "x"
+                + heightSize);
+        resolutionItem.setOnActivate(() -> newResolution(widthSize,heightSize
         ));
 
-        int width[] = {600,
-                       700,
-                       800,
-                       900,
-                      1000};
+        int[] width = {600,
+            700,
+            800,
+            900,
+            1000};
 
-        int height[] = {600,
-                       700,
-                       800,
-                       900,
-                      1000};
+        int[] height = {600,
+            700,
+            800,
+            900,
+            1000};
 
         for (int i = 0; i < width.length; i++){
             hmResolution.put(width[i], height[i]);
         }
 
-        MenuItem resolution1 = new MenuItem("Resolution : " + hmResolution.keySet().toArray()[0].toString()
-                    + " x "
-                    + hmResolution.values().toArray()[0]);
-        resolution1.setOnActivate(() -> newResolution((int) hmResolution.keySet().toArray()[0], (int) hmResolution.values().toArray()[0]));
+        MenuItem resolution1 = new MenuItem("Resolution : "
+                + hmResolution.keySet().toArray()[0].toString()
+                + " x "
+                + hmResolution.values().toArray()[0]);
+        resolution1.setOnActivate(() -> newResolution(
+                (int) hmResolution.keySet().toArray()[0],
+                (int) hmResolution.values().toArray()[0]));
 
-        MenuItem resolution2 = new MenuItem("Resolution : " + hmResolution.keySet().toArray()[1].toString()
+        MenuItem resolution2 = new MenuItem("Resolution : "
+                    + hmResolution.keySet().toArray()[1].toString()
                     + " x "
                     + hmResolution.values().toArray()[1]);
-        resolution2.setOnActivate(() -> newResolution((int) hmResolution.keySet().toArray()[1], (int) hmResolution.values().toArray()[1]));
+        resolution2.setOnActivate(() -> newResolution(
+                (int) hmResolution.keySet().toArray()[1],
+                (int) hmResolution.values().toArray()[1]));
 
-        MenuItem resolution3 = new MenuItem("Resolution : " + hmResolution.keySet().toArray()[2].toString()
-                    + " x "
-                    + hmResolution.values().toArray()[2]);
-        resolution3.setOnActivate(() -> newResolution((int) hmResolution.keySet().toArray()[2], (int) hmResolution.values().toArray()[2]));
+        MenuItem resolution3 = new MenuItem("Resolution : "
+                + hmResolution.keySet().toArray()[2].toString()
+                + " x "
+                + hmResolution.values().toArray()[2]);
+        resolution3.setOnActivate(() -> newResolution(
+                (int) hmResolution.keySet().toArray()[2],
+                (int) hmResolution.values().toArray()[2]));
 
-        MenuItem resolution4 = new MenuItem("Resolution : " + hmResolution.keySet().toArray()[3].toString()
-                    + " x "
-                    + hmResolution.values().toArray()[3]);
-        resolution4.setOnActivate(() -> newResolution((int) hmResolution.keySet().toArray()[3], (int) hmResolution.values().toArray()[3]));
+        MenuItem resolution4 = new MenuItem("Resolution : "
+                + hmResolution.keySet().toArray()[3].toString()
+                + " x "
+                + hmResolution.values().toArray()[3]);
+        resolution4.setOnActivate(() -> newResolution(
+                (int) hmResolution.keySet().toArray()[3],
+                (int) hmResolution.values().toArray()[3]));
 
-        MenuItem resolution5 = new MenuItem("Resolution : " + hmResolution.keySet().toArray()[4].toString()
-                    + " x "
-                    + hmResolution.values().toArray()[4]);
-        resolution5.setOnActivate(() -> newResolution((int) hmResolution.keySet().toArray()[4], (int) hmResolution.values().toArray()[4]));
+        MenuItem resolution5 = new MenuItem("Resolution : "
+                + hmResolution.keySet().toArray()[4].toString()
+                + " x "
+                + hmResolution.values().toArray()[4]);
+        resolution5.setOnActivate(() -> newResolution(
+                (int) hmResolution.keySet().toArray()[4],
+                (int) hmResolution.values().toArray()[4]));
 
 
         MenuItem retourItem = new MenuItem("Retour");
@@ -142,14 +160,14 @@ public class MenuResolutionView extends StackPane {
 
         VBox.setMargin(title, new Insets(0, 0, 110, 0));
 
+        container.getChildren().addAll(menuItems);
+        container.setAlignment(Pos.CENTER);
+        getChildren().add(container);
+
         getMenuItem(0).setActive(true);
 
         setBackground(new Background(
                 new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-
-        container.getChildren().addAll(menuItems);
-        container.setAlignment(Pos.CENTER);
-        getChildren().add(container);
     }
 
     private Node createTitle(String title) {
@@ -203,12 +221,6 @@ public class MenuResolutionView extends StackPane {
         });
     }
 
-    /**
-     * Attend une nouvelle resolution et met à jour le texte de l'item.
-     *
-     * @param widthNew
-     * @param heightNew
-     */
     public final void newResolution(final int widthNew, final int heightNew) {
         setPrefSize(widthNew, heightNew);
         System.out.println(getWidthNew());
