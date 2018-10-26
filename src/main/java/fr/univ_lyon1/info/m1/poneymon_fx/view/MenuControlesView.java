@@ -108,7 +108,7 @@ public class MenuControlesView extends StackPane {
             menuItems.add(temp);
         }
 
-        MenuItem retourItem = new MenuItem("Retour");
+        MenuItem retourItem = new MenuItem("Back");
         retourItem.setOnActivate(() -> controller.menuParameters());
 
         menuItems.add(retourItem);

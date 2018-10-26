@@ -143,7 +143,7 @@ public class MenuResolutionView extends StackPane {
                 (int) hmResolution.values().toArray()[4]));
 
 
-        MenuItem retourItem = new MenuItem("Retour");
+        MenuItem retourItem = new MenuItem("Back");
         retourItem.setOnActivate(() -> controller.menuParameters());
 
         menuItems = Arrays.asList(

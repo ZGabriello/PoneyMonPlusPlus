@@ -70,10 +70,10 @@ public class MenuParametersView extends StackPane {
     }
 
     private void createContent() {
-        MenuItem controlesItem = new MenuItem("Contrôles");
+        MenuItem controlesItem = new MenuItem("Controles");
         controlesItem.setOnActivate(() -> controller.menuControles());
 
-        MenuItem retourItem = new MenuItem("Retour");
+        MenuItem retourItem = new MenuItem("Back");
         retourItem.setOnActivate(() -> controller.menuFromGame());
 
         MenuItem resolutionItem = new MenuItem("Resolution");
