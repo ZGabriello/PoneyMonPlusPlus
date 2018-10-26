@@ -29,6 +29,7 @@ import javafx.util.Duration;
  *
  */
 public class MenuResolutionView extends View {
+
     int idMainView;
 
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
@@ -82,18 +83,18 @@ public class MenuResolutionView extends View {
 
     private void createContent() {
         int[] width = {1024,
-        1200,
-        1280,
-        1400,
-        1600,
-        1920};
+            1200,
+            1280,
+            1400,
+            1600,
+            1920};
 
         int[] height = {768,
-        900,
-        960,
-        1050,
-        1200,
-        1440};
+            900,
+            960,
+            1050,
+            1200,
+            1440};
         for (int i = 0; i < width.length; i++) {
             final int newWidth = width[i];
             final int newHeight = height[i];
@@ -104,7 +105,7 @@ public class MenuResolutionView extends View {
                 + widthSize
                 + "x"
                 + heightSize);
-        resolutionItem.setOnActivate(() -> newResolution(widthSize,heightSize
+        resolutionItem.setOnActivate(() -> newResolution(widthSize, heightSize
         ));
 
         MenuItem resolution1 = new MenuItem("Resolution : "
@@ -116,9 +117,9 @@ public class MenuResolutionView extends View {
                 height[0]));
 
         MenuItem resolution2 = new MenuItem("Resolution : "
-                    + width[1]
-                    + " x "
-                    + height[1]);
+                + width[1]
+                + " x "
+                + height[1]);
         resolution2.setOnActivate(() -> newResolution(
                 width[1],
                 height[1]));
