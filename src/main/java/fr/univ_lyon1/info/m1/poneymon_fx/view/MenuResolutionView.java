@@ -17,7 +17,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -29,7 +28,8 @@ import javafx.util.Duration;
  * Vue du menu resolution.
  *
  */
-public class MenuResolutionView extends StackPane {
+public class MenuResolutionView extends View {
+    int idMainView;
 
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
 
@@ -66,7 +66,8 @@ public class MenuResolutionView extends StackPane {
      * @param w largeur de la vue
      * @param h hauteur de la vue
      */
-    public MenuResolutionView(Controller c, int w, int h) {
+    public MenuResolutionView(int idMainView, Controller c, int w, int h) {
+        this.idMainView = idMainView;
         setPrefSize(w, h);
 
         widthSize = w;
@@ -224,15 +225,10 @@ public class MenuResolutionView extends StackPane {
     /**
      * Change la resolution par une nouvelle.
      */
-    public final void newResolution(final int widthNew, final int heightNew) {
-        setPrefSize(widthNew, heightNew);
-        for (MainView view : controller.getViewsController()) {
-            view.stage.setHeight(heightNew);
-            view.stage.setWidth(widthNew);
-            view.width = widthNew;
-            view.height = heightNew;
-            controller.initializeMainView(view);
-        }
+    public final void newResolution(final int newWidth, final int newHeight) {
+        setPrefSize(newWidth, newHeight);
+        controller.changeResolution(idMainView, newWidth, newHeight);
+
         System.out.println(getWidthNew());
         System.out.println(getHeightNew());
     }

@@ -16,7 +16,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -30,7 +29,7 @@ import static javafx.scene.layout.Region.USE_PREF_SIZE;
  * Vue du menu.
  *
  */
-public class MenuView extends StackPane {
+public class MenuView extends View {
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
 
     /**
