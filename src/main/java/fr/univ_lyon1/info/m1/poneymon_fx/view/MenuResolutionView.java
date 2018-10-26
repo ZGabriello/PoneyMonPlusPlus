@@ -56,8 +56,8 @@ public class MenuResolutionView extends StackPane {
     private List<MenuItem> menuItems;
     int currentItem = 0;
 
-    /*final*/ int widthSize;
-    /*final*/ int heightSize;
+    final int widthSize;
+    final int heightSize;
 
     /**
      * Constructeur du Menu des resolution.
@@ -69,8 +69,8 @@ public class MenuResolutionView extends StackPane {
     public MenuResolutionView(Controller c, int w, int h) {
         setPrefSize(w, h);
 
-        widthSize = (int) this.getPrefWidth();
-        heightSize = (int) this.getPrefHeight();
+        widthSize = w;
+        heightSize = h;
 
         controller = c;
 
@@ -87,16 +87,16 @@ public class MenuResolutionView extends StackPane {
         ));
 
         int[] width = {600,
-            700,
-            800,
-            900,
+            1300,
+            1380,
+            1400,
             1000};
 
         int[] height = {600,
-            700,
             800,
-            900,
-            1000};
+            800,
+            800,
+            780};
 
         for (int i = 0; i < width.length; i++) {
             hmResolution.put(width[i], height[i]);
@@ -226,8 +226,13 @@ public class MenuResolutionView extends StackPane {
      */
     public final void newResolution(final int widthNew, final int heightNew) {
         setPrefSize(widthNew, heightNew);
+        for(MainView view : controller.getViewsController()){
+            view.stage.setHeight(heightNew);
+            view.stage.setWidth(widthNew);
+            controller.initializeMainView(view);
+        }
         System.out.println(getWidthNew());
-        System.out.println(getWidthNew());
+        System.out.println(getHeightNew());
     }
 
     public int getWidthNew() {

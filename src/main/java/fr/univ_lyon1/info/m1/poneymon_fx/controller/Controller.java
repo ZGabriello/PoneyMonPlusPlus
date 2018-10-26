@@ -70,6 +70,16 @@ public class Controller {
         view.createMenuResolution();
     }
 
+       /**
+     * Initialisation des vues.
+     */
+    public void deleteMainView(MainView view) {
+        view.deleteView("MenuView");
+        view.deleteView("MenuParameters");
+        view.deleteView("MenuControles");
+        view.deleteView("MenuResolution");
+    }
+
     /**
      * Démarre une nouvelle partie en créant un modèle et en le fournissant aux
      * vues suivies.
@@ -158,5 +168,9 @@ public class Controller {
         for (MainView view : views) {
             view.setActiveView("MenuResolution");
         }
+    }
+
+    public List<MainView> getViewsController(){
+        return views;
     }
 }

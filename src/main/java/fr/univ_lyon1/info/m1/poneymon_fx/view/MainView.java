@@ -26,8 +26,8 @@ public class MainView {
     Group root;
     Scene scene;
 
-    final int width;
-    final int height;
+    /*final*/ int width;
+    /*final*/ int height;
 
 
     /**
@@ -52,7 +52,7 @@ public class MainView {
         stage.setScene(scene);
 
         // Pour empêcher de changer la taille de la fenêtre
-        stage.setResizable(true);
+        stage.setResizable(false);
 
     }
 
@@ -178,6 +178,15 @@ public class MainView {
             GameView gv = (GameView) views.get("GameView");
             gv.unpause();
         }
+    }
+
+
+    public void setWidth(int newWidth) {
+        width = newWidth;
+    }
+
+    public void setHeight(int newHeight) {
+        width = newHeight;
     }
 
 }
