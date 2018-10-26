@@ -57,6 +57,9 @@ public class MainView {
 
     }
 
+    /**
+     * Resize toutes les vues.
+     */
     public void resize(int newWidth, int newHeight) {
         stage.setWidth(newWidth);
         stage.setHeight(newHeight);
