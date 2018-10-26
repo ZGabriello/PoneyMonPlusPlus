@@ -129,6 +129,7 @@ public class GameView extends StackPane {
                 for (int i = 0; i < menuControles.hmControles.size(); i++) {
                     if (menuControles.hmControles.values().toArray()[i].equals(e.getCode())) {
                         controller.usePower(i);
+                        //TODO : ajout utilisation ETATS
                     }
                 }
             }

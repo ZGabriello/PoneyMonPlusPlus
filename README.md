@@ -5,19 +5,19 @@ An awesome game featuring poneys challenging themselves in an intense fight to w
 
 ## Documentation
 
-All the documentation is in the doc/ folder.
+Voir le Wiki.
 
 ### DIA
 
-The DIA diagrams are in doc/dia/.
+
 
 ### Javadoc
 
-The javadoc can be accessed at doc/javadoc/index.html
+
 
 ### Report
 
-The report is at doc/rapport_poneymon.pdf
+
 
 
 ## Getting Started

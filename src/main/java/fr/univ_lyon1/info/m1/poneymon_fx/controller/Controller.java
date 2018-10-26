@@ -2,6 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.State;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.MainView;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,10 @@ public class Controller {
      */
     public void addMainView(MainView view) {
         view.setController(this);
+<<<<<<< HEAD
         initializeMainView(view);
+=======
+>>>>>>> acce679fd27178745ec7e9bfa2981632a2246442
 
         // Si il y a déjà des vues, la nouvelle doit afficher la même chose que les autres
         if (!views.isEmpty()) {
@@ -61,6 +65,7 @@ public class Controller {
     }
 
     /**
+<<<<<<< HEAD
      * Initialisation des vues.
      */
     public void initializeMainView(MainView view) {
@@ -71,6 +76,8 @@ public class Controller {
     }
 
     /**
+=======
+>>>>>>> acce679fd27178745ec7e9bfa2981632a2246442
      * Démarre une nouvelle partie en créant un modèle et en le fournissant aux
      * vues suivies.
      *
@@ -98,6 +105,20 @@ public class Controller {
         if (!pm.isIa()) {
             model.getPoneyModel(i).usePower();
         }
+
+    }
+
+    /**
+     * Change l'état du poney si ce n'est pas une IA.
+     * 
+     * @param i position du poney dans le modèle
+     */
+    public void applyState(int i) {
+        PoneyModel pm = model.getPoneyModel(i);
+        if (!pm.isIa()) {
+            model.getPoneyModel(i).applyState();
+        }
+
     }
 
     /**
@@ -132,6 +153,7 @@ public class Controller {
             view.setModel(null);
         }
     }
+<<<<<<< HEAD
 
     /**
      * Permet d'aller dans le menu controles.
@@ -159,4 +181,6 @@ public class Controller {
             view.setActiveView("MenuResolution");
         }
     }
+=======
+>>>>>>> acce679fd27178745ec7e9bfa2981632a2246442
 }
