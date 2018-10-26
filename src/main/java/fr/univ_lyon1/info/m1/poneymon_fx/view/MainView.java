@@ -53,7 +53,7 @@ public class MainView {
         stage.setScene(scene);
 
         // Pour empêcher de changer la taille de la fenêtre
-        stage.setResizable(false);
+        stage.setResizable(true);
 
     }
 

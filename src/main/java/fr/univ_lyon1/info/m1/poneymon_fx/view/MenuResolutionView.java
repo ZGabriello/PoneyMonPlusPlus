@@ -151,7 +151,7 @@ public class MenuResolutionView extends View {
                 + width[5]
                 + " x "
                 + height[5]);
-        resolution5.setOnActivate(() -> newResolution(
+        resolution6.setOnActivate(() -> newResolution(
                 width[5],
                 height[5]));
 
