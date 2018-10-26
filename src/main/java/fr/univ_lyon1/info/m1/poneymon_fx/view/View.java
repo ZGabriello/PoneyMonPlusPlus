@@ -6,6 +6,9 @@ public abstract class View extends StackPane {
     int width;
     int height;
 
+     /**
+     * Resize toutes les vues.
+     */
     public void resize(int newWidth, int newHeight) {
         setPrefSize(newWidth, newHeight);
         width = newWidth;
