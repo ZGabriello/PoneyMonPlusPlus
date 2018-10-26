@@ -229,6 +229,8 @@ public class MenuResolutionView extends StackPane {
         for (MainView view : controller.getViewsController()) {
             view.stage.setHeight(heightNew);
             view.stage.setWidth(widthNew);
+            view.width = widthNew;
+            view.height = heightNew;
             controller.initializeMainView(view);
         }
         System.out.println(getWidthNew());
