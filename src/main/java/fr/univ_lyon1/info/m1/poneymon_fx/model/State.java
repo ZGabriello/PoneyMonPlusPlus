@@ -60,10 +60,14 @@ public abstract class State {
      * 
      * @param pm un poneyModel
      */
-    public void unapplyState(PoneyModel pm) {
+    public void unapplyState(PoneyModel pm, double sp) {
 
-        pm.endPower();
+        
         pm.removeState(this);
+        pm.endPower();
+        pm.setSpeed(sp);
+        System.out.println("désappliquer état : " + pm.getSpeed());
+
 
     }
 

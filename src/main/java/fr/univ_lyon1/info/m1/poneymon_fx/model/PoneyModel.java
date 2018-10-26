@@ -4,6 +4,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.Strategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PoneyStartNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -71,7 +72,7 @@ public abstract class PoneyModel extends Observable {
         this.nbTurns = 0;
         this.ia = false;
 
-       // setRandSpeed();
+        setRandSpeed();
     }
 
     /**
@@ -108,13 +109,23 @@ public abstract class PoneyModel extends Observable {
             strategy.checkPower();
         }       
 
-        if (states != null) {
-            for (State state : states) {
+        if (!states.isEmpty()) {
+            for(State s : states){
+                Iterator<State> it = states.iterator();
+                
+                s = it.next();
+                s.applyState(this);
+                
+                setChanged();
+                notifyObservers(new PowerNotification(true));     
+                
+            } 
+            /*for (State state : states) {
                 state.applyState(this);
                 
                 setChanged();
                 notifyObservers(new PowerNotification(true));        
-            }
+            }*/
         }
         
         if (collision) {

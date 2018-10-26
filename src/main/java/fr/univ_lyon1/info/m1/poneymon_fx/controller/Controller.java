@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.DoubleSpeedState;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.State;
@@ -68,6 +69,11 @@ public class Controller {
      */
     public void startGame(int nbPoneys) {
         model = new FieldModel(nbPoneys);
+        System.out.println("vitesse originale : " + model.getPoneyModel(4).getSpeed());
+        //DoubleSpeedState state = new DoubleSpeedState(5000);
+        
+        //model.getPoneyModel(4).addState(state);
+        
 
         for (MainView view : views) {
             view.setModel(model);

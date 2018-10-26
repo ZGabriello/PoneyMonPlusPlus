@@ -44,6 +44,21 @@ public class FieldModel extends Observable {
             poneys.add(new NyanPoneyModel(colorMap[i % 5], i, this));
             progresses.add(0.0);
         }
+        /*
+        for (int j = 0; j < 1; j++) {
+            poneys.add(new EnragedPoneyModel("purple",j));
+            progresses.add(0.0);
+        }*/
+        /* On initialise le terrain de course */
+        /*for (int i = 1; i < nbPoneys-1; i++) {
+            poneys.add(new NyanPoneyModel(colorMap[i-1 % 5], i, this));
+            progresses.add(0.0);
+        }
+
+        for (int d = 4; d < nbPoneys; d++) {
+            poneys.add(new NyanPoneyModel("Yellow", d, this));
+            progresses.add(0.0);
+        } */
         
         // Tant qu'il n'y a pas de menus permettant de choisir les poneys
         // on part d'une partie avec 3 ia sur les poneys centraux, et 5 poneys au total

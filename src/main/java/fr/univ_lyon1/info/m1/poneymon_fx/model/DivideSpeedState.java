@@ -17,18 +17,20 @@ public class DivideSpeedState extends State {
     
     /**
      * Méthode appliquant l'état au poney.
-     * 
+     *  
      * @param pm poneyModel
      */
     @Override
     public void applyState(PoneyModel pm) {
         this.startTime = new Timestamp(System.currentTimeMillis());
         this.endTime = new Timestamp(this.startTime.getTime() + duration);
+        
+        double speed = pm.getSpeed();
 
         //while (checkExpired() == false) {            
         pm.divideSpeed(SPEED_DIVIDER_ENRAGED);       
         //}
-        unapplyState(pm);
+        unapplyState(pm, speed);
     }            
     
 }
