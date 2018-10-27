@@ -16,6 +16,9 @@ import java.util.Observer;
  *
  */
 public class FieldModel extends Observable {
+    /** Circuit chargé. */
+    TrackModel track;
+    
     /** Tableau des joueurs réels. */
     int[] players = new int[] { 0, 1 };
     
@@ -32,10 +35,12 @@ public class FieldModel extends Observable {
     
     /**
      * Constructeur du FieldModel.
-     *
+     * @param filename nom du fichier du circuit à charger
      * @param nbPoneys Nombre de PoneyModel à instancier
      */
-    public FieldModel(int nbPoneys) {
+    public FieldModel(String filename, int nbPoneys) {
+        track = new TrackModel(filename);
+        
         this.nbPoneys = nbPoneys;
         /* On initialise le terrain de course */
         for (int i = 0; i < nbPoneys; i++) {
@@ -102,5 +107,9 @@ public class FieldModel extends Observable {
     
     public int getWinAt() {
         return winAt;
+    }
+    
+    public TrackModel getTrackModel() {
+        return track;
     }
 }

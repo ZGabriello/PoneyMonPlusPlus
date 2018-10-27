@@ -9,7 +9,7 @@
 *.iws
 
 # Ignore les fichiers de configuration de Netbeans
-nbproject/private/
+nbproject/
 build/
 nbbuild/
 dist/

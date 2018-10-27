@@ -73,7 +73,7 @@ public class MenuView extends StackPane {
     private void createContent() {
         // On démarre par défaut une partie avec 5 poneys
         MenuItem startGameItem = new MenuItem("Start a game");
-        startGameItem.setOnActivate(() -> controller.startGame(5));
+        startGameItem.setOnActivate(() -> controller.startGame("test", 5));
         
         MenuItem exitItem = new MenuItem("Exit");
         exitItem.setOnActivate(() -> Platform.exit());

@@ -32,7 +32,7 @@ public class PoneyView implements Observer {
     Image poneyImage;
     Image powerImage;
 
-    GraphicsContext graphicsContext;
+    GraphicsContext gc;
     
     // Taille à parcourir par le poney en pixels, taille du terrain + taille du poney
     int width;
@@ -42,7 +42,7 @@ public class PoneyView implements Observer {
         // on commence a -100 pour les faire apparaitre progressivement
         setX(0.0);
         width = w + IMAGE_WIDTH;
-        graphicsContext = gc;
+        this.gc = gc;
     }
     
     public void setX(double progress) {
@@ -68,7 +68,7 @@ public class PoneyView implements Observer {
         
         y = (IMAGE_HEIGHT + Y_PADDING) * position + Y_OFFSET;
         
-        if (graphicsContext != null) {
+        if (gc != null) {
             // On charge l'image associée au poney
             poneyImage = new Image("assets/pony-" + color + "-running.gif");
 
@@ -112,6 +112,6 @@ public class PoneyView implements Observer {
     }
     
     public void display() {
-        graphicsContext.drawImage(currentPoney, x, y);
+        gc.drawImage(currentPoney, -10, 10);
     }
 }

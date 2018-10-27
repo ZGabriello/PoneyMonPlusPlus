@@ -2,6 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.TrackModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.Notification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.ProgressNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.StartNotification;
@@ -10,12 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import javafx.event.EventHandler;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
@@ -27,9 +25,12 @@ public class FieldView extends Canvas implements Observer {
     int nbPoneys = -1;
     List<PoneyView> poneys = new ArrayList<>();
     
-    FieldModel model;
+    FieldModel field;
+    TrackModel track;
     Controller controller;
 
+    TrackView tview;
+    
     String middleText;
     
     final GraphicsContext gc;
@@ -42,31 +43,34 @@ public class FieldView extends Canvas implements Observer {
      * @param w largeur du canvas
      * @param h hauteur du canvas
      */
-    public FieldView(FieldModel model, Controller controller, int w, int h) {
+    public FieldView(FieldModel fieldModel, Controller controller, int w, int h) {
         super(w, h);
         
-        this.model = model;
+        this.field = fieldModel;
         this.controller = controller;
-
         width = w;
         height = h;
 
         /*
          * Permet de capturer le focus et donc les evenements clavier et
-         * souris
+         * souris.
          */
         this.setFocusTraversable(true);
 
         gc = this.getGraphicsContext2D();
         
-        model.addObserver(this);
+        
+        track = fieldModel.getTrackModel();
+        tview = new TrackView(gc, track, width, height);
+        
+        field.addObserver(this);
     }
     
     /**
      * Initialisation du terrain de course et de ses PoneyView.
      * @param sn Notification d'initialisation
      */
-    public void initialize(StartNotification sn) {      
+    public void initialize(StartNotification sn) {
         nbPoneys = sn.getNbPoneys();
         List<String> poneyTypes = sn.getPoneyTypes();
         
@@ -82,7 +86,7 @@ public class FieldView extends Canvas implements Observer {
                     newPoney = new PoneyView(gc, width);
             }
             poneys.add(newPoney);
-            model.getPoneyModel(i).addObserver(newPoney);
+            field.getPoneyModel(i).addObserver(newPoney);
         }
     }
     
@@ -132,10 +136,6 @@ public class FieldView extends Canvas implements Observer {
      * Renouvellement de l'affichage du terrain et des poneys.
      */
     public void display() {
-        // On nettoie le canvas a chaque frame
-        gc.setFill(Color.LIGHTGRAY);
-        gc.fillRect(0, 0, width, height);
-        
         for (PoneyView poney : poneys) {
             poney.display();
         }

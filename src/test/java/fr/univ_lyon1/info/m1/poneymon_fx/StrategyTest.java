@@ -16,7 +16,7 @@ public class StrategyTest {
     @Test
     public void testIAMoreSpeed() {
         // Given
-        FieldModel f=new FieldModel(1);
+        FieldModel f=new FieldModel("test", 1);
         NyanPoneyModel p=(NyanPoneyModel)f.getPoneyModel(0);
         
         p.setStrategy(new MoreSpeedNyanStrategy(f, p, 0));
@@ -35,7 +35,7 @@ public class StrategyTest {
     @Test
     public void testIANotEnoughSpeed() {
         // Given
-        FieldModel f=new FieldModel(1);
+        FieldModel f=new FieldModel("test", 1);
         NyanPoneyModel p=(NyanPoneyModel)f.getPoneyModel(0);
         
         p.setStrategy(new NotEnoughSpeedNyanStrategy(f, p, 0));
@@ -54,7 +54,7 @@ public class StrategyTest {
     @Test
     public void testIAImStillHere() {
         // Given
-        FieldModel f=new FieldModel(2);
+        FieldModel f=new FieldModel("test", 2);
         NyanPoneyModel p=(NyanPoneyModel)f.getPoneyModel(0);
         
         p.setStrategy(new ImStillHereNyanStrategy(f, p, 0));

@@ -26,7 +26,6 @@ public class MainView {
     final int width;
     final int height;
     
-    
     /**
      * Constructeur de la vue principale contenant toutes les vues.
      * @param s stage dans lequel afficher les vues

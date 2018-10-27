@@ -2,6 +2,8 @@ package fr.univ_lyon1.info.m1.poneymon_fx;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.MainView;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -17,16 +19,10 @@ public class App extends Application {
     */
     @Override
     public void start(Stage stage) throws Exception {
-        MainView v = new MainView(stage, 600, 600);
+        MainView v = new MainView(stage, 1000, 800);
         Controller c = new Controller();
 
         c.addMainView(v);
-        
-        // Secondary view
-        Stage s2 = new Stage();
-        MainView v2 = new MainView(s2, 1000, 600);
-        
-        c.addMainView(v2);
     }
 
     public static void main(String[] args) {

@@ -59,10 +59,11 @@ public class Controller {
     
     /**
      * Démarre une nouvelle partie en créant un modèle et en le fournissant aux vues suivies.
+     * @param filename nom du fichier du circuit à charger
      * @param nbPoneys nombre de poneys
      */
-    public void startGame(int nbPoneys) {
-        model = new FieldModel(nbPoneys);
+    public void startGame(String filename, int nbPoneys) {
+        model = new FieldModel(filename, nbPoneys);
         
         for (MainView view : views) {
             view.setModel(model);

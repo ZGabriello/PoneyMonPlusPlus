@@ -21,7 +21,7 @@ public class NyanPoneyView extends PoneyView {
     public void initialize(PoneyStartNotification psn) {
         super.initialize(psn);
         
-        if (graphicsContext != null) {
+        if (gc != null) {
             powerImage = new Image("assets/pony-" + color + "-rainbow.gif");
         }
     }
