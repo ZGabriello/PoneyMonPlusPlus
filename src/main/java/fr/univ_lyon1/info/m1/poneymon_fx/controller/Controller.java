@@ -67,27 +67,27 @@ public class Controller {
      */
     public void initializeMainView(MainView view) {
         view.createMenuView();
-        view.createMenuParameters();
-        view.createMenuControles();
-        view.createMenuResolution();
+        view.createMenuParametersView();
+        view.createMenuControlesView();
+        view.createMenuResolutionView();
     }
 
     /**
-     * Démarre une nouvelle partie en créant un modèle et en le fournissant aux
-     * vues suivies.
-     *
+     * Démarre une nouvelle partie en créant un modèle et en le fournissant aux vues suivies.
+     * @param filename nom du fichier du circuit à charger
      * @param nbPoneys nombre de poneys
      */
-    public void startGame(int nbPoneys) {
-        model = new FieldModel(nbPoneys);
-
+    public void startGame(String filename, int nbPoneys) {
+        model = new FieldModel(filename, nbPoneys);
+        
         for (MainView view : views) {
             view.setModel(model);
             view.createGameView();
             view.setActiveView("GameView");
+            gameUnpause();
         }
-
-        gameUnpause(); // La partie démarre en pause
+        
+        gamePause();
     }
 
     /**
@@ -142,6 +142,8 @@ public class Controller {
      * Permet de retourner au menu.
      */
     public void menuFromGame() {
+        timer.stop();
+        
         for (MainView view : views) {
             view.setActiveView("MenuView");
             view.deleteView("GameView");

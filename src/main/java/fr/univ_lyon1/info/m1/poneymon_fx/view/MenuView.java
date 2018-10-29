@@ -76,8 +76,8 @@ public class MenuView extends View {
     private void createContent() {
         // On démarre par défaut une partie avec 5 poneys
         MenuItem startGameItem = new MenuItem("Start a game");
-        startGameItem.setOnActivate(() -> controller.startGame(5));
-
+        startGameItem.setOnActivate(() -> controller.startGame("test", 3));
+        
         MenuItem exitItem = new MenuItem("Exit");
         exitItem.setOnActivate(() -> Platform.exit());
 

@@ -1,0 +1,73 @@
+line 0 0 0 2 0 3
+beginLine 1 3 0 2 0 3
+line 2 6 0 2 0 3
+line 3 9 0 2 0 3
+
+line 4 11.121320344 0.878679656 3 0 3
+line 5 12 3 4 0 3
+line 6 11.121320344 5.121320344 5 0 3
+
+line 7 9 6 6 0 3
+line 8 6 6 6 0 3
+line 9 3 6 6 0 3
+line 10 0 6 6 0 3
+
+line 11 -2.121320344 5.121320344 7 0 3
+line 12 -3 3 0 0 3
+line 13 -2.121320344 0.878679656 1 0 3
+
+lanePart 0 0 1 0
+lanePart 0 1 1 1
+lanePart 0 2 1 2
+
+lanePart 1 0 2 0
+lanePart 1 1 2 1
+lanePart 1 2 2 2
+
+lanePart 2 0 3 0
+lanePart 2 1 3 1
+lanePart 2 2 3 2
+
+lanePart 3 0 4 0
+lanePart 3 1 4 1
+lanePart 3 2 4 2
+
+lanePart 4 0 5 0
+lanePart 4 1 5 1
+lanePart 4 2 5 2
+
+lanePart 5 0 6 0
+lanePart 5 1 6 1
+lanePart 5 2 6 2
+
+lanePart 6 0 7 0
+lanePart 6 1 7 1
+lanePart 6 2 7 2
+
+lanePart 7 0 8 0
+lanePart 7 1 8 1
+lanePart 7 2 8 2
+
+lanePart 8 0 9 0
+lanePart 8 1 9 1
+lanePart 8 2 9 2
+
+lanePart 9 0 10 0
+lanePart 9 1 10 1
+lanePart 9 2 10 2
+
+lanePart 10 0 11 0
+lanePart 10 1 11 1
+lanePart 10 2 11 2
+
+lanePart 11 0 12 0
+lanePart 11 1 12 1
+lanePart 11 2 12 2
+
+lanePart 12 0 13 0
+lanePart 12 1 13 1
+lanePart 12 2 13 2
+
+lanePart 13 0 0 0
+lanePart 13 1 0 1
+lanePart 13 2 0 2

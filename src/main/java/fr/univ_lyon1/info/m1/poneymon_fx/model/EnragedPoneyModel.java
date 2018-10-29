@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.NyanStrategy;
 
@@ -14,7 +15,6 @@ public class EnragedPoneyModel extends PoneyModel  {
     public EnragedPoneyModel() {
         super();
         power = new PowerHit();
-        
     }
     
     /**
@@ -24,8 +24,8 @@ public class EnragedPoneyModel extends PoneyModel  {
      * @param position position du poney dans le modèle
      * 
      */
-    public EnragedPoneyModel(String color, int position) {
-        super(color, position);
+    public EnragedPoneyModel(String color, Line lineBegin, int position) {
+        super(color, lineBegin, position);
         power = new PowerHit();
     }
     
@@ -35,8 +35,8 @@ public class EnragedPoneyModel extends PoneyModel  {
      * @param position position du poney dans le modèle
      * @param strategy stratégie à utiliser pour l'ia
      */
-    public EnragedPoneyModel(String color, int position, NyanStrategy strategy) {
-        super(color, position, strategy);
+    public EnragedPoneyModel(String color, Line lineBegin, int position, NyanStrategy strategy) {
+        super(color, lineBegin, position, strategy);
         power = new PowerHit();
     }
     

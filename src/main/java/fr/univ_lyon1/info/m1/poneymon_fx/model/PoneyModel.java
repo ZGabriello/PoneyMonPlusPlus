@@ -1,5 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.track.LanePart;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.Strategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PoneyStartNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
@@ -8,24 +10,29 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * Classe gérant la logique du Poney.
  *
  */
 public abstract class PoneyModel extends Observable {
-
-    static final int SPEED_DIVIDER = 200;
+    static final int SPEED_DIVIDER = 5;
     static final double MIN_SPEED = 0.1;
     static final double MAX_SPEED = 0.9;
 
-    
-    
     boolean isTouched;
     double acceleration;
 
+    Line beginLine;
+    LanePart curLane;
+    
+    String laneShape;
+    double[] infos;
+    
+    double distance;
+    double curLaneLength;
     double progress;
+    
     double speed;
     String color;
     int position;
@@ -49,8 +56,8 @@ public abstract class PoneyModel extends Observable {
      *
      */
     public PoneyModel() {
-
-        progress = 0.0;
+        distance = 0;
+        progress = 0;
         
         powerState = false;
         nbPowers = 0;
@@ -64,14 +71,6 @@ public abstract class PoneyModel extends Observable {
 
         this.states = new ArrayList<>();
         this.progress = 0.0;
-
-        this.powerState = false;
-        this.nbPowers = 0;
-
-        this.nbTurns = 0;
-        this.ia = false;
-
-
        // setRandSpeed();
     }
 
@@ -81,10 +80,16 @@ public abstract class PoneyModel extends Observable {
      * @param color Contient la couleur du poney
      * @param position position du poney sur le terrain
      */
-    public PoneyModel(String color, int position) {
+    public PoneyModel(String color, Line beginLine, int position) {
         this();
         this.color = color;
+        this.beginLine = beginLine;
         this.position = position;
+        
+        setCurLane(beginLine.getNext(position));
+        infos = curLane.getInfos(progress);
+        
+        setDistance(0);
     }
 
     /**
@@ -94,37 +99,50 @@ public abstract class PoneyModel extends Observable {
      * @param position position du poney sur le terrain
      * @param strategy stratégie à utiliser pour l'ia
      */
-    public PoneyModel(String color, int position, Strategy strategy) {
+    public PoneyModel(String color, Line beginLine, int position, Strategy strategy) {
+        this(color, beginLine, position);
         ia = true;
         this.strategy = strategy;
     }
 
     /**
-     * Avancée du poney.
-     *
-     * @return position du poney 
+     * Fonction chargée de faire avancer le poney à chaque frame.
+     * 
      */
-    public double step() {
+    public void step() {
         if (ia) {
             strategy.checkPower();
         }
-
-
-        progress += (speed / SPEED_DIVIDER);
-
-
-        if (progress > 1.0) {
-            newTurn();
+        
+        setDistance(distance + speed / SPEED_DIVIDER);
+        accelerer();
+        
+        if (distance > curLaneLength) {
+            nextLane();
+            
+            if (curLane.getBeginLine() == beginLine) {
+                newTurn();
+            }
         }
-
-        return progress;
+        
+        infos = curLane.getInfos(progress);
     }
-
+    
+    protected void nextLane() {
+        double overProgress = distance - curLaneLength;
+        setCurLane(curLane.getNext());
+        setDistance(overProgress);
+        
+        double[] points = curLane.getPoints();
+        double x0 = (points[0] + points[2]) / 2;
+        double y0 = (points[1] + points[3]) / 2;
+    } 
+    
     /**
      * Action à effectuer au début d'un nouveau tour.
      */
     protected void newTurn() {
-        progress = 0;
+        setDistance(0);
         nbTurns++;
         //setRandSpeed();
     }
@@ -176,7 +194,13 @@ public abstract class PoneyModel extends Observable {
         }
         
     }
-
+    
+    public void setCurLane(LanePart lp) {
+        curLane = lp;
+        curLaneLength = lp.getLength();
+        laneShape = curLane.getShape();
+    }
+    
     /**
      * Mutateur pour changer la vitesse du poney.
      *
@@ -199,15 +223,16 @@ public abstract class PoneyModel extends Observable {
 
         controlSpeed();
     }
-
-    public void setProgress(double p) {
-        progress = p;
-    }
-
+    
     public void setIa(boolean b) {
         ia = b;
     }
-
+    
+    public void setDistance(double distance) {
+        this.distance = distance;
+        progress = distance / curLaneLength;
+    }
+    
     public double getSpeed() {
         return speed;
     }
@@ -223,16 +248,23 @@ public abstract class PoneyModel extends Observable {
     public int getNbTours() {
         return nbTurns;
     }
-
-    public double getProgress() {
-        return progress;
+    
+    public double getDistance() {
+        return distance;
+    }
+    
+    public String getLaneShape() {
+        return laneShape;
+    }
+    
+    public double[] getInfos() {
+        return infos;
     }
 
     public boolean isIa() {
         return ia;
     }
 
-    
     public boolean getIsTouched() {
         return isTouched;
     }
@@ -257,16 +289,14 @@ public abstract class PoneyModel extends Observable {
         this.power = p;
     }
    
-    
-
     /**
      * Calcul la distance avec le poney donné en prenant en compte les tours,
      * une distance positive veut dire qu'on est devant, et négative l'inverse.
      *
      * @param poney poney par rapport auquel on calcule la distance
      */
-    public double distanceTo(PoneyModel poney) {
-        return (progress + nbTurns) - (poney.progress + poney.nbTurns);
+    public double distanceTo(PoneyModel poney) { 
+        return (distance + nbTurns) - (poney.distance + poney.nbTurns);
     }
 
     /**
@@ -329,7 +359,6 @@ public abstract class PoneyModel extends Observable {
         }
     }
     
-   
     public void addState(State state) {
         states.add(state);
     }
@@ -346,7 +375,6 @@ public abstract class PoneyModel extends Observable {
         return this.powerState;
     }
 
- 
     public void setpowerState(boolean b) {
         this.powerState = b;
             

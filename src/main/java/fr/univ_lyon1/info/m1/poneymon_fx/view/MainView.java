@@ -27,9 +27,8 @@ public class MainView {
     Group root;
     Scene scene;
 
-    /*final*/ int width;
-    /*final*/ int height;
-
+    int width;
+    int height;
 
     /**
      * Constructeur de la vue principale contenant toutes les vues.
@@ -90,7 +89,7 @@ public class MainView {
     /**
      * Crée et ajoute au cache des vues les paramètres.
      */
-    public void createMenuParameters() {
+    public void createMenuParametersView() {
         View mp = new MenuParametersView(controller, width, height);
         views.put("MenuParametersView", mp);
     }
@@ -98,7 +97,7 @@ public class MainView {
     /**
      * Crée et ajoute au cache des vues la resolution.
      */
-    public void createMenuResolution() {
+    public void createMenuResolutionView() {
         View mr = new MenuResolutionView(id, controller, width, height);
         views.put("MenuResolutionView", mr);
     }
@@ -106,7 +105,7 @@ public class MainView {
     /**
      * Crée et ajoute au cache des vues pour les touches de controles.
      */
-    public void createMenuControles() {
+    public void createMenuControlesView() {
         menuControles = new MenuControlesView(controller, width, height);
         views.put("MenuControlesView", menuControles);
     }

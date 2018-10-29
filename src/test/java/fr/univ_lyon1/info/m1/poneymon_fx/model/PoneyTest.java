@@ -1,9 +1,4 @@
-package fr.univ_lyon1.info.m1.poneymon_fx;
-
-import fr.univ_lyon1.info.m1.poneymon_fx.model.DoubleSpeedState;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.EnragedPoneyModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.NyanPoneyModel;
+package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -28,7 +23,7 @@ public class PoneyTest {
         p.step();
 
         // Then
-        assertEquals(p.getProgress(), expectedSpeed, 0.001);
+        assertEquals(p.getDistance(), expectedSpeed, 0.001);
     }
 
     /**
@@ -43,8 +38,8 @@ public class PoneyTest {
         // When
         while (p.getNbTours() < 2) {
             // Then
-            assertTrue(p.getProgress() >= 0);
-            assertTrue(p.getProgress() <= 1);
+            assertTrue(p.getDistance() >= 0);
+            assertTrue(p.getDistance() <= 1);
             p.step();
         }
     }
@@ -70,12 +65,7 @@ public class PoneyTest {
         }
                 
         //Then
-
-        assertEquals(p.getProgress(), expectedProgress, 0.001);
-
-       
-
-
+        assertEquals(expectedProgress, p.getDistance(), 0.001);
     }
     
     @Test

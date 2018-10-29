@@ -7,14 +7,20 @@ import java.util.List;
  *
  */
 public class ProgressNotification extends Notification {
-    List<Double> progresses;
+    List<double[]> coords;
+    double[] angles;
     
-    public ProgressNotification(List<Double> progresses) {
+    public ProgressNotification(List<double[]> coords, double[] angles) {
         super("PROGRESS");
-        this.progresses = progresses;
+        this.coords = coords;
+        this.angles = angles;
     }
     
-    public List<Double> getProgresses() {
-        return progresses;
+    public List<double[]> getCoords() {
+        return coords;
+    }
+    
+    public double[] getAngles() {
+        return angles;
     }
 }
