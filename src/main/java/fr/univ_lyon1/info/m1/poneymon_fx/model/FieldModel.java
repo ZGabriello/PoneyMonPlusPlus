@@ -22,6 +22,8 @@ public class FieldModel extends Observable {
     /** Poneys. */
     int nbPoneys;
     List<PoneyModel> poneys = new ArrayList<>();
+    List<PickableUp> items = new ArrayList<>();
+
     List<Double> progresses = new ArrayList<>();
     String[] colorMap =
     new String[] {"blue", "green", "orange", "purple", "yellow"};
@@ -44,6 +46,7 @@ public class FieldModel extends Observable {
             poneys.add(new NyanPoneyModel(colorMap[i % 5], i, this));
             progresses.add(0.0);
         }
+        items.add(new BoostItemModel(1));
         /*
         for (int j = 0; j < 1; j++) {
             poneys.add(new EnragedPoneyModel("purple",j));

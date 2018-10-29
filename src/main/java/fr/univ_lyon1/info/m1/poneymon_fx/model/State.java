@@ -42,15 +42,7 @@ public abstract class State {
      */
     public boolean checkExpired() {
         
-        if (System.currentTimeMillis() > this.endTime.getTime()) {
-
-            this.isExpired = true;
-            
-        } else {
-            
-            this.isExpired = false;
-            
-        }
+        this.isExpired = startTime.getTime() + 1000 * duration < System.currentTimeMillis();
 
         return this.isExpired;
     }

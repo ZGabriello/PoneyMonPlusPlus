@@ -3,7 +3,6 @@ package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.DoubleSpeedState;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.State;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.MainView;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,11 +67,11 @@ public class Controller {
      * @param nbPoneys nombre de poneys
      */
     public void startGame(int nbPoneys) {
-        model = new FieldModel(nbPoneys);
+        model = new FieldModel(nbPoneys);  
         System.out.println("vitesse originale : " + model.getPoneyModel(4).getSpeed());
-        //DoubleSpeedState state = new DoubleSpeedState(5000);
+       /* DoubleSpeedState state = new DoubleSpeedState(10);
         
-        //model.getPoneyModel(4).addState(state);
+        model.getPoneyModel(4).addState(state);*/
         
 
         for (MainView view : views) {

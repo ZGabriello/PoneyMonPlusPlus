@@ -4,14 +4,12 @@ import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 /**
  * Vue d'une partie.

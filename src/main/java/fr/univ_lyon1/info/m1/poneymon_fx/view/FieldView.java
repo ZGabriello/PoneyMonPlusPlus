@@ -27,6 +27,9 @@ public class FieldView extends Canvas implements Observer {
     int nbPoneys = -1;
     List<PoneyView> poneys = new ArrayList<>();
     
+    List<ItemView> items = new ArrayList<>();
+
+    
     FieldModel model;
     Controller controller;
 
@@ -84,6 +87,10 @@ public class FieldView extends Canvas implements Observer {
             poneys.add(newPoney);
             model.getPoneyModel(i).addObserver(newPoney);
         }
+        
+        ItemView item = new BoostItemView(gc, 120, 80);
+        items.add(item);
+
     }
     
     /**
