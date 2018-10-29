@@ -110,7 +110,6 @@ public class FieldView extends Canvas implements Observer {
     @Override
     public void update(Observable obs, Object o) {
         Notification n = (Notification) o;
-        System.out.println("hi im online display");
         switch (n.name) {
             case "START":
                 if (nbPoneys == -1) {

@@ -84,6 +84,21 @@ public class FieldModel extends Observable implements Serializable {
         notifyObservers(new ProgressNotification(progresses));
     }
 
+    public void clientStep(){
+        for (int i = 0; i < nbPoneys; i++) {
+            // la fonction step() dans PoneyModel renvoie le nouveau progrès après mise à jour
+            progresses.set(i, poneys.get(i).clientStep());
+
+            if (poneys.get(i).getNbTours() == winAt && winner == -1) {
+                winner = i;
+                setChanged();
+                notifyObservers(new WinNotification(winner, poneys.get(i).getColor()));
+            }
+        }
+
+        setChanged();
+        notifyObservers(new ProgressNotification(progresses));
+    }
     /**
      * Initialisation des observeurs du modèle du terrain.
      *
@@ -155,7 +170,11 @@ public class FieldModel extends Observable implements Serializable {
         }
         setChanged();
         notifyObservers(new ProgressNotification(progresses));
-        System.out.println("coppppipiiiiiiiii");
+    }
+    
+    public void lookAtMe(){
+        setChanged();
+        notifyObservers(new ProgressNotification(progresses));
     }
 
 }

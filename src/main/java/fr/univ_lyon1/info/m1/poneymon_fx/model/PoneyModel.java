@@ -94,6 +94,15 @@ public abstract class PoneyModel extends Observable implements Serializable {
 
         return progress;
     }
+    
+    public double clientStep(){
+        progress += (speed / SPEED_DIVIDER);
+
+        if (progress > 1.0) {
+            newTurn();
+        }
+        return progress;
+    }
 
     /**
      * Action à effectuer au début d'un nouveau tour.

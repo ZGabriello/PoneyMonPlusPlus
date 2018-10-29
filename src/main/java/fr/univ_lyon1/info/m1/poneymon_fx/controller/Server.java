@@ -143,7 +143,6 @@ public class Server {
                 break;
             case "DATA":
                 for (ServerToClientProcessor client : processors) {
-                    //System.out.println("sending data : ");
                     client.sendData(message);
                 }
                 break;

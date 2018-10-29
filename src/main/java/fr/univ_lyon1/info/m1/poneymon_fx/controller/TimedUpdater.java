@@ -25,15 +25,19 @@ class TimedUpdater implements Runnable {
 
     @Override
     public void run() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TimedUpdater.class.getName()).log(Level.SEVERE, null, ex);
+        }
         while (!isClosed) {
             try {
-                Thread.sleep(1000);
-                System.out.println("TimedUpdaterEnvoie");
+                Thread.sleep(10);
                 byte[] b = parent.lobby.serializeModelBinary();
                 //System.out.println("tiU : " + Arrays.toString(b));
                 this.parent.sendToAll("DATA", 'f' + new String(b,"ISO-8859-1")); 
                 
-                //this.parent.sendToAll("DATA",'l' + parent.lobby.serializeLobby());
+                this.parent.sendToAll("DATA",'l' + parent.lobby.serializeLobby());
             } catch (JsonProcessingException | InterruptedException ex) {
                 Logger.getLogger(TimedUpdater.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {

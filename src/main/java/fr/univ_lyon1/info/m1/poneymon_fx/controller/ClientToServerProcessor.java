@@ -99,4 +99,13 @@ class ClientToServerProcessor extends Processor {
                 break;
         }
     }
+    
+    @Override
+    public void parseInput(String substring){
+        switch (substring.substring(0,3)){
+            case "POW":
+                this.parent.lobby.controller.applyPower(Integer.parseInt(substring.substring(3)) );
+                break;
+        }
+    }
 }

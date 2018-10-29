@@ -36,7 +36,7 @@ public class Lobby {
     @JsonIgnore
     Client client = null;
     @JsonIgnore
-    Controller controller;
+    OnlineController controller;
     @JsonIgnore
     boolean isHost = false;
     // trouver un moyen d'avoir les ips dans le même ordre sur toutes les machines.
@@ -50,7 +50,7 @@ public class Lobby {
         ips.add(usedIp);
     }
 
-    public void setController(Controller c) {
+    public void setController(OnlineController c) {
         this.controller = c;
     }
 
@@ -107,9 +107,6 @@ public class Lobby {
 
     void addConnection(Socket client) {
         ips.add(client.getInetAddress().getHostAddress());
-        if (hostIp == null ? usedIp == null : hostIp.equals(usedIp)) {
-            server.sendToAll("COMMAND", "UPDATELOBBY");
-        }
     }
 
     String serializeModel() throws JsonProcessingException {
@@ -128,7 +125,6 @@ public class Lobby {
             stream.writeObject(this.controller.model);
         }
         byte[] toReturn = b.toByteArray();
-        System.out.println("SMB : " + Arrays.toString(toReturn));
         return toReturn;
     }
 
@@ -158,15 +154,12 @@ public class Lobby {
             o = new ObjectInputStream(stream);
             FieldModel m = (FieldModel) o.readObject();
             if (this.controller.model == null) {
-                System.out.println("modele nul");
                 this.controller.model = m;
             } else {
-                System.out.println("copy");
                 this.controller.model.copy(m);
             }
             o.close();
 
-            System.out.println("modèle mis a jour");
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(Lobby.class.getName()).log(Level.SEVERE, null, ex);
         }

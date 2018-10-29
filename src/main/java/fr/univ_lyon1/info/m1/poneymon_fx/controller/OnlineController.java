@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.MainView;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
@@ -30,7 +31,7 @@ public class OnlineController extends Controller {
                     model.step();
                 }
                 else{
-                    model.copy(model);
+                    model.clientStep();
                 }
             }
         };
@@ -68,5 +69,22 @@ public class OnlineController extends Controller {
     public void setModel(FieldModel f){
         model = f;
     }
+    @Override
+    public void usePower(int i) {
+        System.out.println("using power");
+        if (this.lobby.isHost){
+            applyPower(i);
+            this.lobby.server.sendToAll("INPUT", "POW"+i);
+        }
+        else{
+            this.lobby.client.sendInput("POW" + i);
+        }
+    }
 
+    public void applyPower(int i){
+        PoneyModel pm = model.getPoneyModel(i);
+        if (!pm.isIa()) {
+            model.getPoneyModel(i).usePower();
+        }
+    }
 }

@@ -21,27 +21,30 @@ public class AppOnlineTest extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         MainView v = new MainView(stage, 600, 600);
+        Stage s2 = new Stage();
+        MainView v2 = new MainView(s2, 1000, 600);
         OnlineController servC = new OnlineController();
         servC.setModel(new FieldModel(5));
         OnlineController clientC = new OnlineController();
+        //OnlineController clientC1 = new OnlineController();
         servC.createLobby();
         servC.lobby.server.lobby = servC.lobby;
         clientC.joinLobby(servC.lobby.getHostIp(), 9000);
         clientC.addMainView(v);
-        
+        //clientC1.joinLobby(servC.lobby.getHostIp(), 9000);
+        //clientC1.addMainView(v2);
         System.out.println("beforeStart");
         clientC.startGame(5);
+        //clientC1.startGame(5);
         System.out.println("midStart");
         servC.startGame(5);
         System.out.println("afterStart");
         
         // Secondary view
-        Stage s2 = new Stage();
-        MainView v2 = new MainView(s2, 1000, 600);
-        
+
         //c.addMainView(v2);
     }
-
+    
     public static void main(String[] args) {
         launch(args);
     }

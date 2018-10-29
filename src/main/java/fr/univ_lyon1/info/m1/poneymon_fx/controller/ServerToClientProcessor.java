@@ -88,4 +88,15 @@ class ServerToClientProcessor extends Processor {
         writer.write(toSend);
         writer.flush();
     }
+    
+    @Override
+    public void parseInput(String substring){
+        switch (substring.substring(0,3)){
+            case "POW":
+                this.parent.lobby.controller.usePower(Integer.parseInt(substring.substring(3)) );
+                break;
+        }
+    }
+    
+    
 }
