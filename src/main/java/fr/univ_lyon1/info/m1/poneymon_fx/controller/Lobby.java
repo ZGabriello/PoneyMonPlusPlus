@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.NewModelNotification;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class Lobby {
     String usedIp;
     String hostIp = null;
     @JsonIgnore
-    Server server = null;
+    public Server server = null;
     @JsonIgnore
     Client client = null;
     @JsonIgnore
@@ -117,7 +118,7 @@ public class Lobby {
         mapper.setSerializationInclusion(Include.NON_NULL);
         mapper.enableDefaultTyping();
         toRet = mapper.writeValueAsString(this.controller.model);
-        
+
         return toRet;
     }
 
@@ -146,25 +147,30 @@ public class Lobby {
         } catch (IOException ex) {
             Logger.getLogger(Lobby.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.controller.model = m;
     }
 
     void getModelBinary(byte[] data) {
-        
+
         ByteArrayInputStream stream = new ByteArrayInputStream(data);
-        
+
         ObjectInputStream o;
         try {
             o = new ObjectInputStream(stream);
-            System.out.println("end : " + Arrays.toString(data));
-            this.controller.model = (FieldModel) o.readObject();
-            
+            FieldModel m = (FieldModel) o.readObject();
+            if (this.controller.model == null) {
+                System.out.println("modele nul");
+                this.controller.model = m;
+            } else {
+                System.out.println("copy");
+                this.controller.model.copy(m);
+            }
             o.close();
+
             System.out.println("modèle mis a jour");
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(Lobby.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     void getLobby(String json) {

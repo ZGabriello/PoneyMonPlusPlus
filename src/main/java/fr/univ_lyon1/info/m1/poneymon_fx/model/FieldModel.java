@@ -146,4 +146,16 @@ public class FieldModel extends Observable implements Serializable {
         this.winner = winner;
     }
 
+    public void copy(FieldModel m) {
+        this.progresses = m.progresses;
+        for (int i = 0; i<poneys.size(); i++){
+            poneys.get(i).nbTurns = m.poneys.get(i).nbTurns;
+            poneys.get(i).progress = m.poneys.get(i).progress;
+            poneys.get(i).speed = m.poneys.get(i).speed;
+        }
+        setChanged();
+        notifyObservers(new ProgressNotification(progresses));
+        System.out.println("coppppipiiiiiiiii");
+    }
+
 }

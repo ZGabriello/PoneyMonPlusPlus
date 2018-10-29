@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class Server {
     Thread mainThread;
-    Lobby lobby;
+    public Lobby lobby;
     int nbConnections = 0;
     ServerSocket sSocket;
     String ip = "127.0.0.1";

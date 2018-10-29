@@ -1,7 +1,9 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.OnlineController;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.NewModelNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.Notification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.ProgressNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.StartNotification;
@@ -108,7 +110,7 @@ public class FieldView extends Canvas implements Observer {
     @Override
     public void update(Observable obs, Object o) {
         Notification n = (Notification) o;
-        
+        System.out.println("hi im online display");
         switch (n.name) {
             case "START":
                 if (nbPoneys == -1) {
@@ -121,6 +123,8 @@ public class FieldView extends Canvas implements Observer {
             case "WIN":
                 displayWinner((WinNotification) n);
                 break;
+            case "NEWMODEL":
+                newModel((NewModelNotification) n);
             default:
                 System.err.println("Erreur : Notification de nom '" + n.name + "' inconnue !");
         }
@@ -132,6 +136,7 @@ public class FieldView extends Canvas implements Observer {
      * Renouvellement de l'affichage du terrain et des poneys.
      */
     public void display() {
+        
         // On nettoie le canvas a chaque frame
         gc.setFill(Color.LIGHTGRAY);
         gc.fillRect(0, 0, width, height);
@@ -159,5 +164,13 @@ public class FieldView extends Canvas implements Observer {
                     Math.round(height / 2)
             );
         }
+    }
+
+    private void newModel(NewModelNotification nm) {
+        this.model =null;
+        this.poneys = null;
+        this.nbPoneys = -1;
+        model.addObserver(this);
+        
     }
 }

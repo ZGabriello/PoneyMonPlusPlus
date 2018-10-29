@@ -27,7 +27,7 @@ class TimedUpdater implements Runnable {
     public void run() {
         while (!isClosed) {
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
                 System.out.println("TimedUpdaterEnvoie");
                 byte[] b = parent.lobby.serializeModelBinary();
                 //System.out.println("tiU : " + Arrays.toString(b));
