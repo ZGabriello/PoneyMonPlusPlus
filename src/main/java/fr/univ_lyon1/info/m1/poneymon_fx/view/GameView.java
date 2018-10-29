@@ -2,16 +2,20 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 /**
  * Vue d'une partie.
@@ -33,6 +37,9 @@ public class GameView extends StackPane {
     Button menuButton;
     Button pauseButton;
     
+    int timeBeforeStartOfGame = 3;
+    int timeBeforeGoVanishes = 2;
+    
     /** Inputs pour activer le pouvoir des poneys. */
     KeyCode[] powerInputs =
         new KeyCode[]{KeyCode.NUMPAD1, KeyCode.NUMPAD2, KeyCode.NUMPAD3,
@@ -52,11 +59,51 @@ public class GameView extends StackPane {
         height = h;
 
         fview = new FieldView(model, controller, width, height);
-        this.getChildren().add(fview);
+        
+        this.getChildren().addAll(fview.getBackground(), fview.getTrackView(),
+                                  fview.getPoneyground(), fview.getForeground());
 
         addButtons();
         
         setOnKeyReleasedEvent();
+        
+        startTimer();
+    }
+    
+    private void startTimer() {
+        Label timerLabel = new Label();
+        this.getChildren().add(timerLabel);
+        // Configure the Label
+        timerLabel.setText(Integer.toString(timeBeforeStartOfGame));
+        timerLabel.setTextFill(Color.RED);
+        timerLabel.setStyle("-fx-font-size: 4em;");
+        
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.getKeyFrames().add(
+                new KeyFrame(Duration.seconds(1),
+                  new EventHandler<ActionEvent>() {
+                    // KeyFrame event handler
+                    public void handle(ActionEvent event) {
+                        --timeBeforeStartOfGame;
+                        // update timerLabel
+                        if (timeBeforeStartOfGame > 0) {
+                            timerLabel.setText(Integer.toString(timeBeforeStartOfGame));
+                        }
+                        else if (timeBeforeStartOfGame == 0) {
+                            timerLabel.setText("GOOOO !!!");
+                            controller.gameUnpause();
+                        }
+                        else {
+                            --timeBeforeGoVanishes;
+                        }
+                        if (timeBeforeGoVanishes == 0) {
+                            timeline.stop();
+                            GameView.this.getChildren().remove(timerLabel);
+                        }
+                      }
+                }));
+        timeline.playFromStart();
     }
     
     /**
@@ -72,7 +119,7 @@ public class GameView extends StackPane {
             }
         });
 
-        pauseButton = new Button("Pause");
+        pauseButton = new Button("Continuer");
         pauseButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent arg0) {
                 if (pauseButton.getText().equals("Pause")) {

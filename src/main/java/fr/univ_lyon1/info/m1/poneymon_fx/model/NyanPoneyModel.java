@@ -24,12 +24,12 @@ public class NyanPoneyModel extends PoneyModel {
      * @param position position du poney dans le modèle
      * @param f modèle
      */
-    public NyanPoneyModel(String color, int position, FieldModel f) {
-        super(color, position);
+    public NyanPoneyModel(String color, Line beginLine, int position, FieldModel f) {
+        super(color, beginLine, position);
         
         // stratégie par défaut, peut-être utile sur un joueur humain
         // en cas de déconnexion en réseau
-        strategy = new ImStillHereNyanStrategy(f, this, position);
+        strategy = new ImStillHereNyanStrategy(f, this, 0);
     }
     
     /**
@@ -38,8 +38,8 @@ public class NyanPoneyModel extends PoneyModel {
      * @param position position du poney dans le modèle
      * @param strategy stratégie à utiliser pour l'ia
      */
-    public NyanPoneyModel(String color, int position, NyanStrategy strategy) {
-        super(color, position, strategy);
+    public NyanPoneyModel(String color, Line beginLine, int position, NyanStrategy strategy) {
+        super(color, beginLine, position, strategy);
     }
     
     public void setStrategy(NyanStrategy s) {

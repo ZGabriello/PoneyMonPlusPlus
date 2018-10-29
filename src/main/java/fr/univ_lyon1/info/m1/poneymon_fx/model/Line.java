@@ -25,14 +25,15 @@ public class Line {
     int zIndex;
     
     int nbLanes;
-    List<LanePart> laneParts;
+    List<LanePart> prevLaneParts;
+    List<LanePart> nextLaneParts;
     
     double angle;
     double slope;
    
     static final int numberOfAngles = 8; // doit être un multiple de 8
     static final double minAngle = PI / (numberOfAngles / 2);
-    static final double laneWidth = 0.5; // longueur d'une voie
+    public static final double laneWidth = 0.5; // longueur d'une voie
     static final double slopeInf = 100;
     
     /**
@@ -52,9 +53,11 @@ public class Line {
         this.zIndex = zIndex;
         
         this.nbLanes = nbLanes;
-        laneParts = new ArrayList<>(nbLanes);
+        prevLaneParts = new ArrayList<>(nbLanes);
+        nextLaneParts = new ArrayList<>(nbLanes);
         for (int i = 0; i < nbLanes; ++i) {
-            laneParts.add(null);
+            prevLaneParts.add(null);
+            nextLaneParts.add(null);
         }
         
         angle = multiple * minAngle;
@@ -104,15 +107,31 @@ public class Line {
         return angle;
     }
     
+    public double getOppositeAngle() {
+        return Util.oppositeMultOf(multiple) * minAngle;
+    }
+    
     public int getNbLanes() {
         return nbLanes;
     }
     
-    public static double getLaneWidth() {
-        return laneWidth;
-    }
-    
     public double getLineLength() {
         return nbLanes * laneWidth;
+    }
+    
+    public void setPrev(int i, LanePart lp) {
+        prevLaneParts.set(i, lp);
+    }
+    
+    public void setNext(int i, LanePart lp) {
+        nextLaneParts.set(i, lp);
+    }
+    
+    public LanePart getPrev(int i) {
+        return prevLaneParts.get(i);
+    }
+    
+    public LanePart getNext(int i) {
+        return nextLaneParts.get(i);
     }
 }

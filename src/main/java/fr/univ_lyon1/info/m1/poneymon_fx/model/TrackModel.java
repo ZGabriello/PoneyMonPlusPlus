@@ -1,14 +1,11 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.TrackInitializationNotification;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
 import static java.lang.Math.max;
@@ -18,10 +15,10 @@ import static java.lang.Math.min;
  * Classe gérant un terrain.
  *
  */
-public class TrackModel extends Observable {
+public class TrackModel {
     String name;
     
-    Line lineBegin = null;
+    Line beginLine = null;
     HashMap<Integer, Line> lines = new HashMap<>();
     HashSet<LanePart> laneParts = new LinkedHashSet<>();
     
@@ -58,7 +55,7 @@ public class TrackModel extends Observable {
             while (true) {
                 try {
                     object = scanner.next();
-                    if (object.equals("line") || object.equals("lineBegin")) {
+                    if (object.equals("line") || object.equals("beginLine")) {
                         loadLine(object, scanner);
                     } else if (object.equals("lanePart")) {
                         loadLanePart(scanner);
@@ -75,7 +72,6 @@ public class TrackModel extends Observable {
         
         width = maxX - minX;
         height = maxY - minY;
-        constructTrack();
     }
     
     /**
@@ -90,9 +86,9 @@ public class TrackModel extends Observable {
         int nbLanes = scanner.nextInt();
 
         Line line = new Line(id, x, y, multiple, zIndex, nbLanes);
-        if (object.equals("lineBegin")) {
-            if (lineBegin == null) {
-                lineBegin = line;
+        if (object.equals("beginLine")) {
+            if (beginLine == null) {
+                beginLine = line;
             } else {
                 System.err.println("Ce circuit comporte plus d'une ligne de départ");
             }
@@ -124,37 +120,16 @@ public class TrackModel extends Observable {
         laneParts.add(lp);
     }
     
-    /**
-     * Classe chargée de calculer les tailles des voies, les lignes voisines et
-     * autres données après importation des lignes et des voies.
-     *
-     */
-    private void constructTrack() {
-        Line lineBegin = null;
-        Line lineEnd = null;
-        
-        for (LanePart lanePart : laneParts) {
-            //lineBegin = lines.get()
-        }
-    }
-    
-    /**
-     * Initialisation des observeurs du modèle du poney.
-     */
-    @Override
-    public void addObserver(Observer obs) {
-        super.addObserver(obs);
-        
-        setChanged();
-        notifyObservers(new TrackInitializationNotification(this));
-    }
-    
     public HashMap<Integer, Line> getLines() {
         return lines;
     }
     
     public HashSet<LanePart> getLaneParts() {
         return laneParts;
+    }
+    
+    public Line getBeginLine() {
+        return beginLine;
     }
     
     public double getMinX() {

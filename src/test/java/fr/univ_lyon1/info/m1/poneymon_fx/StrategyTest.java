@@ -64,7 +64,7 @@ public class StrategyTest {
         expectedSpeed *= p.getSpeedMultiplier();
         
         NyanPoneyModel p2=(NyanPoneyModel)f.getPoneyModel(1);
-        p2.setProgress(0.5);
+        p2.setDistance(0.5);
         p2.setSpeed(0.4);
         
         //When

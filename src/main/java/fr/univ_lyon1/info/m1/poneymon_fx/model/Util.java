@@ -14,7 +14,7 @@ import static java.lang.Math.sqrt;
  */
 public class Util {
     public static int modulo(int number, int base) {
-        int reste  = number % base;
+        int reste = number % base;
         return (reste >= 0) ? reste : (reste + base);
     }
     
@@ -23,7 +23,7 @@ public class Util {
         return (reste >= 0) ? reste : (reste + base);
     }
     
-    public static int oppositeAngleOf(int mult) {
+    public static int oppositeMultOf(int mult) {
         return modulo(mult + numberOfAngles / 2, numberOfAngles);
     }
     
@@ -32,7 +32,7 @@ public class Util {
     }
     
     public static boolean haveOppositeAngles(Line l1, Line l2) {
-        return l1.multiple == oppositeAngleOf(l2.multiple);
+        return l1.multiple == oppositeMultOf(l2.multiple);
     }
     
     /**
@@ -52,8 +52,8 @@ public class Util {
      */
     public static double[] minMaxInAngleRange(Line l1, Line l2) {
         int noa = Line.numberOfAngles;
-        int mult1 = oppositeAngleOf(l1.multiple);
-        int mult2 = oppositeAngleOf(l2.multiple);
+        int mult1 = oppositeMultOf(l1.multiple);
+        int mult2 = oppositeMultOf(l2.multiple);
         
         if (mult2 < mult1) {
             mult2 += noa;
@@ -235,7 +235,6 @@ public class Util {
     }
 
     public static class ParallelLinesException extends Exception {
-
         public ParallelLinesException(String message) {
             super(message);
         }

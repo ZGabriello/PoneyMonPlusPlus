@@ -19,7 +19,7 @@ public class App extends Application {
     */
     @Override
     public void start(Stage stage) throws Exception {
-        MainView v = new MainView(stage, 1000, 800);
+        MainView v = new MainView(stage, 1680, 1050);
         Controller c = new Controller();
 
         c.addMainView(v);

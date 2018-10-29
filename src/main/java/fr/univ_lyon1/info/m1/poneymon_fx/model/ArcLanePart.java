@@ -1,5 +1,8 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 import static java.lang.Math.toDegrees;
 
 /**
@@ -12,11 +15,8 @@ public class ArcLanePart extends LanePart {
     
     double innerRadius;
     double outerRadius;
-    
-    double startAngle;
-    double endAngle;
-    double arcLength;
-    
+    double midRadius;
+ 
     
     /**
      * Constructeur de ArcLanePart.
@@ -40,11 +40,8 @@ public class ArcLanePart extends LanePart {
         centerY = center[1];
 
         innerRadius = Util.dist(centerX, centerY, x1, y1);
-        outerRadius = innerRadius + Line.getLaneWidth();
-        
-        startAngle = beginLine.getAngle();
-        endAngle = endLine.getAngle();
-        arcLength = Util.getAngleDifference(l1, l2);
+        outerRadius = innerRadius + Line.laneWidth;
+        midRadius = (innerRadius + outerRadius) / 2;
         
         double[] minMax = Util.minMaxInAngleRange(l1, l2);
 
@@ -54,11 +51,24 @@ public class ArcLanePart extends LanePart {
         maxY = centerY + minMax[3] * outerRadius;
         
         // la longueur de l'arc au milieu de celui-ci
-        length = arcLength * (innerRadius + outerRadius) / 2;
+        length = arcLength * midRadius;
     }
     
     public double[] getCenter() {
         return new double[] {centerX, centerY};
+    }
+    
+    public String getShape() {
+        return "ARC";
+    }
+    
+    public double[] getInfos(double progress) {
+        double currentAngle = startAngle + progress * arcLength;
+        double poneyDirection = currentAngle + PI / 2;
+        double x = centerX + cos(currentAngle) * midRadius;
+        double y = centerY + sin(currentAngle) * midRadius;
+        
+        return new double[] {x, y, poneyDirection};
     }
     
     public double getInnerRadius() {

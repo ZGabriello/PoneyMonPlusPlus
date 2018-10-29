@@ -69,8 +69,6 @@ public class Controller {
             view.setModel(model);
             view.createGameView();
         }
-        
-        gameUnpause(); // La partie démarre en pause
     }
     
     /**

@@ -6,23 +6,22 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.LanePart;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.Line;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.StraightLanePart;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.TrackModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.Notification;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.TrackInitializationNotification;
-import java.util.Observable;
-import java.util.Observer;
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.FillRule;
 
 import static java.lang.Math.min;
+import static java.lang.Math.sin;
 import static java.lang.Math.toDegrees;
 
 /**
  * Classe gérant l'affichage d'un terrain.
  *
  */
-public class TrackView {
+public class TrackView extends Canvas {
     TrackModel track;
     Controller controller;
     
@@ -31,9 +30,14 @@ public class TrackView {
     final int height;
     static final int PADDING = 80;
     
-    final double lineWidth = 1.5;
-    final Color borderColor = Color.BLACK;
-    final Color insideColor = Color.LIGHTGREY;
+    double scale;
+    double xOffset;
+    double yOffset;
+    
+    final double lineWidth = 2;
+    final double lengthOfBeginLine = 0.30;
+    final Color borderColor = Color.WHITE;
+    final Color insideColor = Color.GREY;
     
     /**
      * Canvas dans lequel on va dessiner le jeu.
@@ -41,16 +45,94 @@ public class TrackView {
      * @param w largeur du canvas
      * @param h hauteur du canvas
      */
-    public TrackView(GraphicsContext gc, TrackModel track, int w, int h) {
+    public TrackView(TrackModel track, int w, int h) {
+        super(w, h);
+        
         this.track = track;
         this.controller = controller;
 
         width = w;
         height = h;
 
-        this.gc = gc;
+        gc = this.getGraphicsContext2D();
 
-        display();
+        initialize();
+    }
+    
+    private void initialize() {
+        double fakeWidth = width - PADDING;
+        double fakeHeight = height - PADDING;
+        
+        double widthScale = fakeWidth / track.getWidth();
+        double heightScale = fakeHeight / track.getHeight();
+        
+        scale = min(widthScale, heightScale);
+        
+        double minX = track.getMinX();
+        double maxX = track.getMaxX();
+        double minY = track.getMinY();
+        double maxY = track.getMaxY();
+        
+        // Taille des intervalles des x et des y
+        double xSize = maxX - minX;
+        double ySize = maxY - minY;
+        
+        // On centre l'affichage par rapport à la fenêtre
+        xOffset = -minX + (width / scale - xSize) / 2;
+        yOffset = -minY + (height / scale - ySize) / 2;
+        
+        // height - yOffset * scale permet de replacer y en bas de la fenêtre
+        gc.translate(xOffset * scale, height - yOffset * scale);
+        
+        // on applique un scale négatif à l'axe des y pour inverser le sens des
+        // ordonnées et suivre les conventions mathématiques
+        gc.scale(scale, -scale);
+        gc.setLineWidth(lineWidth / scale);
+    }
+    
+    private void drawBeginLine(Line line, Color strokeColor) {
+        gc.setStroke(Color.WHITE);
+        gc.setFill(Color.WHITE);
+        
+        gc.setLineWidth(1.5 * lineWidth / scale);
+        
+        double[] points = line.getPoints(0, line.getNbLanes());
+
+        double x0 = points[0];
+        double y0 = points[1] + 0.01;
+        double x1 = points[2];
+        double y1 = points[3] - 0.01;
+        
+        gc.strokeLine(x0, y0, x1, y1);
+        
+        double angle = line.getAngle() - PI / 2;
+        double xStep = lengthOfBeginLine / 2 * cos(angle);
+        double yStep = lengthOfBeginLine / 2 * sin(angle);
+        
+        double x2 = x0 + xStep;
+        double y2 = y0 + yStep;
+        double x3 = x1 + xStep;
+        double y3 = y1 + yStep;
+        
+        gc.strokeLine(x2, y2, x3, y3);
+        
+        double x4 = x2 + xStep;
+        double y4 = y2 + yStep;
+        double x5 = x3 + xStep;
+        double y5 = y3 + yStep;
+        
+        gc.strokeLine(x4, y4, x5, y5);
+        
+        double numberOfRect = 10;
+        double height = y1 - y0;
+        double rectHeight = height / numberOfRect;
+        
+        for (int i=0; i < numberOfRect; i += 2) {
+            gc.fillRect(x1, y1 - ((i + 1) * rectHeight), xStep, rectHeight + 0.01);
+            gc.fillRect(x3, y3 - ((i + 2) * rectHeight) - 0.01, xStep, rectHeight + 0.01);
+        }
+        
+        gc.setLineWidth(lineWidth / scale);
     }
     
     private void drawLine(Line line, Color strokeColor) {
@@ -68,15 +150,12 @@ public class TrackView {
     
     /*
      * Passe l'angle en degrés puis applique une symétrie par rapport à x
-     * car JavaFX inverse le sens de l'ordonnée par rapport aux conventions mathématiques,
-     * (360 - angle) puis applique une symétrie par rapport au centre car notre modèle
-     * a ses angles qui pointent vers le centre du cercle, à l'inverse des conventions
-     * mathématiques (180 + angle).
+     * car JavaFX inverse le sens de l'ordonnée par rapport aux conventions mathématiques.
      *
      */
     private double formatAngle(double angle) {
         angle = toDegrees(angle);
-        angle = (180 + 360 - angle) % 360;
+        angle = (720 - angle) % 360;
         
         return angle;
     }
@@ -160,42 +239,27 @@ public class TrackView {
         }
     }
     
-    private void display() {
-        double fakeWidth = width - PADDING;
-        double fakeHeight = height - PADDING;
-        
-        double widthScale = fakeWidth / track.getWidth();
-        double heightScale = fakeHeight / track.getHeight();
-        
-        double scale = min(widthScale, heightScale);
-        
-        double minX = track.getMinX();
-        double maxX = track.getMaxX();
-        double minY = track.getMinY();
-        double maxY = track.getMaxY();
-        
-        // Taille des intervalles des x et des y
-        double xSize = maxX - minX;
-        double ySize = maxY - minY;
-        
-        // On centre l'affichage par rapport à la fenêtre
-        double xOffset = -minX + (width / scale - xSize) / 2;
-        double yOffset = -minY + (height / scale - ySize) / 2;
-        
-        // height - yOffset * scale permet de replacer y en bas de la fenêtre
-        gc.translate(xOffset * scale, height - yOffset * scale);
-        
-        // on applique un scale négatif à l'axe des y pour inverser le sens des
-        // ordonnées et suivre les conventions mathématiques
-        gc.scale(scale, -scale);
-        gc.setLineWidth(lineWidth / scale);
-        
-        for (Line line : track.getLines().values()) {
-            drawLine(line, borderColor);
-        }
-        
+    public void display() {
         for (LanePart lp : track.getLaneParts()) {
             drawLanePart(lp, borderColor, insideColor);
         }
+        
+        for (Line line : track.getLines().values()) {
+            //drawLine(line, borderColor);
+        }
+        
+        drawBeginLine(track.getBeginLine(), insideColor);
+    }
+    
+    public double getScale() {
+        return scale;
+    }
+    
+    public double getxOffset() {
+        return xOffset;
+    }
+    
+    public double getyOffset() {
+        return yOffset;
     }
 }

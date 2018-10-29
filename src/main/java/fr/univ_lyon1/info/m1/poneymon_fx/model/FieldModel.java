@@ -25,7 +25,8 @@ public class FieldModel extends Observable {
     /** Poneys. */
     int nbPoneys;
     List<PoneyModel> poneys = new ArrayList<>();
-    List<Double> progresses = new ArrayList<>();
+    List<double[]> coords = new ArrayList<>();
+    double[] angles;
     String[] colorMap =
     new String[] {"blue", "green", "orange", "purple", "yellow"};
     
@@ -40,13 +41,16 @@ public class FieldModel extends Observable {
      */
     public FieldModel(String filename, int nbPoneys) {
         track = new TrackModel(filename);
+        Line beginLine = track.getBeginLine();
         
         this.nbPoneys = nbPoneys;
         /* On initialise le terrain de course */
         for (int i = 0; i < nbPoneys; i++) {
-            poneys.add(new NyanPoneyModel(colorMap[i % 5], i, this));
-            progresses.add(0.0);
+            poneys.add(new NyanPoneyModel(colorMap[i % 5], beginLine, i, this));
+            coords.add(null);
         }
+        
+        angles = new double[nbPoneys];
         
         // Tant qu'il n'y a pas de menus permettant de choisir les poneys
         // on part d'une partie avec 3 ia sur les poneys centraux, et 5 poneys au total
@@ -68,7 +72,12 @@ public class FieldModel extends Observable {
     public void step() {
         for (int i = 0; i < nbPoneys; i++) {
             // la fonction step() dans PoneyModel renvoie le nouveau progrès après mise à jour
-            progresses.set(i, poneys.get(i).step());
+            PoneyModel poney = poneys.get(i);
+            poney.step();
+            
+            double[] infos = poney.getInfos();
+            coords.set(i, new double[] {infos[0], infos[1]});
+            angles[i] = infos[2];
             
             if (poneys.get(i).getNbTours() == winAt && winner == -1) {
                 winner = i;
@@ -78,7 +87,7 @@ public class FieldModel extends Observable {
         }
         
         setChanged();
-        notifyObservers(new ProgressNotification(progresses));
+        notifyObservers(new ProgressNotification(coords, angles));
     }
     
     /**
@@ -90,11 +99,19 @@ public class FieldModel extends Observable {
         
         List<String> poneyTypes = new ArrayList<>();
         for (int i = 0; i < nbPoneys; i++) {
-            poneyTypes.add(poneys.get(i).getClass().getSimpleName());
+            PoneyModel poney = poneys.get(i);
+            poneyTypes.add(poney.getClass().getSimpleName());
+            
+            double[] infos = poney.getInfos();
+            coords.set(i, new double[] {infos[0], infos[1]});
+            angles[i] = infos[2];
         }
         
         setChanged();
         notifyObservers(new StartNotification(nbPoneys, poneyTypes));
+        
+        setChanged();
+        notifyObservers(new ProgressNotification(coords, angles));
     }
     
     public int getNbPoneys() {

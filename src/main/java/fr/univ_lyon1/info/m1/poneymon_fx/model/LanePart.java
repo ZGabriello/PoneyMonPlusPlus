@@ -8,7 +8,7 @@ import java.util.NavigableMap;
  * Classe gérant un bout de voie.
  *
  */
-public class LanePart {
+public abstract class LanePart {
     Line beginLine;
     int beginLaneId;
     
@@ -29,12 +29,16 @@ public class LanePart {
     double maxX;
     double maxY;
     
+    double startAngle;
+    double endAngle;
+    double arcLength;
+    
     double length;
     
-    LanePart nextLanePart;
+    LanePart nextLane;
     
-    LanePart leftLanePart;
-    LanePart rightLanePart;
+    LanePart leftLanes;
+    LanePart rightLanes;
     
     //NavigableMap<Double, Objet> objets;
     //NavigableMap<Double, Obstacle> obstacles;
@@ -55,6 +59,19 @@ public class LanePart {
         this.endLine = l2;
         this.endLaneId = endLaneId;
         
+        l1.setNext(beginLaneId, this);
+        l2.setPrev(endLaneId, this);
+        LanePart prev = l1.getPrev(beginLaneId);
+        LanePart next = l2.getNext(endLaneId);
+        
+        if (prev != null) {
+            prev.setNext(this);
+        }
+        
+        if (next != null) {
+            nextLane = next;
+        }
+        
         double[] points1 = l1.getPoints(beginLaneId, 1);
         
         x0 = points1[0];
@@ -70,6 +87,14 @@ public class LanePart {
         
         x3 = points2[2];
         y3 = points2[3];
+        
+        startAngle = beginLine.getOppositeAngle();
+        endAngle = endLine.getOppositeAngle();
+        arcLength = Util.getAngleDifference(l1, l2);
+    }
+    
+    public double getLength() {
+        return length;
     }
     
     public double[] getPoints() {
@@ -107,5 +132,17 @@ public class LanePart {
     
     public double getMaxY() {
         return maxY;
+    }
+    
+    public LanePart getNext() {
+        return nextLane;
+    }
+    
+    public abstract String getShape();
+    
+    public abstract double[] getInfos(double progress);
+    
+    public void setNext(LanePart lp) {
+        nextLane = lp;
     }
 }

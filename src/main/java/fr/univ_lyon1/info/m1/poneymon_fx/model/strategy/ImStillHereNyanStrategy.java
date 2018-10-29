@@ -12,7 +12,7 @@ public class ImStillHereNyanStrategy extends NyanStrategy {
     
     @Override
     public void checkPower() {
-        if (myPoney.getProgress() == 0.0) {
+        if (myPoney.getDistance() == 0.0) {
             // Si l'on rattrape le poney en tête ou que c'est le dernier tour
             if (catchingUp() || (myPoney.getNbTours() == field.getWinAt() - 1)) {
                 myPoney.usePower();
@@ -46,7 +46,7 @@ public class ImStillHereNyanStrategy extends NyanStrategy {
         // nombre de step pour finir le tour avec le boost
         double nbStepsToFinishTurn = 1.0 / (myPoney.getSpeed() * SPEED_MULTIPLIER);
         
-        double initProgressPremier = premier.getProgress();
+        double initProgressPremier = premier.getDistance();
         double newProgressPremier = premier.getSpeed() * nbStepsToFinishTurn;
         
         // on avance de 1.0 progress pendant que le premier avance

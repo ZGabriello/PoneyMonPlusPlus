@@ -1,10 +1,15 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import static java.lang.Math.acos;
+import static java.lang.Math.toDegrees;
+
 /**
  * Classe gérant les bouts de voie en ligne droite.
  *
  */
 public class StraightLanePart extends LanePart {
+    double poneyDirection;
+    
     /**
      * Constructeur de StraightLanePart.
      * @param l1 Line de début de LanePart
@@ -22,5 +27,26 @@ public class StraightLanePart extends LanePart {
         maxY = Util.max(y0, y1, y2, y3);
         
         length = Util.dist(x0, y0, x2, y2);
+        
+        // On utilise le théorème d'al-kashi pour trouver la différence d'angle
+        // entre startAngle et la direction du poney dans la voie
+        
+        double laneWidth = Line.laneWidth;
+        double diagonal = Util.dist(x1, y1, x2, y2);
+        double angleOffset = acos(((laneWidth * laneWidth + length * length 
+                                    - diagonal * diagonal) / (2 * laneWidth * length)));
+        poneyDirection = startAngle + angleOffset;
+    }
+    
+    public String getShape() {
+        return "STRAIGHT";
+    }
+    
+    @Override
+    public double[] getInfos(double t) {
+        double x = (1 - t) * (x0 + x1) / 2 + t * (x2 + x3) / 2;
+        double y = (1 - t) * (y0 + y1) / 2 + t * (y2 + y3) / 2;
+        
+        return new double[] {x, y, poneyDirection};
     }
 }
