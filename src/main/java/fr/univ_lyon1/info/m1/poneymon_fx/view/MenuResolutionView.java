@@ -54,14 +54,14 @@ public class MenuResolutionView extends View {
     Controller controller;
 
     Map<Integer, Integer> hmResolution = new LinkedHashMap<>();
-    private List<MenuItem> menuItems = new ArrayList<MenuItem>();
+    private List<MenuItem> menuItems = new ArrayList<>();
 
     int currentItem = 0;
 
     final int widthSize;
     final int heightSize;
 
-    final int[] widthHeight = {1024,
+    static final int[] widthHeight = {1024,
         768,
         1200,
         900,

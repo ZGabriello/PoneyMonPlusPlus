@@ -54,7 +54,7 @@ public class MenuControlesView extends View {
 
     Map<String, KeyCode> hmControles = new LinkedHashMap<>();
 
-    private List<MenuItem> menuItems = new ArrayList<MenuItem>();
+    private List<MenuItem> menuItems = new ArrayList<>();
     int currentItem = 0;
     boolean waitingForKey = false;
 

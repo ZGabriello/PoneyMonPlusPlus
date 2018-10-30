@@ -96,19 +96,6 @@ public class GameView extends View {
     }
 
     /**
-     * Event Listener du clavier. quand une touche est pressee
-     *
-     */
-    public void setOnKeyPressedEvent() {
-
-        this.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            public void handle(KeyEvent e) {
-                ; // TODO
-            }
-        });
-    }
-
-    /**
      * Event Listener du clavier. quand une touche est relachee
      *
      */
