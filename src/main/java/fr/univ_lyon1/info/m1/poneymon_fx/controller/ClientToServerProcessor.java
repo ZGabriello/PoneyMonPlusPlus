@@ -106,6 +106,8 @@ class ClientToServerProcessor extends Processor {
             case "POW":
                 this.parent.lobby.controller.applyPower(Integer.parseInt(substring.substring(3)) );
                 break;
+            case "PAU":
+                this.parent.lobby.controller.gamePauseClient();
         }
     }
 }

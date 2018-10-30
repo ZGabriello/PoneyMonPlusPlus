@@ -168,7 +168,7 @@ public class LobbyTest {
         Controller c = new Controller();
         c.model = m;
         Lobby l = new Lobby();
-        l.setController(c);
+        l.setController((OnlineController) c);
         System.out.println(l.serializeModel());
 
         fail("The test case is a prototype.");
@@ -198,7 +198,7 @@ public class LobbyTest {
         Controller c = new Controller();
         c.model = m;
         Lobby l = new Lobby();
-        l.setController(c);
+        l.setController((OnlineController) c);
         String json = "";
         try {
             json = l.serializeLobby();
@@ -262,7 +262,7 @@ public class LobbyTest {
         Controller c = new Controller();
         c.model = m;
         Lobby l = new Lobby();
-        l.setController(c);
+        l.setController((OnlineController)c);
         l.serializeModelBinary();
 
         fail("The test case is a prototype.");
@@ -275,14 +275,14 @@ public class LobbyTest {
         Controller c = new Controller();
         c.model = m;
         Lobby l = new Lobby();
-        l.setController(c);
+        l.setController((OnlineController) c);
         byte[] b1 = l.serializeModelBinary();
 
         FieldModel m2 = new FieldModel(6);
         Controller c2 = new Controller();
         c2.model = m2;
         Lobby l2 = new Lobby();
-        l2.setController(c2);
+        l2.setController((OnlineController) c2);
         l2.getModelBinary(b1);
         System.out.println("taille d'un model en binaire : " + b1.length + " octets");
         byte[] b2 = l2.serializeModelBinary();

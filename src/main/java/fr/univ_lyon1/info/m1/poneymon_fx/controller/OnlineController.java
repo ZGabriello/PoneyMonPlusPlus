@@ -87,4 +87,24 @@ public class OnlineController extends Controller {
             model.getPoneyModel(i).usePower();
         }
     }
+    
+    @Override
+    public void gamePause(){
+        if (this.lobby.isHost){
+            timer.stop();
+        
+            for (MainView view : views) {
+                view.gamePause();
+            }
+            this.lobby.server.sendToAll("INPUT", "PAU");
+        }
+    }
+    
+    public void gamePauseClient(){
+        timer.stop();
+        for (MainView view : views) {
+                view.gamePause();
+        }
+    }
+    
 }

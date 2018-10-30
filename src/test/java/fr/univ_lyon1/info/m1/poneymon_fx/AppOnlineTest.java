@@ -32,7 +32,7 @@ public class AppOnlineTest extends Application {
         clientC.joinLobby(servC.lobby.getHostIp(), 9000);
         clientC.addMainView(v);
         //clientC1.joinLobby(servC.lobby.getHostIp(), 9000);
-        //clientC1.addMainView(v2);
+        servC.addMainView(v2);
         System.out.println("beforeStart");
         clientC.startGame(5);
         //clientC1.startGame(5);

@@ -26,7 +26,7 @@ class TimedUpdater implements Runnable {
     @Override
     public void run() {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(500);
         } catch (InterruptedException ex) {
             Logger.getLogger(TimedUpdater.class.getName()).log(Level.SEVERE, null, ex);
         }
