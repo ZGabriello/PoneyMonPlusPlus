@@ -159,18 +159,16 @@ public class MenuControlesView extends View {
         this.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent e) {
                 if (!waitingForKey) {
-                    if (e.getCode() == KeyCode.UP) {
-                        if (currentItem > 0) {
-                            getMenuItem(currentItem).setActive(false);
-                            getMenuItem(--currentItem).setActive(true);
-                        }
+                    if (e.getCode() == KeyCode.UP
+                            && currentItem > 0) {
+                        getMenuItem(currentItem).setActive(false);
+                        getMenuItem(--currentItem).setActive(true);
                     }
 
-                    if (e.getCode() == KeyCode.DOWN) {
-                        if (currentItem < menuItems.size() - 1) {
-                            getMenuItem(currentItem).setActive(false);
-                            getMenuItem(++currentItem).setActive(true);
-                        }
+                    if (e.getCode() == KeyCode.DOWN
+                            && currentItem < menuItems.size() - 1) {
+                        getMenuItem(currentItem).setActive(false);
+                        getMenuItem(++currentItem).setActive(true);
                     }
 
                     if (e.getCode() == KeyCode.ENTER) {
@@ -192,12 +190,12 @@ public class MenuControlesView extends View {
         MenuControlesView parent = this;
         this.addEventHandler(KeyEvent.KEY_PRESSED,
                 new EventHandler<KeyEvent>() {
-                    public void handle(KeyEvent e) {
-                        changeKeyCode(m, e.getCode());
-                        parent.removeEventHandler(KeyEvent.KEY_PRESSED, this);
-                        waitingForKey = false;
-                    }
-                });
+            public void handle(KeyEvent e) {
+                changeKeyCode(m, e.getCode());
+                parent.removeEventHandler(KeyEvent.KEY_PRESSED, this);
+                waitingForKey = false;
+            }
+        });
     }
 
     /**

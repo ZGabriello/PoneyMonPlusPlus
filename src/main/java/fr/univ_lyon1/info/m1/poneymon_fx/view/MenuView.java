@@ -30,6 +30,7 @@ import static javafx.scene.layout.Region.USE_PREF_SIZE;
  *
  */
 public class MenuView extends View {
+
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
 
     /**
@@ -46,12 +47,12 @@ public class MenuView extends View {
     static final Color YELLOW = Color.web("#E47702");
     static final Color LIGHTYELLOW = Color.web("#FCB31F");
 
-    Color[] titleColors =
-    new Color[] { LIGHTBLUE,
-        LIGHTGREEN,
-        LIGHTORANGE,
-        LIGHTPURPLE,
-        LIGHTYELLOW };
+    Color[] titleColors
+            = new Color[]{LIGHTBLUE,
+                LIGHTGREEN,
+                LIGHTORANGE,
+                LIGHTPURPLE,
+                LIGHTYELLOW};
 
     Controller controller;
 
@@ -60,6 +61,7 @@ public class MenuView extends View {
 
     /**
      * Constructeur du Menu.
+     *
      * @param c Contrôleur
      * @param w largeur de la vue
      * @param h hauteur de la vue
@@ -82,12 +84,12 @@ public class MenuView extends View {
         exitItem.setOnActivate(() -> Platform.exit());
 
         MenuItem choixPoney = new MenuItem("Poneys choice");
-        choixPoney.setOnActivate(() ->
-                controller.menuChoixPoney());
+        choixPoney.setOnActivate(()
+                -> controller.menuChoixPoney());
 
         MenuItem parameters = new MenuItem("Parameters");
-        parameters.setOnActivate(() ->
-                controller.menuParameters());
+        parameters.setOnActivate(()
+                -> controller.menuParameters());
 
         menuItems = Arrays.asList(
                 startGameItem,
@@ -106,7 +108,7 @@ public class MenuView extends View {
         getMenuItem(0).setActive(true);
 
         setBackground(new Background(
-                      new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+                new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
         getChildren().add(container);
     }
@@ -121,8 +123,8 @@ public class MenuView extends View {
             letter.setFill(titleColors[i % titleColors.length]);
             letters.getChildren().add(letter);
 
-            TranslateTransition tt =
-                    new TranslateTransition(Duration.seconds(2), letter);
+            TranslateTransition tt
+                    = new TranslateTransition(Duration.seconds(2), letter);
             tt.setDelay(Duration.millis(i * 50));
             tt.setToY(-25);
             tt.setAutoReverse(true);
@@ -142,18 +144,14 @@ public class MenuView extends View {
     private void setOnKeyPressedEvent() {
         this.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent e) {
-                if (e.getCode() == KeyCode.UP) {
-                    if (currentItem > 0) {
-                        getMenuItem(currentItem).setActive(false);
-                        getMenuItem(--currentItem).setActive(true);
-                    }
+                if (e.getCode() == KeyCode.UP && currentItem > 0) {
+                    getMenuItem(currentItem).setActive(false);
+                    getMenuItem(--currentItem).setActive(true);
                 }
 
-                if (e.getCode() == KeyCode.DOWN) {
-                    if (currentItem < menuItems.size() - 1) {
-                        getMenuItem(currentItem).setActive(false);
-                        getMenuItem(++currentItem).setActive(true);
-                    }
+                if (e.getCode() == KeyCode.DOWN && currentItem < menuItems.size() - 1) {
+                    getMenuItem(currentItem).setActive(false);
+                    getMenuItem(++currentItem).setActive(true);
                 }
 
                 if (e.getCode() == KeyCode.ENTER) {

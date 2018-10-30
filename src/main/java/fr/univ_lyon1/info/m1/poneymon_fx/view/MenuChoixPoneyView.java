@@ -23,8 +23,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-
-
 /**
  * Vue du menu choix poney.
  *
@@ -147,18 +145,14 @@ public class MenuChoixPoneyView extends View {
     private void setOnKeyPressedEvent() {
         this.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent e) {
-                if (e.getCode() == KeyCode.UP) {
-                    if (currentItem > 0) {
-                        getMenuItem(currentItem).setActive(false);
-                        getMenuItem(--currentItem).setActive(true);
-                    }
+                if (e.getCode() == KeyCode.UP && currentItem > 0) {
+                    getMenuItem(currentItem).setActive(false);
+                    getMenuItem(--currentItem).setActive(true);
                 }
 
-                if (e.getCode() == KeyCode.DOWN) {
-                    if (currentItem < menuItems.size() - 1) {
-                        getMenuItem(currentItem).setActive(false);
-                        getMenuItem(++currentItem).setActive(true);
-                    }
+                if (e.getCode() == KeyCode.DOWN && currentItem < menuItems.size() - 1) {
+                    getMenuItem(currentItem).setActive(false);
+                    getMenuItem(++currentItem).setActive(true);
                 }
 
                 if (e.getCode() == KeyCode.ENTER) {

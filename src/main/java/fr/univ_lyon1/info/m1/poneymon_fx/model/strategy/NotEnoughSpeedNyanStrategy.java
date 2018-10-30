@@ -8,13 +8,12 @@ public class NotEnoughSpeedNyanStrategy extends NyanStrategy {
     public NotEnoughSpeedNyanStrategy(FieldModel f, NyanPoneyModel p, int i) {
         super(f, p, i);
     }
-    
+
     @Override
     public void checkPower() {
-        if (myPoney.getProgress() == 0.0) {
-            if (myPoney.getSpeed() < 0.4 || (myPoney.getNbTours() == field.getWinAt() - 1)) {
-                myPoney.usePower();
-            }
+        if (myPoney.getProgress() == 0.0
+                && (myPoney.getSpeed() < 0.4 || (myPoney.getNbTours() == field.getWinAt() - 1))) {
+            myPoney.usePower();
         }
     }
 }

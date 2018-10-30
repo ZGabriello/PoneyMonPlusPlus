@@ -9,17 +9,16 @@ public class ImStillHereNyanStrategy extends NyanStrategy {
     public ImStillHereNyanStrategy(FieldModel f, NyanPoneyModel p, int i) {
         super(f, p, i);
     }
-    
+
     @Override
     public void checkPower() {
-        if (myPoney.getProgress() == 0.0) {
+        if (myPoney.getProgress() == 0.0
+                && catchingUp() || (myPoney.getNbTours() == field.getWinAt() - 1)) {
             // Si l'on rattrape le poney en tête ou que c'est le dernier tour
-            if (catchingUp() || (myPoney.getNbTours() == field.getWinAt() - 1)) {
-                myPoney.usePower();
-            }
+            myPoney.usePower();
         }
     }
-    
+
     /**
      * Retourne le poney en tête.
      *
@@ -34,7 +33,7 @@ public class ImStillHereNyanStrategy extends NyanStrategy {
         }
         return temp;
     }
-    
+
     /**
      * Renvoie vrai si l'on peut réduire la distance avec le poney en tête de 0,5
      * avec l'hypothèse qu'il garde la même vitesse.
@@ -42,17 +41,17 @@ public class ImStillHereNyanStrategy extends NyanStrategy {
      */
     boolean catchingUp() {
         PoneyModel premier = premierponey();
-        
+
         // nombre de step pour finir le tour avec le boost
         double nbStepsToFinishTurn = 1.0 / (myPoney.getSpeed() * SPEED_MULTIPLIER);
-        
+
         double initProgressPremier = premier.getProgress();
         double newProgressPremier = premier.getSpeed() * nbStepsToFinishTurn;
-        
+
         // on avance de 1.0 progress pendant que le premier avance
         // de (newProgressPremier - initProgressPremier)
         double distanceGain = 1.0 - (newProgressPremier - initProgressPremier);
-        
+
         return distanceGain > 0.5;
     }
 }

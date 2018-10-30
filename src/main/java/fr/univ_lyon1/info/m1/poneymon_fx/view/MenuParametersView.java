@@ -131,18 +131,14 @@ public class MenuParametersView extends View {
     private void setOnKeyPressedEvent() {
         this.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent e) {
-                if (e.getCode() == KeyCode.UP) {
-                    if (currentItem > 0) {
-                        getMenuItem(currentItem).setActive(false);
-                        getMenuItem(--currentItem).setActive(true);
-                    }
+                if (e.getCode() == KeyCode.UP && currentItem > 0) {
+                    getMenuItem(currentItem).setActive(false);
+                    getMenuItem(--currentItem).setActive(true);
                 }
 
-                if (e.getCode() == KeyCode.DOWN) {
-                    if (currentItem < menuItems.size() - 1) {
-                        getMenuItem(currentItem).setActive(false);
-                        getMenuItem(++currentItem).setActive(true);
-                    }
+                if (e.getCode() == KeyCode.DOWN && currentItem < menuItems.size() - 1) {
+                    getMenuItem(currentItem).setActive(false);
+                    getMenuItem(++currentItem).setActive(true);
                 }
 
                 if (e.getCode() == KeyCode.ENTER) {
