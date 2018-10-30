@@ -190,12 +190,12 @@ public class MenuControlesView extends View {
         MenuControlesView parent = this;
         this.addEventHandler(KeyEvent.KEY_PRESSED,
                 new EventHandler<KeyEvent>() {
-            public void handle(KeyEvent e) {
-                changeKeyCode(m, e.getCode());
-                parent.removeEventHandler(KeyEvent.KEY_PRESSED, this);
-                waitingForKey = false;
-            }
-        });
+                    public void handle(KeyEvent e) {
+                        changeKeyCode(m, e.getCode());
+                        parent.removeEventHandler(KeyEvent.KEY_PRESSED, this);
+                        waitingForKey = false;
+                    }
+                });
     }
 
     /**
