@@ -24,7 +24,8 @@ class ServerToClientProcessor extends Processor {
         try {
             cSocket = client;
             parent = serveur;
-            writer = new PrintWriter(new OutputStreamWriter(cSocket.getOutputStream(), StandardCharsets.ISO_8859_1));
+            writer = new PrintWriter(
+                    new OutputStreamWriter(cSocket.getOutputStream(), StandardCharsets.ISO_8859_1));
             reader = new BufferedInputStream(cSocket.getInputStream());
         } catch (IOException ex) {
             Logger.getLogger(ServerToClientProcessor.class.getName()).log(Level.SEVERE, null, ex);
@@ -37,7 +38,7 @@ class ServerToClientProcessor extends Processor {
         while (!connexionFermee) {
             try {
                 String reponse = read();
-                if (!"".equals(reponse)){
+                if (!"".equals(reponse)) {
                     parseMessage(reponse);
                 }
                 if (connexionFermeeDemande) {
@@ -88,15 +89,16 @@ class ServerToClientProcessor extends Processor {
         writer.write(toSend);
         writer.flush();
     }
-    
+
     @Override
-    public void parseInput(String substring){
-        switch (substring.substring(0,3)){
+    public void parseInput(String substring) {
+        switch (substring.substring(0, 3)) {
             case "POW":
-                this.parent.lobby.controller.usePower(Integer.parseInt(substring.substring(3)) );
+                this.parent.lobby.controller.usePower(Integer.parseInt(substring.substring(3)));
+                break;
+            default:
                 break;
         }
     }
-    
-    
+
 }

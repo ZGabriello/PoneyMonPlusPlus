@@ -81,13 +81,14 @@ class ClientToServerProcessor extends Processor {
         switch (data.charAt(0)) {
             case 'f': //fieldmodel
                 //System.out.println("tis a field");
-        
+
                 try {
                     parent.lobby.getModelBinary(data.substring(1).getBytes("ISO-8859-1"));
                 } catch (UnsupportedEncodingException ex) {
-                    Logger.getLogger(ClientToServerProcessor.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger log = Logger.getLogger(ClientToServerProcessor.class.getName());
+                    log.log(Level.SEVERE, null, ex);
                 }
-        
+
                 break;
             case 'p': // poneyModel
                 break;
@@ -99,12 +100,12 @@ class ClientToServerProcessor extends Processor {
                 break;
         }
     }
-    
+
     @Override
-    public void parseInput(String substring){
-        switch (substring.substring(0,3)){
+    public void parseInput(String substring) {
+        switch (substring.substring(0, 3)) {
             case "POW":
-                this.parent.lobby.controller.applyPower(Integer.parseInt(substring.substring(3)) );
+                this.parent.lobby.controller.applyPower(Integer.parseInt(substring.substring(3)));
                 break;
             case "PAU":
                 this.parent.lobby.controller.gamePauseClient();
@@ -112,7 +113,9 @@ class ClientToServerProcessor extends Processor {
             case "CON":
                 this.parent.lobby.controller.gameUnpauseClient();
                 break;
-            
+            default:
+                break;
+
         }
     }
 }

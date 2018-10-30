@@ -5,6 +5,7 @@
  */
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -22,6 +23,11 @@ public class ServerTest {
         instance.open();
     }
 
+    
+    @After
+    public void closeServer(){
+        instance.close();
+    }
     /**
      * Test of close method, of class Server.
      */
@@ -29,7 +35,7 @@ public class ServerTest {
     public void testClose() throws InterruptedException {
         System.out.println("close");
         instance.close();
-        Thread.sleep(50);
+        Thread.sleep(1000);
         assert (instance.sSocket.isClosed());
     }
 
@@ -40,11 +46,11 @@ public class ServerTest {
     public void testOpen() throws InterruptedException {
         System.out.println("open");
         instance.close();
-        Thread.sleep(50);
+        Thread.sleep(1000);
         instance.open();
         assert (instance.isRunning);
         instance.close();
-        Thread.sleep(50);
+        Thread.sleep(1000);
     }
 
     @Test
@@ -52,10 +58,11 @@ public class ServerTest {
         System.out.println("tentative de connexion au serveur");
 
         Client c = new Client("localhost", instance.port);
-        Thread.sleep(50);
-        assert (instance.nbConnections > 0);
+        Thread.sleep(1000);
         instance.close();
-        Thread.sleep(50);
+        Thread.sleep(1000);
+        assert (instance.nbConnections > 0);
+ 
 
     }
 

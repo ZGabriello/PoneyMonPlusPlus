@@ -25,12 +25,12 @@ public class ClientTest {
         System.out.println("close");
         Server s = new Server();
         s.open();
-        Thread.sleep(50);
+        Thread.sleep(1000);
         Client instance = new Client("127.0.0.1", 9000);
-        Thread.sleep(50);
+        Thread.sleep(1000);
         instance.close();
         s.close();
-        Thread.sleep(50);
+        Thread.sleep(1000);
         assert (instance.sock.isClosed());
 
     }

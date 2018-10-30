@@ -3,17 +3,10 @@ package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
+ * thread qui gèrera les communiations client/serveur.
  *
  * @author Alex
  */
@@ -35,11 +28,10 @@ public abstract class Processor implements Runnable {
         byte[] b;
         b = new byte[4096];
         stream = reader.read(b);
-        if (stream>0){
+        if (stream > 0) {
             reponse = new String(Arrays.copyOf(b, stream), "ISO-8859-1");
         }
-        
-        
+
         return reponse;
     }
 
@@ -77,20 +69,21 @@ public abstract class Processor implements Runnable {
             case H_DATA:
                 parseData(message.substring(1));
                 break;
-
+            default:
+                break;
         }
     }
 
     void parseCommand(String substring) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("commande non parsée : " + substring);
     }
 
     void parseInput(String substring) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("input non parsée : " + substring);
     }
 
     void parseData(String substring) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("data non parsée : " + substring);
     }
 
 }

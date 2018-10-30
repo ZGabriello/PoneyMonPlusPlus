@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * thread envoyant régulièrement le lobby et le modèle sérialisés au clients.
  * @author Alex
  */
 class TimedUpdater implements Runnable {
@@ -35,9 +35,9 @@ class TimedUpdater implements Runnable {
                 Thread.sleep(5000);
                 byte[] b = parent.lobby.serializeModelBinary();
                 //System.out.println("tiU : " + Arrays.toString(b));
-                this.parent.sendToAll("DATA", 'f' + new String(b,"ISO-8859-1")); 
-                
-                this.parent.sendToAll("DATA",'l' + parent.lobby.serializeLobby());
+                this.parent.sendToAll("DATA", 'f' + new String(b, "ISO-8859-1"));
+
+                this.parent.sendToAll("DATA", 'l' + parent.lobby.serializeLobby());
             } catch (JsonProcessingException | InterruptedException ex) {
                 Logger.getLogger(TimedUpdater.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {

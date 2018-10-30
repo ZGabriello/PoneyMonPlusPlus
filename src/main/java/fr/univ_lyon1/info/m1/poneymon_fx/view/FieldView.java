@@ -26,18 +26,19 @@ import javafx.scene.text.TextAlignment;
  *
  */
 public class FieldView extends Canvas implements Observer {
+
     int nbPoneys = -1;
     List<PoneyView> poneys = new ArrayList<>();
-    
+
     FieldModel model;
     Controller controller;
 
     String middleText;
-    
+
     final GraphicsContext gc;
     final int width;
     final int height;
-    
+
     /**
      * Canvas dans lequel on va dessiner le jeu.
      *
@@ -46,7 +47,7 @@ public class FieldView extends Canvas implements Observer {
      */
     public FieldView(FieldModel model, Controller controller, int w, int h) {
         super(w, h);
-        
+
         this.model = model;
         this.controller = controller;
 
@@ -60,22 +61,23 @@ public class FieldView extends Canvas implements Observer {
         this.setFocusTraversable(true);
 
         gc = this.getGraphicsContext2D();
-        
+
         model.addObserver(this);
     }
-    
+
     /**
      * Initialisation du terrain de course et de ses PoneyView.
+     *
      * @param sn Notification d'initialisation
      */
-    public void initialize(StartNotification sn) {      
+    public void initialize(StartNotification sn) {
         nbPoneys = sn.getNbPoneys();
         List<String> poneyTypes = sn.getPoneyTypes();
-        
+
         /* On initialise le terrain de course */
         for (int i = 0; i < nbPoneys; i++) {
             PoneyView newPoney = null;
-            
+
             switch (poneyTypes.get(i)) {
                 case "NyanPoneyModel":
                     newPoney = new NyanPoneyView(gc, width);
@@ -87,14 +89,15 @@ public class FieldView extends Canvas implements Observer {
             model.getPoneyModel(i).addObserver(newPoney);
         }
     }
-    
+
     /**
      * Mise à jour des positions de la vue sur notification du modèle.
+     *
      * @param pn notification de l'avancement des poneys du modèle
      */
     public void progress(ProgressNotification pn) {
         List<Double> progresses = pn.getProgresses();
-        
+
         for (int i = 0; i < nbPoneys; i++) {
             poneys.get(i).setX(progresses.get(i));
         }
@@ -103,7 +106,7 @@ public class FieldView extends Canvas implements Observer {
     public void displayWinner(WinNotification wn) {
         middleText = "The " + wn.getWinnerColor() + " poney has won the race !";
     }
-    
+
     /**
      * Appel des différents traitements suivant la notification reçue.
      */
@@ -124,29 +127,30 @@ public class FieldView extends Canvas implements Observer {
                 break;
             case "NEWMODEL":
                 newModel((NewModelNotification) n);
+                break;
             default:
                 System.err.println("Erreur : Notification de nom '" + n.name + "' inconnue !");
         }
-        
+
         display();
     }
-    
+
     /**
      * Renouvellement de l'affichage du terrain et des poneys.
      */
     public void display() {
-        
+
         // On nettoie le canvas a chaque frame
         gc.setFill(Color.LIGHTGRAY);
         gc.fillRect(0, 0, width, height);
-        
+
         for (PoneyView poney : poneys) {
             poney.display();
         }
-        
+
         displayMiddleText();
     }
-    
+
     /**
      * Affichage du texte central.
      */
@@ -166,10 +170,10 @@ public class FieldView extends Canvas implements Observer {
     }
 
     private void newModel(NewModelNotification nm) {
-        this.model =null;
+        this.model = null;
         this.poneys = null;
         this.nbPoneys = -1;
         model.addObserver(this);
-        
+
     }
 }

@@ -5,29 +5,29 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.NewModelNotification;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Classe centrale du module online, elle centralise la quasi totalité du
+ * fonctionnement en ligne.
  *
  * @author Alex
  */
 public class Lobby {
 
     List<String> ips = new ArrayList<>();
+    List<Integer> ports = new ArrayList<>();
     @JsonIgnore
     String usedIp;
     String hostIp = null;
@@ -39,8 +39,13 @@ public class Lobby {
     OnlineController controller;
     @JsonIgnore
     boolean isHost = false;
+    @JsonIgnore
+    int portUsed = 9000;
     // trouver un moyen d'avoir les ips dans le même ordre sur toutes les machines.
 
+    /**
+     * contructeur par défaut.
+     */
     public Lobby() {
         try {
             usedIp = InetAddress.getLocalHost().getHostAddress();
@@ -48,6 +53,23 @@ public class Lobby {
             Logger.getLogger(Lobby.class.getName()).log(Level.SEVERE, null, ex);
         }
         ips.add(usedIp);
+        ports.add(portUsed);
+    }
+
+    /**
+     * contructeur avec un port en paramètre.
+     *
+     * @param port port spécifiue à utiliser.
+     */
+    public Lobby(int port) {
+        portUsed = port;
+        try {
+            usedIp = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Lobby.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ips.add(usedIp);
+        ports.add(port);
     }
 
     public void setController(OnlineController c) {
@@ -64,12 +86,10 @@ public class Lobby {
 
     public void getRemoteLobby(String ip, int port) {
         client = new Client(ip, port);
-        //client.sendCommand("GIVEHOST");
     }
 
     public void getRemoteLobby(String ip) {
         client = new Client(ip, 9000);
-        //client.sendCommand("GIVEHOST");
     }
 
     public void starMigration() {
@@ -77,30 +97,33 @@ public class Lobby {
     }
 
     void migrate() {
-        this.controller.gamePause();
+        this.controller.gamePauseClient();
         if (this.ips.get(0).equals(this.usedIp)) {
             setSelfServer();
             openServer();
         } else {
-            getRemoteLobby(this.ips.get(0));
+            getRemoteLobby(this.ips.get(0), this.ports.get(0));
         }
-        this.controller.gameUnpause();
+        this.controller.gameUnpauseClient();
     }
 
     void setSelfServer() {
         hostIp = this.usedIp;
         isHost = true;
-        server = new Server(this.usedIp, 9000);
+        server = new Server(this.usedIp, this.portUsed);
     }
 
     void openServer() {
-        if ((this.hostIp.equals(this.usedIp)) && (this.server != null)) {
+        if (this.isHost && this.server != null) {
             this.server.open();
         }
     }
 
+    /**
+     * si serveur, lance la partie.
+     */
     public void launchGame() {
-        if (hostIp == null ? usedIp == null : hostIp.equals(usedIp)) {
+        if (isHost) {
             server.sendToAll("COMMAND", "STARTGAME");
         }
     }
@@ -174,6 +197,7 @@ public class Lobby {
         } catch (IOException ex) {
             Logger.getLogger(Lobby.class.getName()).log(Level.SEVERE, null, ex);
         }
+        this.ports = l.ports;
         this.ips = l.ips;
         this.hostIp = l.hostIp;
     }

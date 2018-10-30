@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  * @author Alex.
  */
 public class Server {
+
     Thread mainThread;
     public Lobby lobby;
     int nbConnections = 0;
@@ -69,8 +70,10 @@ public class Server {
             }
         }
         isRunning = true;
-        
-        updater = new TimedUpdater(this);
+
+        if (lobby != null) {
+            updater = new TimedUpdater(this);
+        }
         mainThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -81,17 +84,21 @@ public class Server {
 
                         Socket client = sSocket.accept();
                         nbConnections++;
-                        lobby.addConnection(client);
+                        if (lobby != null) {
+                            lobby.addConnection(client);
+                        }
                         System.out.println("connexion reçue");
-                        ServerToClientProcessor processor = new ServerToClientProcessor(Server.this, client);
+                        ServerToClientProcessor processor;
+                        processor = new ServerToClientProcessor(Server.this, client);
 
                         processors.add(processor);
                         t = new Thread(processor);
 
                         clients.add(client);
                         t.start();
-                    } catch (IOException e) {
-                    }
+                    } catch (IOException ex) {
+                        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                    } 
                 }
 
                 close();
@@ -112,7 +119,10 @@ public class Server {
         mainThread.interrupt();
         try {
             sSocket.close();
-            updater.close();
+            if (updater != null) {
+                updater.close();
+            }
+
         } catch (IOException e) {
             System.out.println("suppression du socket");
             e.printStackTrace();
@@ -121,6 +131,11 @@ public class Server {
         }
     }
 
+    /**
+     * renvoie les ips des sockets clients associés.
+     * 
+     * @return la liste d'ips.
+     */
     public List<String> getIpsClients() {
         List<String> toRet = new ArrayList<String>();
         for (int i = 0; i < clients.size(); i++) {
@@ -129,6 +144,11 @@ public class Server {
         return toRet;
     }
 
+    /**
+     * envoie à tous les clients.
+     * @param type type de message.
+     * @param message contenu du message.
+     */
     public void sendToAll(String type, String message) {
         switch (type) {
             case "COMMAND":
@@ -145,6 +165,8 @@ public class Server {
                 for (ServerToClientProcessor client : processors) {
                     client.sendData(message);
                 }
+                break;
+            default:
                 break;
         }
 

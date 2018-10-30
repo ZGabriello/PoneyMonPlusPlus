@@ -7,9 +7,11 @@ import java.net.UnknownHostException;
 
 /**
  * Objet gérant la connetion du client et la communication avec le serveur.
+ *
  * @author Alex.
  */
 public class Client {
+
     Lobby lobby;
     Socket sock;
     Thread t;
@@ -17,13 +19,14 @@ public class Client {
 
     /**
      * Constructeur client avec addresse ip et port.
+     *
      * @param addresse addresse ip sur laquelle le client doit se connecter.
      * @param port port sur lequel le client doit se connecter.
      */
     public Client(String addresse, int port) {
         try {
             sock = new Socket(InetAddress.getByName(addresse), port);
-            processor = new ClientToServerProcessor(sock,this);
+            processor = new ClientToServerProcessor(sock, this);
             t = new Thread(processor);
             t.start();
         } catch (UnknownHostException e) {
@@ -44,22 +47,21 @@ public class Client {
             sock = null;
         }
     }
-    
-    
-    void setLobby(Lobby l){
+
+    void setLobby(Lobby l) {
         this.lobby = l;
     }
-    
-    public void sendCommand(String command){
+
+    public void sendCommand(String command) {
         processor.sendCommand(command.toUpperCase());
     }
-    
-    public void sendInput(String inputCode){
+
+    public void sendInput(String inputCode) {
         processor.sendInput(inputCode);
     }
-    
-    public void sendData(String data){
+
+    public void sendData(String data) {
         processor.sendData(data);
     }
-    
+
 }

@@ -6,6 +6,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
 import java.io.IOException;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -27,19 +28,24 @@ public class ClientToServerProcessorTest {
         instance = c.processor;
 
     }
-
+    @After
+    public void clean(){
+        s.close();
+        c.close();
+    }
     /**
      * Test of run method, of class ClientToServerProcessor.
      */
     @Test
     public void testReceive() throws IOException, InterruptedException {
         System.out.println("run");
-        Thread.sleep(50);
-        s.processors.get(0).sendCommand("CLOSE");
-        Thread.sleep(500);
-        assert (instance.connexionFermee);
+        Thread.sleep(1000);
+        s.sendToAll("COMMAND","CLOSE");
+        Thread.sleep(1000);
         c.close();
         s.close();
+        assert (instance.connexionFermee);
+        
     }
 
 }

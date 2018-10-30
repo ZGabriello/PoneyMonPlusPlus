@@ -17,7 +17,7 @@ import java.util.Observer;
  *
  */
 public class FieldModel extends Observable implements Serializable {
-    
+
     /**
      * Tableau des joueurs réels.
      */
@@ -84,7 +84,10 @@ public class FieldModel extends Observable implements Serializable {
         notifyObservers(new ProgressNotification(progresses));
     }
 
-    public void clientStep(){
+    /**
+     * step particulier pour un client en ligne.
+     */
+    public void clientStep() {
         for (int i = 0; i < nbPoneys; i++) {
             // la fonction step() dans PoneyModel renvoie le nouveau progrès après mise à jour
             progresses.set(i, poneys.get(i).clientStep());
@@ -99,10 +102,11 @@ public class FieldModel extends Observable implements Serializable {
         setChanged();
         notifyObservers(new ProgressNotification(progresses));
     }
+
     /**
      * Initialisation des observeurs du modèle du terrain.
      *
-     * @param obs
+     * @param obs observer a ajouter.
      */
     @Override
     public void addObserver(Observer obs) {
@@ -161,9 +165,13 @@ public class FieldModel extends Observable implements Serializable {
         this.winner = winner;
     }
 
+    /**
+     * copie un fieldModel.
+     * @param m modèle à copier.
+     */
     public void copy(FieldModel m) {
         this.progresses = m.progresses;
-        for (int i = 0; i<poneys.size(); i++){
+        for (int i = 0; i < poneys.size(); i++) {
             poneys.get(i).nbTurns = m.poneys.get(i).nbTurns;
             poneys.get(i).progress = m.poneys.get(i).progress;
             poneys.get(i).speed = m.poneys.get(i).speed;
@@ -171,8 +179,11 @@ public class FieldModel extends Observable implements Serializable {
         setChanged();
         notifyObservers(new ProgressNotification(progresses));
     }
-    
-    public void lookAtMe(){
+
+    /**
+     * demande aux vues d'observer la progression.
+     */
+    public void lookAtMe() {
         setChanged();
         notifyObservers(new ProgressNotification(progresses));
     }
