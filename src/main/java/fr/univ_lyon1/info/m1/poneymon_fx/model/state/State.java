@@ -59,6 +59,8 @@ public abstract class State {
             pm.endPower();
         }
         pm.setSpeed(lastSpeed);
+        
+        System.out.println("desapplique etat");
 
     }
 

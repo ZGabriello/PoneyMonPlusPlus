@@ -6,7 +6,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 
 public class NyanPower extends PowerModel {
     
-    MultiplySpeedState state = new MultiplySpeedState(10);
+    MultiplySpeedState state = new MultiplySpeedState(3);
     
     @Override
     public void use(PoneyModel p) {
@@ -16,6 +16,6 @@ public class NyanPower extends PowerModel {
             state.setFromPower(true);
             this.setPowerIsCasted(true);
         }
-    }
+    } 
 }
 
