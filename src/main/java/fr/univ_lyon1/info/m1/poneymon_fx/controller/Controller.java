@@ -1,6 +1,5 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.model.DoubleSpeedState;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.MainView;
@@ -43,6 +42,9 @@ public class Controller {
      */
     public void addMainView(MainView view) {
         view.setController(this);
+        view.setId(views.size());
+
+        initializeMainView(view);
 
         // Si il y a déjà des vues, la nouvelle doit afficher la même chose que les autres
         if (!views.isEmpty()) {
@@ -50,36 +52,42 @@ public class Controller {
             if (model != null) {
                 view.setModel(model);
                 view.createGameView();
-            } else {
-                view.createMenuView();
             }
+            String activeView = views.get(0).getActiveView();
+            view.setActiveView(activeView);
         } else {
-            view.createMenuView();
+            view.setActiveView("MenuView");
         }
 
         views.add(view);
     }
 
     /**
-     * Démarre une nouvelle partie en créant un modèle et en le fournissant aux
-     * vues suivies.
-     *
+     * Initialisation des vues.
+     */
+    public void initializeMainView(MainView view) {
+        view.createMenuView();
+        view.createMenuParametersView();
+        view.createMenuControlesView();
+        view.createMenuResolutionView();
+    }
+
+    /**
+     * Démarre une nouvelle partie en créant un modèle et en le fournissant aux vues suivies.
+     * @param filename nom du fichier du circuit à charger
      * @param nbPoneys nombre de poneys
      */
-    public void startGame(int nbPoneys) {
-        model = new FieldModel(nbPoneys);  
-        System.out.println("vitesse originale : " + model.getPoneyModel(4).getSpeed());
-       /* DoubleSpeedState state = new DoubleSpeedState(10);
+    public void startGame(String filename, int nbPoneys) {
+        model = new FieldModel(filename, nbPoneys);
         
-        model.getPoneyModel(4).addState(state);*/
-        
-
         for (MainView view : views) {
             view.setModel(model);
             view.createGameView();
+            view.setActiveView("GameView");
+            gameUnpause();
         }
-
-        gameUnpause(); // La partie démarre en pause
+        
+        gamePause();
     }
 
     /**
@@ -91,19 +99,6 @@ public class Controller {
         PoneyModel pm = model.getPoneyModel(i);
         if (!pm.isIa()) {
             model.getPoneyModel(i).usePower();
-        }
-
-    }
-    
-    /**
-     * Change l'état du poney si ce n'est pas une IA.
-     * 
-     * @param i position du poney dans le modèle
-     */
-    public void useItem(int i) {
-        PoneyModel pm = model.getPoneyModel(i);
-        if (!pm.isIa()) {
-            pm.getPickableUp().applyState(pm);
         }
 
     }
@@ -133,11 +128,44 @@ public class Controller {
     /**
      * Permet de retourner au menu.
      */
-    public void menu() {
+    public void menuFromGame() {
+        timer.stop();
+        
         for (MainView view : views) {
             view.setActiveView("MenuView");
             view.deleteView("GameView");
             view.setModel(null);
         }
+    }
+
+    /**
+     * Permet d'aller dans le menu controles.
+     */
+    public void menuControles() {
+        for (MainView view : views) {
+            view.setActiveView("MenuControlesView");
+        }
+    }
+
+    /**
+     * Permet d'aller dans le menu paramètres.
+     */
+    public void menuParameters() {
+        for (MainView view : views) {
+            view.setActiveView("MenuParametersView");
+        }
+    }
+
+    /**
+     * Permet d'aller dans le menu paramètres.
+     */
+    public void menuResolution() {
+        for (MainView view : views) {
+            view.setActiveView("MenuResolutionView");
+        }
+    }
+
+    public void changeResolution(int idMainView, int newWidth, int newHeight) {
+        views.get(idMainView).resize(newWidth, newHeight);
     }
 }

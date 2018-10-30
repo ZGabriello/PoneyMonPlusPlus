@@ -6,8 +6,8 @@ import javafx.scene.image.Image;
 
 
 public class EnragedPoneyView extends PoneyView {
-    EnragedPoneyView(GraphicsContext gc, int w) {
-        super(gc, w);
+    EnragedPoneyView(double scale) {
+        super(scale);
     }
     
     /**
@@ -18,10 +18,8 @@ public class EnragedPoneyView extends PoneyView {
     public void initialize(PoneyStartNotification psn) {
         super.initialize(psn);
         
-        if (graphicsContext != null) {
-            // remplacer par l'image de crunch
-            powerImage = new Image("assets/pony-" + color + "-rainbow.gif");    
-        }
+        // remplacer par l'image de crunch
+        powerImage = loadImage("assets/pony-" + color + "-rainbow.gif");    
     }
     
     

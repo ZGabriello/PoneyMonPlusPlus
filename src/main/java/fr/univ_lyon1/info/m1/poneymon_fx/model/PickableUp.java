@@ -1,4 +1,5 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.state.State;
 
 /**
  * Classe abstraite ramassable.

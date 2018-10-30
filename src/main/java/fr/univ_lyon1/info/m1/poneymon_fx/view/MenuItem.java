@@ -1,6 +1,5 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
@@ -17,7 +16,7 @@ import javafx.scene.text.Text;
  */
 public class MenuItem extends HBox {
     static final Font FONT = Font.font("", FontWeight.BOLD, 30);
-    
+
     private MiniPoney p1 = new MiniPoney("orange");
     private MiniPoney p2 = new MiniPoney("orange");
     private Text text;
@@ -28,7 +27,7 @@ public class MenuItem extends HBox {
             super(new Image("assets/pony-" + color + "-rainbow.gif", 100, 0, true, true));
         }
     }
-    
+
     /**
      * Constructeur du MenuItem.
      * @param name texte affiché dans le MenuItem
@@ -66,5 +65,13 @@ public class MenuItem extends HBox {
         if (script != null) {
             script.run();
         }
+    }
+
+    public void setText(String insideText) {
+        text.setText(insideText);
+    }
+
+    public String getText() {
+        return text.getText();
     }
 }

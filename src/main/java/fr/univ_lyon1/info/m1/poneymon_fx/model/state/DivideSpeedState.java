@@ -1,8 +1,9 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.model;
+package fr.univ_lyon1.info.m1.poneymon_fx.model.state;
 
+
+import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 
 import static fr.univ_lyon1.info.m1.poneymon_fx.model.EnragedPoneyModel.SPEED_DIVIDER_ENRAGED;
-import java.sql.Timestamp;
 
 /**
  * Classe gérant la perte de vitesse (malus).
@@ -17,25 +18,12 @@ public class DivideSpeedState extends State {
     
     /**
      * Méthode appliquant l'état au poney.
-     *  
+     * 
      * @param pm poneyModel
      */
-    @Override
     public void applyState(PoneyModel pm) {
-        this.startTime = new Timestamp(System.currentTimeMillis());
-        
-        double speed = pm.getSpeed();
+        super.applyState(pm);
 
-        pm.divideSpeed(SPEED_DIVIDER_ENRAGED);
-        
-         while(true)
-        {
-            if(checkExpired())
-            {
-                unapplyState(pm, speed);
-                break;
-            }
-        }        
+        pm.divideSpeed(SPEED_DIVIDER_ENRAGED);       
     }            
-    
 }

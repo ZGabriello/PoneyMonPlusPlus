@@ -1,5 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.track.TrackModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.ImStillHereNyanStrategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.NotEnoughSpeedNyanStrategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.MoreSpeedNyanStrategy;
@@ -16,15 +18,17 @@ import java.util.Observer;
  *
  */
 public class FieldModel extends Observable {
+    /** Circuit chargé. */
+    TrackModel track;
+    
     /** Tableau des joueurs réels. */
     int[] players = new int[] { 0, 1 };
     
     /** Poneys. */
     int nbPoneys;
     List<PoneyModel> poneys = new ArrayList<>();
-    List<PickableUp> items = new ArrayList<>();
-
-    List<Double> progresses = new ArrayList<>();
+    List<double[]> coords = new ArrayList<>();
+    double[] angles;
     String[] colorMap =
     new String[] {"blue", "green", "orange", "purple", "yellow"};
     
@@ -36,17 +40,20 @@ public class FieldModel extends Observable {
     
     /**
      * Constructeur du FieldModel.
-     *
+     * @param filename nom du fichier du circuit à charger
      * @param nbPoneys Nombre de PoneyModel à instancier
      */
-    public FieldModel(int nbPoneys) {
+    public FieldModel(String filename, int nbPoneys) {
+        track = new TrackModel(filename);
+        Line beginLine = track.getBeginLine();
+        
         this.nbPoneys = nbPoneys;
         /* On initialise le terrain de course */
         for (int i = 0; i < nbPoneys; i++) {
-            poneys.add(new NyanPoneyModel(colorMap[i % 5], i, this));
-            progresses.add(0.0);
+            poneys.add(new NyanPoneyModel(colorMap[i % 5], beginLine, i, this));
+            coords.add(null);
         }
-        items.add(new BoostItemModel(1));
+       
         /*
         for (int j = 0; j < 1; j++) {
             poneys.add(new EnragedPoneyModel("purple",j));
@@ -62,6 +69,8 @@ public class FieldModel extends Observable {
             poneys.add(new NyanPoneyModel("Yellow", d, this));
             progresses.add(0.0);
         } */
+        
+        angles = new double[nbPoneys];
         
         // Tant qu'il n'y a pas de menus permettant de choisir les poneys
         // on part d'une partie avec 3 ia sur les poneys centraux, et 5 poneys au total
@@ -83,7 +92,12 @@ public class FieldModel extends Observable {
     public void step() {
         for (int i = 0; i < nbPoneys; i++) {
             // la fonction step() dans PoneyModel renvoie le nouveau progrès après mise à jour
-            progresses.set(i, poneys.get(i).step());
+            PoneyModel poney = poneys.get(i);
+            poney.step();
+            
+            double[] infos = poney.getInfos();
+            coords.set(i, new double[] {infos[0], infos[1]});
+            angles[i] = infos[2];
             
             if (poneys.get(i).getNbTours() == winAt && winner == -1) {
                 winner = i;
@@ -93,7 +107,7 @@ public class FieldModel extends Observable {
         }
         
         setChanged();
-        notifyObservers(new ProgressNotification(progresses));
+        notifyObservers(new ProgressNotification(coords, angles));
     }
     
     /**
@@ -105,11 +119,19 @@ public class FieldModel extends Observable {
         
         List<String> poneyTypes = new ArrayList<>();
         for (int i = 0; i < nbPoneys; i++) {
-            poneyTypes.add(poneys.get(i).getClass().getSimpleName());
+            PoneyModel poney = poneys.get(i);
+            poneyTypes.add(poney.getClass().getSimpleName());
+            
+            double[] infos = poney.getInfos();
+            coords.set(i, new double[] {infos[0], infos[1]});
+            angles[i] = infos[2];
         }
         
         setChanged();
         notifyObservers(new StartNotification(nbPoneys, poneyTypes));
+        
+        setChanged();
+        notifyObservers(new ProgressNotification(coords, angles));
     }
     
     public int getNbPoneys() {
@@ -122,5 +144,9 @@ public class FieldModel extends Observable {
     
     public int getWinAt() {
         return winAt;
+    }
+    
+    public TrackModel getTrackModel() {
+        return track;
     }
 }
