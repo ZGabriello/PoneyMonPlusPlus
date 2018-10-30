@@ -49,7 +49,7 @@ public class TrackModel {
     public void importTrack(String filename) {
         try {
             File f = new File("src/main/resources/tracks/" + filename);
-            Scanner scanner = new Scanner(f).useLocale(Locale.US);
+            Scanner scanner = new Scanner(f).useLocale(Locale.US); 
 
             String object = null;
             
