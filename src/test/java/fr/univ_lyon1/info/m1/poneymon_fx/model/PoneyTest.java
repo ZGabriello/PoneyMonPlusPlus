@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.state.MultiplySpeedState;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -52,7 +53,7 @@ public class PoneyTest {
         // Given
         NyanPoneyModel p = new NyanPoneyModel();
         p.setSpeed(0.42);
-        DoubleSpeedState state = new DoubleSpeedState(5000);
+        MultiplySpeedState state = new MultiplySpeedState(5000);
         p.addState(state);
 
         double expectedProgress = 0.42 / p.getSpeedDivider();
@@ -74,7 +75,7 @@ public class PoneyTest {
         // Given
         NyanPoneyModel p = new NyanPoneyModel();
         p.setSpeed(0.42);
-        DoubleSpeedState state = new DoubleSpeedState(5000);
+        MultiplySpeedState state = new MultiplySpeedState(5000);
         p.addState(state);
  
         //When  

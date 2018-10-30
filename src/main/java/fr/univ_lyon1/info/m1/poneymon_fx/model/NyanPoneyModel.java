@@ -1,5 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.power.PowerModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.power.NyanPower;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.ImStillHereNyanStrategy;
@@ -10,14 +12,14 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.NyanStrategy;
  *
  */
 public class NyanPoneyModel extends PoneyModel {
-    static final int SPEED_MULTIPLIER = 2;
+    public static final int SPEED_MULTIPLIER = 2;
 
     /**
      * Constructeur de NyanPoney sans modèle et autres paramètres, pour tests.
      */
     public NyanPoneyModel() {
         super();
-        power = new PowerDoubleSpeed();
+        power = new NyanPower();
         
     }
 
@@ -30,7 +32,7 @@ public class NyanPoneyModel extends PoneyModel {
      */
     public NyanPoneyModel(String color, Line beginLine, int position, FieldModel f) {
         super(color, beginLine, position);
-        power = new PowerDoubleSpeed();
+        power = new NyanPower();
         
         // stratégie par défaut, peut-être utile sur un joueur humain
         // en cas de déconnexion en réseau
@@ -65,30 +67,10 @@ public class NyanPoneyModel extends PoneyModel {
     @Override
     public void usePower() {
         if (powerState == false && nbPowers < 1) {
-            ++nbPowers;
-            powerState = true;
-            power.use(this);
-            setChanged();
-            notifyObservers(new PowerNotification(true));
+            super.usePower();
         }        
-
     }
     
-    @Override
-    public void applyState() {
-        // TODO : si effet immédiat, appliquer l'état
-     
-        if (states != null) {
-            for (State state : states) {
-                state.applyState(this);
-            }
-        }
-        
-        setChanged();
-        notifyObservers(new PowerNotification(true));
-        
-    }
-
     public static int getSpeedMultiplier() {
         return SPEED_MULTIPLIER;
     }

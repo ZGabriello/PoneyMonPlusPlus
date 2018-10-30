@@ -1,4 +1,6 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.model;
+package fr.univ_lyon1.info.m1.poneymon_fx.model.power;
+
+import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 
 
 public abstract class PowerModel {

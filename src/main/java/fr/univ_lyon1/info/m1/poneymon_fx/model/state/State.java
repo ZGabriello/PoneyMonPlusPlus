@@ -1,5 +1,6 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.model;
+package fr.univ_lyon1.info.m1.poneymon_fx.model.state;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import java.sql.Timestamp;
 
 /**
@@ -8,22 +9,21 @@ import java.sql.Timestamp;
  * @author Elo
  */
 public abstract class State {
-
     Timestamp startTime;
     Timestamp endTime;
     long duration;
-
-    boolean isExpired;
-
+    
+    boolean fromPower;
+    
     /**
      * Constructeur de State.
      * 
      * @param duration une durée
      */
     public State(long duration) {
- 
         this.duration = duration;
-        this.isExpired = false;
+        
+        fromPower = false;
     }
 
     /**
@@ -32,7 +32,8 @@ public abstract class State {
      * @param pm un poneyModel
      */
     public void applyState(PoneyModel pm) {
-
+        this.startTime = new Timestamp(System.currentTimeMillis());
+        this.endTime = new Timestamp(this.startTime.getTime() + duration);
     }
 
     /**
@@ -41,30 +42,26 @@ public abstract class State {
      * @return vrai ou faux
      */
     public boolean checkExpired() {
-        
-        if (System.currentTimeMillis() > this.endTime.getTime()) {
-
-            this.isExpired = true;
-            
-        } else {
-            
-            this.isExpired = false;
-            
-        }
-
-        return this.isExpired;
+        return System.currentTimeMillis() > this.endTime.getTime();
     }
 
+    public void setFromPower(boolean b) {
+        fromPower = b;
+    }
+    
     /**
      * Eliminer l'état du poney.
      * 
      * @param pm un poneyModel
      */
     public void unapplyState(PoneyModel pm) {
-
-        pm.endPower();
+        System.out.println("State unapplied");
+        
+        if (fromPower) {
+            pm.endPower();
+        }
+        
         pm.removeState(this);
-
     }
 
 }

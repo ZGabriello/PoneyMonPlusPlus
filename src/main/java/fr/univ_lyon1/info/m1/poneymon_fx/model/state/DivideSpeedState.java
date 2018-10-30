@@ -1,6 +1,7 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.model;
+package fr.univ_lyon1.info.m1.poneymon_fx.model.state;
 
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import static fr.univ_lyon1.info.m1.poneymon_fx.model.EnragedPoneyModel.SPEED_DIVIDER_ENRAGED;
 import java.sql.Timestamp;
 
@@ -21,13 +22,9 @@ public class DivideSpeedState extends State {
      * @param pm poneyModel
      */
     public void applyState(PoneyModel pm) {
-        this.startTime = new Timestamp(System.currentTimeMillis());
-        this.endTime = new Timestamp(this.startTime.getTime() + duration);
+        super.applyState(pm);
 
-        //while (checkExpired() == false) {            
         pm.divideSpeed(SPEED_DIVIDER_ENRAGED);       
-        //}
-        unapplyState(pm);
     }            
     
 }

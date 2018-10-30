@@ -1,5 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.state.State;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.power.PowerModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.LanePart;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.Strategy;
@@ -126,6 +128,16 @@ public abstract class PoneyModel extends Observable {
         }
         
         infos = curLane.getInfos(progress);
+        
+        checkStates();
+    }
+    
+    protected void checkStates() {
+        for (State state : states) {
+            if (state.checkExpired()) {
+                state.unapplyState(this);
+            }
+        }
     }
     
     protected void nextLane() {
@@ -151,7 +163,12 @@ public abstract class PoneyModel extends Observable {
      * Utilisation du pouvoir.
      */
     public void usePower() {
-
+        ++nbPowers;
+        powerState = true;
+        power.use(this);
+        
+        setChanged();
+        notifyObservers(new PowerNotification(true));
     }
     
     public void usePower(PoneyModel p){
@@ -160,7 +177,12 @@ public abstract class PoneyModel extends Observable {
     
 
     public void applyState() {
+        for (State state : states) {
+            state.applyState(this);
+        }
         
+        setChanged();
+        notifyObservers(new PowerNotification(true));
     }
     
     /**
