@@ -6,15 +6,16 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.track.LanePart;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.StraightLanePart;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.TrackModel;
-import static java.lang.Math.PI;
-import static java.lang.Math.cos;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.FillRule;
 
-import static java.lang.Math.min;
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static java.lang.Math.min;
 import static java.lang.Math.toDegrees;
 
 /**
@@ -41,7 +42,7 @@ public class TrackView extends Canvas {
     
     /**
      * Canvas dans lequel on va dessiner le jeu.
-     * @param gc GraphicsContext du canvas parent dans lequel on dessine le circuit
+     * @param track model du circuit à afficher
      * @param w largeur du canvas
      * @param h hauteur du canvas
      */
@@ -127,7 +128,7 @@ public class TrackView extends Canvas {
         double height = y1 - y0;
         double rectHeight = height / numberOfRect;
         
-        for (int i=0; i < numberOfRect; i += 2) {
+        for (int i = 0; i < numberOfRect; i += 2) {
             gc.fillRect(x1, y1 - ((i + 1) * rectHeight), xStep, rectHeight + 0.01);
             gc.fillRect(x3, y3 - ((i + 2) * rectHeight) - 0.01, xStep, rectHeight + 0.01);
         }
@@ -239,6 +240,10 @@ public class TrackView extends Canvas {
         }
     }
     
+    
+    /**
+     * Fonction chargée de dessiner le circuit.
+     */
     public void display() {
         for (LanePart lp : track.getLaneParts()) {
             drawLanePart(lp, borderColor, insideColor);

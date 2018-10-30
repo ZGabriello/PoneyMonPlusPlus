@@ -10,6 +10,11 @@ public class ProgressNotification extends Notification {
     List<double[]> coords;
     double[] angles;
     
+    /**
+     * Constructeur de la notification d'avancement du poney.
+     * @param coords position de chaque poney
+     * @param angles angle de direction de chaque poney
+     */
     public ProgressNotification(List<double[]> coords, double[] angles) {
         super("PROGRESS");
         this.coords = coords;

@@ -73,7 +73,7 @@ public abstract class PoneyModel extends Observable {
 
         this.states = new ArrayList<>();
         this.progress = 0.0;
-       // setRandSpeed();
+        //setRandSpeed();
     }
 
     /**
@@ -133,10 +133,17 @@ public abstract class PoneyModel extends Observable {
     }
     
     protected void checkStates() {
+        List<State> expiredStates = new ArrayList<>();
+        
         for (State state : states) {
             if (state.checkExpired()) {
                 state.unapplyState(this);
+                expiredStates.add(state);
             }
+        }
+        
+        for (State state : expiredStates) {
+            removeState(state);
         }
     }
     
@@ -175,16 +182,6 @@ public abstract class PoneyModel extends Observable {
         
     }
     
-
-    public void applyState() {
-        for (State state : states) {
-            state.applyState(this);
-        }
-        
-        setChanged();
-        notifyObservers(new PowerNotification(true));
-    }
-    
     /**
      * Sortie de l'etat d'utilisation du pouvoir du poney.
      */
@@ -217,6 +214,9 @@ public abstract class PoneyModel extends Observable {
         
     }
     
+    /**
+     * Change la voie actuelle que parcourt le poney.
+     */
     public void setCurLane(LanePart lp) {
         curLane = lp;
         curLaneLength = lp.getLength();

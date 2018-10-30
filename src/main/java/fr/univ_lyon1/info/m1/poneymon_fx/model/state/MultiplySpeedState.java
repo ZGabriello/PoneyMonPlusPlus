@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model.state;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
+
 import static fr.univ_lyon1.info.m1.poneymon_fx.model.NyanPoneyModel.SPEED_MULTIPLIER;
 
 /**
@@ -22,9 +23,5 @@ public class MultiplySpeedState extends State {
         super.applyState(pm);
 
         pm.multiplySpeed(SPEED_MULTIPLIER);       
-    }
-    
-    public void unapplyState(PoneyModel pm) {
-        
     }
 }

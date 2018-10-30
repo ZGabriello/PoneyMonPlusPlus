@@ -47,7 +47,8 @@ public class GameView extends View {
         new KeyCode[]{KeyCode.NUMPAD1, KeyCode.NUMPAD2, KeyCode.NUMPAD3,
                       KeyCode.NUMPAD4, KeyCode.NUMPAD5};
     
-    /* Constructeur de GameView.
+    /** 
+     * Constructeur de GameView.
      *
      * @param m Modèle de la partie
      * @param mc Menu Controles contenant les touches de controle
@@ -93,19 +94,17 @@ public class GameView extends View {
                         // update timerLabel
                         if (timeBeforeStartOfGame > 0) {
                             timerLabel.setText(Integer.toString(timeBeforeStartOfGame));
-                        }
-                        else if (timeBeforeStartOfGame == 0) {
+                        } else if (timeBeforeStartOfGame == 0) {
                             timerLabel.setText("GOOOO !!!");
                             controller.gameUnpause();
-                        }
-                        else {
+                        } else {
                             --timeBeforeGoVanishes;
                         }
                         if (timeBeforeGoVanishes == 0) {
                             timeline.stop();
                             GameView.this.getChildren().remove(timerLabel);
                         }
-                      }
+                    }
                 }));
         timeline.playFromStart();
     }

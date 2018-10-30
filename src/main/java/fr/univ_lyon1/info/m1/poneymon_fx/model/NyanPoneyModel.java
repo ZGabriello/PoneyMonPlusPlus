@@ -46,7 +46,8 @@ public class NyanPoneyModel extends PoneyModel {
      * @param position position du poney dans le modèle
      * @param strategy stratégie à utiliser pour l'ia
      */
-    public NyanPoneyModel(String color, Line beginLine, int position, NyanStrategy strategy, PowerModel p) {
+    public NyanPoneyModel(String color, Line beginLine, int position,
+                          NyanStrategy strategy, PowerModel p) {
         super(color, beginLine, position, strategy);
         this.setPower(p);
     }
@@ -54,14 +55,6 @@ public class NyanPoneyModel extends PoneyModel {
     public void setStrategy(NyanStrategy s) {
         ia = true;
         strategy = s;
-    }
-
-    @Override
-    protected void newTurn() {
-        super.newTurn();
-        if (powerState) {
-            endPower();
-        }
     }
 
     @Override

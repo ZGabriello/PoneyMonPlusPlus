@@ -28,11 +28,10 @@ public class App extends Application {
 
         c.addMainView(v);
 
-        // Secondary view
-        Stage s2 = new Stage();
-        MainView v2 = new MainView(s2, 1000, 600);
+        //Stage s2 = new Stage();
+        //MainView v2 = new MainView(s2, 1000, 600);
 
-        c.addMainView(v2);
+        //c.addMainView(v2);
     }
 
     public static void main(String[] args) {

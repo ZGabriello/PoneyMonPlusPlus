@@ -62,6 +62,10 @@ public class ArcLanePart extends LanePart {
         return "ARC";
     }
     
+    
+    /**
+     * Envoie les infos nécessaires pour afficher le poney (position et direction).
+     */
     public double[] getInfos(double progress) {
         double currentAngle = startAngle + progress * arcLength;
         double poneyDirection = currentAngle + PI / 2;

@@ -9,8 +9,8 @@ import java.sql.Timestamp;
  * @author Elo
  */
 public abstract class State {
-    Timestamp startTime;
-    Timestamp endTime;
+    long startTime;
+    long endTime;
     long duration;
     
     boolean fromPower;
@@ -32,8 +32,8 @@ public abstract class State {
      * @param pm un poneyModel
      */
     public void applyState(PoneyModel pm) {
-        this.startTime = new Timestamp(System.currentTimeMillis());
-        this.endTime = new Timestamp(this.startTime.getTime() + duration);
+        startTime = System.currentTimeMillis();
+        endTime = startTime + duration * 1000;
     }
 
     /**
@@ -42,7 +42,7 @@ public abstract class State {
      * @return vrai ou faux
      */
     public boolean checkExpired() {
-        return System.currentTimeMillis() > this.endTime.getTime();
+        return System.currentTimeMillis()  >= endTime;
     }
 
     public void setFromPower(boolean b) {
@@ -55,13 +55,9 @@ public abstract class State {
      * @param pm un poneyModel
      */
     public void unapplyState(PoneyModel pm) {
-        System.out.println("State unapplied");
-        
         if (fromPower) {
             pm.endPower();
         }
-        
-        pm.removeState(this);
     }
 
 }

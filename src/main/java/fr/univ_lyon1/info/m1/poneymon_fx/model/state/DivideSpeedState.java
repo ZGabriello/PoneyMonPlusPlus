@@ -2,8 +2,8 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model.state;
 
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
+
 import static fr.univ_lyon1.info.m1.poneymon_fx.model.EnragedPoneyModel.SPEED_DIVIDER_ENRAGED;
-import java.sql.Timestamp;
 
 /**
  * Classe gérant la perte de vitesse (malus).
@@ -26,5 +26,4 @@ public class DivideSpeedState extends State {
 
         pm.divideSpeed(SPEED_DIVIDER_ENRAGED);       
     }            
-    
 }

@@ -11,6 +11,7 @@ public class NyanPower extends PowerModel {
     @Override
     public void use(PoneyModel p) {
         if (this.getPowerIsCasted() == false) {
+            p.addState(state);
             state.applyState(p);
             state.setFromPower(true);
             this.setPowerIsCasted(true);

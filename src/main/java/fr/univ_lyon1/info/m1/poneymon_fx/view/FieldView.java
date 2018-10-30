@@ -63,7 +63,8 @@ public class FieldView implements Observer {
         if (backgroundResource.startsWith("#")) {
             backgroundColor = Color.web(backgroundResource);
         } else if (backgroundColor == null) {
-            backgroundImage = new Image("assets/" + backgroundResource, width , height, false, false);
+            backgroundImage = new Image("assets/" + backgroundResource,
+                                        width, height, false, false);
         }
         background = new Canvas(w, h);
         poneyground = new Pane();
@@ -161,6 +162,9 @@ public class FieldView implements Observer {
         displayPoneyground();
     }
     
+    /**
+     * Affiche le background.
+     */
     public void displayBackground() {
         GraphicsContext gc = background.getGraphicsContext2D();
         
@@ -168,12 +172,15 @@ public class FieldView implements Observer {
             gc.setFill(backgroundColor);
             gc.fillRect(0, 0, width, height);
         } else if (backgroundImage != null) {
-            gc.drawImage(backgroundImage, 0 , 0);
+            gc.drawImage(backgroundImage, 0, 0);
         } else {
             System.err.println("There's no background !");
         }
     }
     
+    /**
+     * Affiche les poneys dans leur vue.
+     */
     public void displayPoneyground() {
         for (PoneyView poney : poneys) {
             poney.display();

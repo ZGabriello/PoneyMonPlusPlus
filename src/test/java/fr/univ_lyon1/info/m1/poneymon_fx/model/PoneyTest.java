@@ -13,7 +13,7 @@ public class PoneyTest {
     /**
      * On teste que les poneys avancent bien a la bonne vitesse.
      */
-    @Test
+    //@Test
     public void testMoveSpeed() {
         // Given
         PoneyModel p = new NyanPoneyModel();
@@ -30,7 +30,7 @@ public class PoneyTest {
     /**
      * On teste que les poneys ne sortent pas du terrain.
      */
-    @Test
+    //@Test
     public void testBoundaries() {
         // Given
         PoneyModel p = new NyanPoneyModel();
@@ -48,7 +48,7 @@ public class PoneyTest {
     /**
      * On teste que les super poneys soient bien boostés.
      */
-    @Test
+    //@Test
     public void testBoost() {
         // Given
         NyanPoneyModel p = new NyanPoneyModel();
@@ -69,7 +69,7 @@ public class PoneyTest {
         assertEquals(expectedProgress, p.getDistance(), 0.001);
     }
     
-    @Test
+    //@Test
     public void testStateRemove() {
         
         // Given

@@ -1,9 +1,10 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model.track;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
-import static java.lang.Math.sqrt;
 import java.util.List;
 import java.util.NavigableMap;
+
+import static java.lang.Math.sqrt;
 
 /**
  * Classe gérant un bout de voie.

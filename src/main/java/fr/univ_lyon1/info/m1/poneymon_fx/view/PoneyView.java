@@ -4,16 +4,17 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.Notification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PoneyStartNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
-import static java.lang.Math.PI;
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
-import static java.lang.Math.toDegrees;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.geometry.Point3D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.transform.Rotate;
+
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+import static java.lang.Math.toDegrees;
 
 /**
  * Vue gérant l'affichage du Poney.
@@ -48,7 +49,7 @@ public class PoneyView implements Observer {
     
     String color;
     // On cree trois images globales pour ne pas les recreer en permanence
-    ImageView currentPoney;
+    ImageView currentImage;
     ImageView poneyImage;
     ImageView powerImage;
 
@@ -75,6 +76,11 @@ public class PoneyView implements Observer {
         return new double[] {newX, newY};
     }
     
+    /**
+     * Met à jour les informations d'affichage à partir des données de position
+     * et de direction du poney (angle) données par le modèle.
+     *
+     */
     public void setPos(double[] pos, double angle) {
         if (angle > PI / 2 && angle < 3 * PI / 2) {
             if (!mirrored) {
@@ -101,13 +107,13 @@ public class PoneyView implements Observer {
     }
         
     protected void displayPowerAnimation() {
-        currentPoney = powerImage;
+        currentImage = powerImage;
         powerImage.setVisible(true);
         poneyImage.setVisible(false);
     }
     
     protected void displayNormalAnimation() {
-        currentPoney = poneyImage;
+        currentImage = poneyImage;
         poneyImage.setVisible(true);
         powerImage.setVisible(false);
     }
@@ -127,7 +133,8 @@ public class PoneyView implements Observer {
     
     protected ImageView loadImage(String filename) {
         // On charge l'image associée au poney
-        ImageView image = new ImageView(new Image(filename, effectiveWidth , effectiveHeight, false, false));
+        Image tmp = new Image(filename, effectiveWidth, effectiveHeight, false, false);
+        ImageView image = new ImageView(tmp);
         image.setCache(true);
         image.getTransforms().addAll(mirror, rotation);
         
@@ -167,9 +174,12 @@ public class PoneyView implements Observer {
         }
     }
     
+    /**
+     * Affiche le poney.
+     */
     public void display() {
-        currentPoney.setX(x);
-        currentPoney.setY(y);
+        currentImage.setX(x);
+        currentImage.setY(y);
         setMirrorPivot();
         setRotate(angle);
     }
