@@ -96,8 +96,8 @@ public class MenuResolutionView extends View {
     }
 
     private void createContent() {
-        for (int j = 0; j < widthHeight.length; j = j+2) {
-            for (int k = 1; k < widthHeight.length; k = k+2) {
+        for (int j = 0; j < widthHeight.length; j = j + 2) {
+            for (int k = 1; k < widthHeight.length; k = k + 2) {
                 MenuItem item = new MenuItem("Resolution : "
                         + widthHeight[j]
                         + "x"
