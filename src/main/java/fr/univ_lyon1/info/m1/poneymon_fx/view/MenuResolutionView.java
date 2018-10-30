@@ -96,17 +96,15 @@ public class MenuResolutionView extends View {
     }
 
     private void createContent() {
-        for (int j = 0; j < widthHeight.length; j = j + 2) {
-            for (int k = 1; k < widthHeight.length; k = k + 2) {
-                MenuItem item = new MenuItem("Resolution : "
-                        + widthHeight[j]
-                        + "x"
-                        + widthHeight[k]);
-                final int newWidth = widthHeight[j];
-                final int newHeight = widthHeight[k];
-                item.setOnActivate(() -> newResolution(newWidth, newHeight));
-                menuItems.add(item);
-            }
+        for (int i = 0; i < widthHeight.length; i = i + 2) {
+            MenuItem item = new MenuItem("Resolution : "
+                    + widthHeight[i]
+                    + "x"
+                    + widthHeight[i + 1]);
+            final int newWidth = widthHeight[i];
+            final int newHeight = widthHeight[i + 1];
+            item.setOnActivate(() -> newResolution(newWidth, newHeight));
+            menuItems.add(item);
 
         }
 
