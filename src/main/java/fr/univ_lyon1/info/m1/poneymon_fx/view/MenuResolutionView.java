@@ -54,7 +54,7 @@ public class MenuResolutionView extends View {
     Controller controller;
 
     Map<Integer, Integer> hmResolution = new LinkedHashMap<>();
-    private List<MenuItem> menuItems = new ArrayList<MenuItem>();;
+    private List<MenuItem> menuItems = new ArrayList<MenuItem>();
 
     int currentItem = 0;
 
@@ -99,9 +99,9 @@ public class MenuResolutionView extends View {
         for (int j = 0; j < widthHeight.length; j = j+2) {
             for (int k = 1; k < widthHeight.length; k = k+2) {
                 MenuItem item = new MenuItem("Resolution : "
-                + widthHeight[j]
-                + "x"
-                + widthHeight[k]);
+                        + widthHeight[j]
+                        + "x"
+                        + widthHeight[k]);
                 final int newWidth = widthHeight[j];
                 final int newHeight = widthHeight[k];
                 item.setOnActivate(() -> newResolution(newWidth, newHeight));
