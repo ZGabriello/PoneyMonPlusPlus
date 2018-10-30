@@ -92,26 +92,6 @@ public class FieldModel extends Observable {
         setChanged();
         notifyObservers(new ProgressNotification(coords, angles));
     }
-
-    /**
-     * step particulier pour un client en ligne.
-     */
-    public void clientStep() {
-        for (int i = 0; i < nbPoneys; i++) {
-            // la fonction step() dans PoneyModel renvoie le nouveau progrès après mise à jour
-            progresses.set(i, poneys.get(i).clientStep());
-
-            if (poneys.get(i).getNbTours() == winAt && winner == -1) {
-                winner = i;
-                setChanged();
-                notifyObservers(new WinNotification(winner, poneys.get(i).getColor()));
-            }
-        }
-
-        setChanged();
-        notifyObservers(new ProgressNotification(progresses));
-    }
-
     /**
      * Initialisation des observeurs du modèle du terrain.
      *
@@ -158,9 +138,6 @@ public class FieldModel extends Observable {
         return poneys;
     }
 
-    public List<Double> getProgresses() {
-        return progresses;
-    }
 
     public int[] getPlayers() {
         return players;
@@ -191,14 +168,14 @@ public class FieldModel extends Observable {
      * @param m modèle à copier.
      */
     public void copy(FieldModel m) {
-        this.progresses = m.progresses;
+        //this.progresses = m.progresses;
         for (int i = 0; i < poneys.size(); i++) {
             poneys.get(i).nbTurns = m.poneys.get(i).nbTurns;
             poneys.get(i).progress = m.poneys.get(i).progress;
             poneys.get(i).speed = m.poneys.get(i).speed;
         }
         setChanged();
-        notifyObservers(new ProgressNotification(progresses));
+        //notifyObservers(new ProgressNotification(progresses));
     }
 
     /**
@@ -206,7 +183,7 @@ public class FieldModel extends Observable {
      */
     public void lookAtMe() {
         setChanged();
-        notifyObservers(new ProgressNotification(progresses));
+        notifyObservers(new ProgressNotification(coords,angles));
     }
 
 }

@@ -34,7 +34,7 @@ public class OnlineController extends Controller {
                 if (OnlineController.this.lobby.isHost) {
                     model.step();
                 } else {
-                    model.clientStep();
+                    model.lookAtMe();
                 }
             }
         };
@@ -64,10 +64,9 @@ public class OnlineController extends Controller {
         lobby.setController(this);
     }
 
-    @Override
     public void startGame(int nbPoneys) {
         if (model == null) {
-            model = new FieldModel(nbPoneys);
+            model = new FieldModel("test",nbPoneys);
         }
         for (MainView view : views) {
             view.setModel(model);

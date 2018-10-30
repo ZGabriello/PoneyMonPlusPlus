@@ -24,7 +24,7 @@ public class AppOnlineTest extends Application {
         Stage s2 = new Stage();
         MainView v2 = new MainView(s2, 400, 400);
         OnlineController servC = new OnlineController();
-        servC.setModel(new FieldModel(5));
+        servC.setModel(new FieldModel("test",3));
         OnlineController clientC = new OnlineController();
         //OnlineController clientC1 = new OnlineController();
         servC.createLobby();
@@ -34,10 +34,10 @@ public class AppOnlineTest extends Application {
         //clientC1.joinLobby(servC.lobby.getHostIp(), 9000);
         servC.addMainView(v2);
         System.out.println("beforeStart");
-        clientC.startGame(5);
+        clientC.startGame(3);
         //clientC1.startGame(5);
         System.out.println("midStart");
-        servC.startGame(5);
+        servC.startGame(3);
         System.out.println("afterStart");
         
         // Secondary view

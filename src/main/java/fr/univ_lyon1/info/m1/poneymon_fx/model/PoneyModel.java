@@ -3,6 +3,10 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.Strategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PoneyStartNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.track.LanePart;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.power.PowerModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.state.State;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -287,6 +291,7 @@ public abstract class PoneyModel extends Observable {
     
     public double getDistance() {
         return distance;
+    }
 
     public double getProgress() {
         return progress;
@@ -423,9 +428,6 @@ public abstract class PoneyModel extends Observable {
         speed *= speedMultipler;
     }
 
-    public int getNbPowers() {
-        return this.nbPowers;
-    }
 
     public void divideSpeed(int speedDivider) {
         speed /= speedDivider;

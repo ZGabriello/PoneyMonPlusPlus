@@ -164,7 +164,7 @@ public class LobbyTest {
     @Test
     public void testSerializeModel() throws Exception {
         System.out.println("serializeModel");
-        FieldModel m = new FieldModel(5);
+        FieldModel m = new FieldModel("test",3);
         OnlineController c = new OnlineController();
         c.model = m;
         Lobby l = new Lobby();
@@ -196,7 +196,7 @@ public class LobbyTest {
     @Test
     public void testGetLobby() {
         System.out.println("getLobby");
-        FieldModel m = new FieldModel(5);
+        FieldModel m = new FieldModel("test",3);
         OnlineController c = new OnlineController();
         c.model = m;
         Lobby l = new Lobby();
@@ -260,7 +260,7 @@ public class LobbyTest {
     @Test
     public void testSerializeModelBinary() throws IOException {
         System.out.println("serializeModelBinary");
-        FieldModel m = new FieldModel(5);
+        FieldModel m = new FieldModel("test",3);
         OnlineController c = new OnlineController();
         c.model = m;
         Lobby l = new Lobby();
@@ -273,7 +273,7 @@ public class LobbyTest {
     @Test
     public void testGetLobbyBinary() throws IOException {
         System.out.println("serializeModelBinary");
-        FieldModel m = new FieldModel(5);
+        FieldModel m = new FieldModel("test",3);
         OnlineController c = new OnlineController();
         c.model = m;
         Lobby l = new Lobby();

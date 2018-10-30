@@ -24,7 +24,7 @@ public class OnlineTest {
     public OnlineTest(){
         System.out.println("OnlineTest " + ct++);
         c1 = new OnlineController();
-        c1.model = new FieldModel(5);
+        c1.model = new FieldModel("test",3);
         c1.createLobby();
         c1.lobby.server.lobby = c1.lobby;
         c2 = new OnlineController();
@@ -43,7 +43,7 @@ public class OnlineTest {
     @Test
     public void testParsing() throws IOException{
         System.out.println("testParsing");
-        FieldModel f = new FieldModel(4);
+        FieldModel f = new FieldModel("test",4);
         byte[] b = c1.lobby.serializeModelBinary();
         String encodedString = new String(b,"ISO-8859-1");
         encodedString = 'f' + encodedString;

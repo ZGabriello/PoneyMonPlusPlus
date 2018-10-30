@@ -44,7 +44,6 @@ public class FieldView implements Observer {
     
     String middleText;
     
-    final GraphicsContext gc;
     final int width;
     final int height;
     
@@ -156,7 +155,6 @@ public class FieldView implements Observer {
                 displayMiddleText();
                 break;
             case "NEWMODEL":
-                newModel((NewModelNotification) n);
                 break;
             default:
                 System.err.println("Erreur : Notification de nom '" + n.name + "' inconnue !");
