@@ -13,22 +13,26 @@ import javafx.stage.Stage;
  *
  */
 public class MainView {
-    HashMap<String, Pane> views = new HashMap<>();
-    String currentView;
-    
+    int id;
+
+    HashMap<String, View> views = new HashMap<>();
+    String activeView;
+
     FieldModel model;
     Controller controller;
-    
+    MenuControlesView menuControles;
+    MenuResolutionView menuResolution;
+
     Stage stage;
     Group root;
     Scene scene;
-    
-    final int width;
-    final int height;
-    
-    
+
+    int width;
+    int height;
+
     /**
      * Constructeur de la vue principale contenant toutes les vues.
+     *
      * @param s stage dans lequel afficher les vues
      * @param w largeur de la vue
      * @param h hauteur de la vue
@@ -36,68 +40,113 @@ public class MainView {
     public MainView(Stage s, int w, int h) {
         width = w;
         height = h;
-        
+
         root = new Group();
         scene = new Scene(root);
-        
+
         // Nom de la fenetre
         stage = s;
         stage.setTitle("Poneymon");
-        
+
         // On ajoute la scene a la fenetre
         stage.setScene(scene);
-        
+
         // Pour empêcher de changer la taille de la fenêtre
-        stage.setResizable(false);
+        stage.setResizable(true);
+
     }
-    
+
+    /**
+     * Resize toutes les vues.
+     */
+    public void resize(int newWidth, int newHeight) {
+        stage.setWidth(newWidth);
+        stage.setHeight(newHeight);
+        width = newWidth;
+        height = newHeight;
+
+        for (View view : views.values()) {
+            view.resize(newWidth, newHeight);
+        }
+    }
+
     /**
      * Crée et ajoute au cache des vues le menu.
      */
     public void createMenuView() {
-        MenuView mv = new MenuView(controller, width, height);
-        views.put("MenuView", mv);    
-        
-        setActiveView("MenuView");
+        View mv = new MenuView(controller, width, height);
+        views.put("MenuView", mv);
     }
-    
+
     /**
      * Crée et ajoute au cache des vues une partie.
      */
     public void createGameView() {
-        GameView gv = new GameView(model, controller, width, height);
+        View gv = new GameView(model, menuControles, controller, width, height);
         views.put("GameView", gv);
-        
-        setActiveView("GameView");
     }
-    
+
+    /**
+     * Crée et ajoute au cache des vues les paramètres.
+     */
+    public void createMenuParametersView() {
+        View mp = new MenuParametersView(controller, width, height);
+        views.put("MenuParametersView", mp);
+    }
+
+    /**
+     * Crée et ajoute au cache des vues la resolution.
+     */
+    public void createMenuResolutionView() {
+        View mr = new MenuResolutionView(id, controller, width, height);
+        views.put("MenuResolutionView", mr);
+    }
+
+    /**
+     * Crée et ajoute au cache des vues pour les touches de controles.
+     */
+    public void createMenuControlesView() {
+        menuControles = new MenuControlesView(controller, width, height);
+        views.put("MenuControlesView", menuControles);
+    }
+
     public void deleteView(String view) {
         views.remove(view);
     }
-    
+
     /**
      * Permet de changer la vue actuellement affichée dans le stage.
+     *
      * @param view vue à afficher
      */
     public void setActiveView(String view) {
         if (views.containsKey(view)) {
-            if (currentView != null) {
-                root.getChildren().remove(views.get(currentView));
+            if (activeView != null) {
+                root.getChildren().remove(views.get(activeView));
             }
-            currentView = view;
-            
+            activeView = view;
+
             Pane pane = views.get(view);
             root.getChildren().add(pane);
             pane.requestFocus();
-            
+
             stage.show();
         } else {
             System.err.println("The view '" + view + "' doesn't exist in this MainView!");
         }
     }
-    
+
+    public String getActiveView() {
+        return activeView;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     /**
      * Mutateur du modèle associé à la vue.
+     *
      * @param m modèle
      */
     public void setModel(FieldModel m) {
@@ -111,9 +160,10 @@ public class MainView {
             model = null;
         }
     }
-    
+
     /**
      * Mutateur du contrôleur associé à la vue.
+     *
      * @param c contrôleur
      */
     public void setController(Controller c) {
@@ -127,24 +177,34 @@ public class MainView {
             controller = null;
         }
     }
-    
+
     /**
      * Met à jour la vue de la partie pour montrer la pause.
      */
     public void gamePause() {
         if (views.containsKey("GameView")) {
-            GameView gv = (GameView)views.get("GameView");
+            GameView gv = (GameView) views.get("GameView");
             gv.pause();
         }
     }
-    
+
     /**
      * Met à jour la vue de la partie pour montrer la reprise de la partie.
      */
     public void gameUnpause() {
         if (views.containsKey("GameView")) {
-            GameView gv = (GameView)views.get("GameView");
+            GameView gv = (GameView) views.get("GameView");
             gv.unpause();
         }
     }
+
+
+    public void setWidth(int newWidth) {
+        width = newWidth;
+    }
+
+    public void setHeight(int newHeight) {
+        width = newHeight;
+    }
+
 }

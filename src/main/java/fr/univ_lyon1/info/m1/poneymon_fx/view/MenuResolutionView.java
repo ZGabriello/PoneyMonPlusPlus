@@ -1,10 +1,11 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,13 +24,14 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import static javafx.scene.layout.Region.USE_PREF_SIZE;
-
 /**
- * Vue du menu.
+ * Vue du menu resolution.
  *
  */
-public class MenuView extends View {
+public class MenuResolutionView extends View {
+
+    int idMainView;
+
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
 
     /**
@@ -46,26 +48,46 @@ public class MenuView extends View {
     static final Color YELLOW = Color.web("#E47702");
     static final Color LIGHTYELLOW = Color.web("#FCB31F");
 
-    Color[] titleColors =
-    new Color[] { LIGHTBLUE,
-        LIGHTGREEN,
-        LIGHTORANGE,
-        LIGHTPURPLE,
-        LIGHTYELLOW };
+    Color[] titleColors
+            = new Color[]{LIGHTBLUE, LIGHTGREEN, LIGHTORANGE, LIGHTPURPLE, LIGHTYELLOW};
 
     Controller controller;
 
-    private List<MenuItem> menuItems;
+    Map<Integer, Integer> hmResolution = new LinkedHashMap<>();
+    private List<MenuItem> menuItems = new ArrayList<MenuItem>();
+
     int currentItem = 0;
 
+    final int widthSize;
+    final int heightSize;
+
+    final int[] widthHeight = {1024,
+        768,
+        1200,
+        900,
+        1280,
+        960,
+        1400,
+        1050,
+        1600,
+        1200,
+        1920,
+        1080
+    };
+
     /**
-     * Constructeur du Menu.
+     * Constructeur du Menu des resolution.
+     *
      * @param c Contrôleur
      * @param w largeur de la vue
      * @param h hauteur de la vue
      */
-    public MenuView(Controller c, int w, int h) {
+    public MenuResolutionView(int idMainView, Controller c, int w, int h) {
+        this.idMainView = idMainView;
         setPrefSize(w, h);
+
+        widthSize = w;
+        heightSize = h;
 
         controller = c;
 
@@ -74,36 +96,48 @@ public class MenuView extends View {
     }
 
     private void createContent() {
-        // On démarre par défaut une partie avec 5 poneys
-        MenuItem startGameItem = new MenuItem("Start a game");
-        startGameItem.setOnActivate(() -> controller.startGame("test", 3));
-        
-        MenuItem exitItem = new MenuItem("Exit");
-        exitItem.setOnActivate(() -> Platform.exit());
+        for (int j = 0; j < widthHeight.length; j = j + 2) {
+            for (int k = 1; k < widthHeight.length; k = k + 2) {
+                MenuItem item = new MenuItem("Resolution : "
+                        + widthHeight[j]
+                        + "x"
+                        + widthHeight[k]);
+                final int newWidth = widthHeight[j];
+                final int newHeight = widthHeight[k];
+                item.setOnActivate(() -> newResolution(newWidth, newHeight));
+                menuItems.add(item);
+            }
 
-        MenuItem parameters = new MenuItem("Parameters");
-        parameters.setOnActivate(() ->
-                controller.menuParameters());
+        }
 
-        menuItems = Arrays.asList(
-                startGameItem,
-                parameters,
-                exitItem);
+        MenuItem resolutionItem = new MenuItem("Resolution par default : "
+                + widthSize
+                + "x"
+                + heightSize);
+        resolutionItem.setOnActivate(() -> newResolution(widthSize, heightSize
+        ));
+
+        menuItems.add(resolutionItem);
+
+        MenuItem retourItem = new MenuItem("Back");
+        retourItem.setOnActivate(() -> controller.menuParameters());
+
+        menuItems.add(retourItem);
 
         Node title = createTitle("Poneymon");
+
         VBox container = new VBox(10, title);
 
         VBox.setMargin(title, new Insets(0, 0, 110, 0));
 
         container.getChildren().addAll(menuItems);
-        container.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
+        container.setAlignment(Pos.CENTER);
+        getChildren().add(container);
 
         getMenuItem(0).setActive(true);
 
         setBackground(new Background(
-                      new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-
-        getChildren().add(container);
+                new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
     private Node createTitle(String title) {
@@ -116,8 +150,7 @@ public class MenuView extends View {
             letter.setFill(titleColors[i % titleColors.length]);
             letters.getChildren().add(letter);
 
-            TranslateTransition tt =
-                    new TranslateTransition(Duration.seconds(2), letter);
+            TranslateTransition tt = new TranslateTransition(Duration.seconds(2), letter);
             tt.setDelay(Duration.millis(i * 50));
             tt.setToY(-25);
             tt.setAutoReverse(true);
@@ -157,4 +190,21 @@ public class MenuView extends View {
             }
         });
     }
+
+    /**
+     * Change la resolution par une nouvelle.
+     */
+    public final void newResolution(final int newWidth, final int newHeight) {
+        setPrefSize(newWidth, newHeight);
+        controller.changeResolution(idMainView, newWidth, newHeight);
+    }
+
+    public int getWidthNew() {
+        return (int) getPrefWidth();
+    }
+
+    public int getHeightNew() {
+        return (int) getPrefHeight();
+    }
+
 }

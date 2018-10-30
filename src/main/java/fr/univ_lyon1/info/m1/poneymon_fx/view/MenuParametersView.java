@@ -4,7 +4,6 @@ import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import java.util.Arrays;
 import java.util.List;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,13 +22,12 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import static javafx.scene.layout.Region.USE_PREF_SIZE;
-
 /**
- * Vue du menu.
+ * Vue du menu paramètre.
  *
  */
-public class MenuView extends View {
+public class MenuParametersView extends View {
+
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
 
     /**
@@ -46,12 +44,8 @@ public class MenuView extends View {
     static final Color YELLOW = Color.web("#E47702");
     static final Color LIGHTYELLOW = Color.web("#FCB31F");
 
-    Color[] titleColors =
-    new Color[] { LIGHTBLUE,
-        LIGHTGREEN,
-        LIGHTORANGE,
-        LIGHTPURPLE,
-        LIGHTYELLOW };
+    Color[] titleColors
+            = new Color[]{LIGHTBLUE, LIGHTGREEN, LIGHTORANGE, LIGHTPURPLE, LIGHTYELLOW};
 
     Controller controller;
 
@@ -59,12 +53,13 @@ public class MenuView extends View {
     int currentItem = 0;
 
     /**
-     * Constructeur du Menu.
+     * Constructeur du Menu des paramètres.
+     *
      * @param c Contrôleur
      * @param w largeur de la vue
      * @param h hauteur de la vue
      */
-    public MenuView(Controller c, int w, int h) {
+    public MenuParametersView(Controller c, int w, int h) {
         setPrefSize(w, h);
 
         controller = c;
@@ -74,36 +69,36 @@ public class MenuView extends View {
     }
 
     private void createContent() {
-        // On démarre par défaut une partie avec 5 poneys
-        MenuItem startGameItem = new MenuItem("Start a game");
-        startGameItem.setOnActivate(() -> controller.startGame("test", 3));
-        
-        MenuItem exitItem = new MenuItem("Exit");
-        exitItem.setOnActivate(() -> Platform.exit());
+        MenuItem controlesItem = new MenuItem("Controles");
+        controlesItem.setOnActivate(() -> controller.menuControles());
 
-        MenuItem parameters = new MenuItem("Parameters");
-        parameters.setOnActivate(() ->
-                controller.menuParameters());
+        MenuItem retourItem = new MenuItem("Back");
+        retourItem.setOnActivate(() -> controller.menuFromGame());
+
+        MenuItem resolutionItem = new MenuItem("Resolution");
+        resolutionItem.setOnActivate(() -> controller.menuResolution());
+
+        MenuItem sonItem = new MenuItem("Son");
 
         menuItems = Arrays.asList(
-                startGameItem,
-                parameters,
-                exitItem);
-
+                sonItem,
+                controlesItem,
+                resolutionItem,
+                retourItem);
         Node title = createTitle("Poneymon");
+
         VBox container = new VBox(10, title);
 
         VBox.setMargin(title, new Insets(0, 0, 110, 0));
 
         container.getChildren().addAll(menuItems);
-        container.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
+        container.setAlignment(Pos.CENTER);
+        getChildren().add(container);
 
         getMenuItem(0).setActive(true);
 
         setBackground(new Background(
-                      new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-
-        getChildren().add(container);
+                new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
     private Node createTitle(String title) {
@@ -116,8 +111,7 @@ public class MenuView extends View {
             letter.setFill(titleColors[i % titleColors.length]);
             letters.getChildren().add(letter);
 
-            TranslateTransition tt =
-                    new TranslateTransition(Duration.seconds(2), letter);
+            TranslateTransition tt = new TranslateTransition(Duration.seconds(2), letter);
             tt.setDelay(Duration.millis(i * 50));
             tt.setToY(-25);
             tt.setAutoReverse(true);
@@ -157,4 +151,5 @@ public class MenuView extends View {
             }
         });
     }
+
 }

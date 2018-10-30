@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.OnlineController;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.track.TrackModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.NewModelNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.Notification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.ProgressNotification;
@@ -12,12 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import javafx.event.EventHandler;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
@@ -25,44 +25,63 @@ import javafx.scene.text.TextAlignment;
  * Classe gérant l'affichage du Field.
  *
  */
-public class FieldView extends Canvas implements Observer {
-
+public class FieldView implements Observer {
     int nbPoneys = -1;
     List<PoneyView> poneys = new ArrayList<>();
-
-    FieldModel model;
+    
+    FieldModel field;
+    TrackModel track;
     Controller controller;
 
+    String backgroundResource = "grass1.jpg";
+    Color backgroundColor = null;
+    Image backgroundImage = null;
+    
+    Canvas background;
+    TrackView tview;
+    Pane poneyground;
+    Canvas foreground;
+    
     String middleText;
-
+    
     final GraphicsContext gc;
     final int width;
     final int height;
-
+    
+    double scale;
+    double xOffset;
+    double yOffset;
+    
     /**
      * Canvas dans lequel on va dessiner le jeu.
      *
      * @param w largeur du canvas
      * @param h hauteur du canvas
      */
-    public FieldView(FieldModel model, Controller controller, int w, int h) {
-        super(w, h);
-
-        this.model = model;
+    public FieldView(FieldModel fieldModel, Controller controller, int w, int h) {
+        this.field = fieldModel;
         this.controller = controller;
-
         width = w;
         height = h;
-
-        /*
-         * Permet de capturer le focus et donc les evenements clavier et
-         * souris
-         */
-        this.setFocusTraversable(true);
-
-        gc = this.getGraphicsContext2D();
-
-        model.addObserver(this);
+        
+        if (backgroundResource.startsWith("#")) {
+            backgroundColor = Color.web(backgroundResource);
+        } else if (backgroundColor == null) {
+            backgroundImage = new Image("assets/" + backgroundResource,
+                                        width, height, false, false);
+        }
+        background = new Canvas(w, h);
+        poneyground = new Pane();
+        foreground = new Canvas(w, h);
+        
+        track = fieldModel.getTrackModel();
+        tview = new TrackView(track, width, height);
+        
+        scale = tview.getScale();
+        xOffset = tview.getxOffset();
+        yOffset = tview.getyOffset();
+        
+        field.addObserver(this);
     }
 
     /**
@@ -71,6 +90,9 @@ public class FieldView extends Canvas implements Observer {
      * @param sn Notification d'initialisation
      */
     public void initialize(StartNotification sn) {
+        poneyground.setTranslateX(xOffset * scale);
+        poneyground.setTranslateY(height - yOffset * scale);
+        
         nbPoneys = sn.getNbPoneys();
         List<String> poneyTypes = sn.getPoneyTypes();
 
@@ -80,14 +102,19 @@ public class FieldView extends Canvas implements Observer {
 
             switch (poneyTypes.get(i)) {
                 case "NyanPoneyModel":
-                    newPoney = new NyanPoneyView(gc, width);
+                    newPoney = new NyanPoneyView(scale);
                     break;
                 default:
-                    newPoney = new PoneyView(gc, width);
+                    newPoney = new PoneyView(scale);
             }
             poneys.add(newPoney);
-            model.getPoneyModel(i).addObserver(newPoney);
+            field.getPoneyModel(i).addObserver(newPoney);
+            poneyground.getChildren().add(newPoney.getPoneyImage());
+            poneyground.getChildren().add(newPoney.getPowerImage());
         }
+        
+        displayBackground();
+        tview.display();
     }
 
     /**
@@ -96,10 +123,11 @@ public class FieldView extends Canvas implements Observer {
      * @param pn notification de l'avancement des poneys du modèle
      */
     public void progress(ProgressNotification pn) {
-        List<Double> progresses = pn.getProgresses();
-
+        List<double[]> coords = pn.getCoords();
+        double[] angles = pn.getAngles();
+        
         for (int i = 0; i < nbPoneys; i++) {
-            poneys.get(i).setX(progresses.get(i));
+            poneys.get(i).setPos(coords.get(i), angles[i]);
         }
     }
 
@@ -121,9 +149,11 @@ public class FieldView extends Canvas implements Observer {
                 break;
             case "PROGRESS":
                 progress((ProgressNotification) n);
+                display();
                 break;
             case "WIN":
                 displayWinner((WinNotification) n);
+                displayMiddleText();
                 break;
             case "NEWMODEL":
                 newModel((NewModelNotification) n);
@@ -139,22 +169,40 @@ public class FieldView extends Canvas implements Observer {
      * Renouvellement de l'affichage du terrain et des poneys.
      */
     public void display() {
-
-        // On nettoie le canvas a chaque frame
-        gc.setFill(Color.LIGHTGRAY);
-        gc.fillRect(0, 0, width, height);
-
+        displayPoneyground();
+    }
+    
+    /**
+     * Affiche le background.
+     */
+    public void displayBackground() {
+        GraphicsContext gc = background.getGraphicsContext2D();
+        
+        if (backgroundColor != null) {
+            gc.setFill(backgroundColor);
+            gc.fillRect(0, 0, width, height);
+        } else if (backgroundImage != null) {
+            gc.drawImage(backgroundImage, 0, 0);
+        } else {
+            System.err.println("There's no background !");
+        }
+    }
+    
+    /**
+     * Affiche les poneys dans leur vue.
+     */
+    public void displayPoneyground() {
         for (PoneyView poney : poneys) {
             poney.display();
         }
-
-        displayMiddleText();
     }
 
     /**
      * Affichage du texte central.
      */
     public void displayMiddleText() {
+        GraphicsContext gc = foreground.getGraphicsContext2D();
+        
         if (middleText != null) {
             gc.setFill(Color.VIOLET);
             gc.fillRect(0, (height - Math.round(height / 5)) / 2,
@@ -168,12 +216,20 @@ public class FieldView extends Canvas implements Observer {
             );
         }
     }
-
-    private void newModel(NewModelNotification nm) {
-        this.model = null;
-        this.poneys = null;
-        this.nbPoneys = -1;
-        model.addObserver(this);
-
+    
+    public Canvas getBackground() {
+        return background;
+    }
+    
+    public TrackView getTrackView() {
+        return tview;
+    }
+    
+    public Pane getPoneyground() {
+        return poneyground;
+    }
+    
+    public Canvas getForeground() {
+        return foreground;
     }
 }
