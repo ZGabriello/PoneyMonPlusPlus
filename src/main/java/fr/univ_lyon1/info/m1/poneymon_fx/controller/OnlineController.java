@@ -107,4 +107,21 @@ public class OnlineController extends Controller {
         }
     }
     
+    
+    @Override
+    public void gameUnpause(){
+        if (this.lobby.isHost){
+            timer.start();
+            for (MainView view : views) {
+                view.gameUnpause();
+            }
+            this.lobby.server.sendToAll("INPUT", "CON");
+        }
+    }
+    public void gameUnpauseClient(){
+        timer.start();
+        for (MainView view : views) {
+                view.gameUnpause();
+        }
+    }
 }

@@ -32,7 +32,7 @@ class TimedUpdater implements Runnable {
         }
         while (!isClosed) {
             try {
-                Thread.sleep(10);
+                Thread.sleep(5000);
                 byte[] b = parent.lobby.serializeModelBinary();
                 //System.out.println("tiU : " + Arrays.toString(b));
                 this.parent.sendToAll("DATA", 'f' + new String(b,"ISO-8859-1")); 

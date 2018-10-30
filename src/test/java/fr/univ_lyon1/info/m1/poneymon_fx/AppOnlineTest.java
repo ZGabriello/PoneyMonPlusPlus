@@ -22,7 +22,7 @@ public class AppOnlineTest extends Application {
     public void start(Stage stage) throws Exception {
         MainView v = new MainView(stage, 600, 600);
         Stage s2 = new Stage();
-        MainView v2 = new MainView(s2, 1000, 600);
+        MainView v2 = new MainView(s2, 400, 400);
         OnlineController servC = new OnlineController();
         servC.setModel(new FieldModel(5));
         OnlineController clientC = new OnlineController();

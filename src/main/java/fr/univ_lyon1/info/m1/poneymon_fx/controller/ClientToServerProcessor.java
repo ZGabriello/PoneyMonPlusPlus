@@ -108,6 +108,11 @@ class ClientToServerProcessor extends Processor {
                 break;
             case "PAU":
                 this.parent.lobby.controller.gamePauseClient();
+                break;
+            case "CON":
+                this.parent.lobby.controller.gameUnpauseClient();
+                break;
+            
         }
     }
 }
