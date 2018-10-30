@@ -14,6 +14,10 @@ public class MultiplySpeedState extends State {
         super(duration);
     }
     
+    public MultiplySpeedState() {
+        super(1);
+    }
+    
     /**
      * Méthode appliquant l'état au poney.
      * 

@@ -1,7 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model.state;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
-import java.sql.Timestamp;
 
 /**
  * Classe gérant l'état du poney (Bonus ou malus).
@@ -12,6 +11,7 @@ public abstract class State {
     long startTime;
     long endTime;
     long duration;
+    int nbTurn;
     
     boolean fromPower;
     
@@ -24,6 +24,11 @@ public abstract class State {
         this.duration = duration;
         
         fromPower = false;
+    }
+    
+    public State(int nbTurn) {
+        this.nbTurn = nbTurn;
+        fromPower = true;
     }
 
     /**
@@ -49,6 +54,10 @@ public abstract class State {
         fromPower = b;
     }
     
+    public boolean getFromPower() {
+        return this.fromPower;
+    }
+    
     /**
      * Eliminer l'état du poney.
      * 
@@ -58,9 +67,7 @@ public abstract class State {
         if (fromPower) {
             pm.endPower();
         }
-        pm.setSpeed(lastSpeed);
-        
-        System.out.println("desapplique etat");
+        pm.setSpeed(lastSpeed);      
 
     }
 

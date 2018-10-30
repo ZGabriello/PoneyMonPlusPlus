@@ -7,6 +7,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.Strategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PoneyStartNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.power.NyanPower;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -44,6 +45,8 @@ public abstract class PoneyModel extends Observable {
     int nbPowers;
 
     int nbTurns;
+    int lastNbTurns;
+
 
     Strategy strategy;
     boolean ia;
@@ -120,17 +123,7 @@ public abstract class PoneyModel extends Observable {
     public void step() {
         if (ia) {
             strategy.checkPower();
-        }       
-
-        if (!states.isEmpty()) {            
-            for (State state : states) {
-                lastSpeed = this.getSpeed();
-                state.applyState(this);
-                
-                setChanged();
-                notifyObservers(new PowerNotification(true));        
-            }
-        }
+        }     
         
         setDistance(distance + speed / SPEED_DIVIDER);
         accelerer();
@@ -140,6 +133,9 @@ public abstract class PoneyModel extends Observable {
             
             if (curLane.getBeginLine() == beginLine) {
                 newTurn();
+                if (powerState) {
+                    endPower();
+                }
             }
         }
         
@@ -152,7 +148,10 @@ public abstract class PoneyModel extends Observable {
         List<State> expiredStates = new ArrayList<>();
         
         for (State state : states) {
-            if (state.checkExpired()) {
+            if (state.getFromPower() && getNbTours()>lastNbTurns) {
+                state.unapplyState(this, lastSpeed);
+                expiredStates.add(state);
+            }else if (state.checkExpired()) {
                 state.unapplyState(this, lastSpeed);
                 expiredStates.add(state);
             }
@@ -188,6 +187,8 @@ public abstract class PoneyModel extends Observable {
     public void usePower() {
         ++nbPowers;
         powerState = true;
+        lastSpeed = this.getSpeed();
+        lastNbTurns = this.getNbTours();
         power.use(this);
         
         setChanged();
