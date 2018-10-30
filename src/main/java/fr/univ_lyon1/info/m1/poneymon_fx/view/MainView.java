@@ -30,6 +30,8 @@ public class MainView {
     int width;
     int height;
 
+    final String gameView = "GameView";
+
     /**
      * Constructeur de la vue principale contenant toutes les vues.
      *
@@ -83,7 +85,7 @@ public class MainView {
      */
     public void createGameView() {
         View gv = new GameView(model, menuControles, controller, width, height);
-        views.put("GameView", gv);
+        views.put(gameView, gv);
     }
 
     /**
@@ -182,8 +184,8 @@ public class MainView {
      * Met à jour la vue de la partie pour montrer la pause.
      */
     public void gamePause() {
-        if (views.containsKey("GameView")) {
-            GameView gv = (GameView) views.get("GameView");
+        if (views.containsKey(gameView)) {
+            GameView gv = (GameView) views.get(gameView);
             gv.pause();
         }
     }
@@ -192,8 +194,8 @@ public class MainView {
      * Met à jour la vue de la partie pour montrer la reprise de la partie.
      */
     public void gameUnpause() {
-        if (views.containsKey("GameView")) {
-            GameView gv = (GameView) views.get("GameView");
+        if (views.containsKey(gameView)) {
+            GameView gv = (GameView) views.get(gameView);
             gv.unpause();
         }
     }

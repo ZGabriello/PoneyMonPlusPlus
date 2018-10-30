@@ -159,18 +159,14 @@ public class MenuControlesView extends View {
         this.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent e) {
                 if (!waitingForKey) {
-                    if (e.getCode() == KeyCode.UP) {
-                        if (currentItem > 0) {
-                            getMenuItem(currentItem).setActive(false);
-                            getMenuItem(--currentItem).setActive(true);
-                        }
+                    if (e.getCode() == KeyCode.UP && currentItem > 0) {
+                        getMenuItem(currentItem).setActive(false);
+                        getMenuItem(--currentItem).setActive(true);
                     }
 
-                    if (e.getCode() == KeyCode.DOWN) {
-                        if (currentItem < menuItems.size() - 1) {
-                            getMenuItem(currentItem).setActive(false);
-                            getMenuItem(++currentItem).setActive(true);
-                        }
+                    if (e.getCode() == KeyCode.DOWN && currentItem < menuItems.size() - 1) {
+                        getMenuItem(currentItem).setActive(false);
+                        getMenuItem(++currentItem).setActive(true);
                     }
 
                     if (e.getCode() == KeyCode.ENTER) {
@@ -206,14 +202,6 @@ public class MenuControlesView extends View {
     public final void changeKeyCode(final MenuItem mi, KeyCode newKeyCode) {
         final String controlName = mi.getText().substring(0, 12);
         hmControles.put(controlName, newKeyCode);
-
-        /* affichage des keyCode contenu dans le hashmap */
-        System.out.println(hmControles.values().toArray()[0]);
-        System.out.println(hmControles.values().toArray()[1]);
-        System.out.println(hmControles.values().toArray()[2]);
-        System.out.println(hmControles.values().toArray()[3]);
-        System.out.println(hmControles.values().toArray()[4]);
-
         mi.setText(controlName + " : " + newKeyCode.toString());
     }
 
