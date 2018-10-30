@@ -70,6 +70,7 @@ public class Controller {
         view.createMenuParameters();
         view.createMenuControles();
         view.createMenuResolution();
+        view.createMenuChoixPoney();
     }
 
     /**
@@ -159,6 +160,15 @@ public class Controller {
     public void menuResolution() {
         for (MainView view : views) {
             view.setActiveView("MenuResolutionView");
+        }
+    }
+
+    /**
+     * Permet d'aller dans le menu choix poney.
+     */
+    public void menuChoixPoney() {
+        for (MainView view : views) {
+            view.setActiveView("MenuChoixPoneyView");
         }
     }
 

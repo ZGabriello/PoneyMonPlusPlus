@@ -206,14 +206,6 @@ public class MenuControlesView extends View {
     public final void changeKeyCode(final MenuItem mi, KeyCode newKeyCode) {
         final String controlName = mi.getText().substring(0, 12);
         hmControles.put(controlName, newKeyCode);
-
-        /* affichage des keyCode contenu dans le hashmap */
-        System.out.println(hmControles.values().toArray()[0]);
-        System.out.println(hmControles.values().toArray()[1]);
-        System.out.println(hmControles.values().toArray()[2]);
-        System.out.println(hmControles.values().toArray()[3]);
-        System.out.println(hmControles.values().toArray()[4]);
-
         mi.setText(controlName + " : " + newKeyCode.toString());
     }
 

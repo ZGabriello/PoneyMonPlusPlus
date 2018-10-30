@@ -23,8 +23,8 @@ public class GameView extends View {
 
     Group root;
 
-    final int width;
-    final int height;
+    final int widthGame;
+    final int heightGame;
 
     /**
      * Les boutons.
@@ -46,10 +46,10 @@ public class GameView extends View {
         model = m;
         menuControles = mc;
         controller = c;
-        width = w;
-        height = h;
+        widthGame = w;
+        heightGame = h;
 
-        fview = new FieldView(model, controller, width, height);
+        fview = new FieldView(model, controller, widthGame, heightGame);
         this.getChildren().add(fview);
 
         addButtons();
@@ -70,10 +70,11 @@ public class GameView extends View {
             }
         });
 
-        pauseButton = new Button("Pause");
+        final String pause = "Pause";
+        pauseButton = new Button(pause);
         pauseButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent arg0) {
-                if (pauseButton.getText().equals("Pause")) {
+                if (pauseButton.getText().equals(pause)) {
                     controller.gamePause();
                 } else if (pauseButton.getText().equals("Continuer")) {
                     controller.gameUnpause();
@@ -114,17 +115,6 @@ public class GameView extends View {
     public void setOnKeyReleasedEvent() {
         this.setOnKeyReleased(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent e) {
-
-                /* affichage de la touche appuyé par l'utilisateur */
-                System.out.println(e.getCode());
-
-                /* affichage des touches qu'on a assigné */
-                System.out.println(menuControles.hmControles.values().toArray()[0]);
-                System.out.println(menuControles.hmControles.values().toArray()[1]);
-                System.out.println(menuControles.hmControles.values().toArray()[2]);
-                System.out.println(menuControles.hmControles.values().toArray()[3]);
-                System.out.println(menuControles.hmControles.values().toArray()[4]);
-
                 for (int i = 0; i < menuControles.hmControles.size(); i++) {
                     if (menuControles.hmControles.values().toArray()[i].equals(e.getCode())) {
                         controller.usePower(i);

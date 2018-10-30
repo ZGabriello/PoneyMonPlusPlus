@@ -1,10 +1,9 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -24,13 +23,13 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+
+
 /**
- * Vue du menu resolution.
+ * Vue du menu choix poney.
  *
  */
-public class MenuResolutionView extends View {
-
-    int idMainView;
+public class MenuChoixPoneyView extends View {
 
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
 
@@ -52,42 +51,21 @@ public class MenuResolutionView extends View {
             = new Color[]{LIGHTBLUE, LIGHTGREEN, LIGHTORANGE, LIGHTPURPLE, LIGHTYELLOW};
 
     Controller controller;
+    FieldModel model;
 
-    Map<Integer, Integer> hmResolution = new LinkedHashMap<>();
-    private List<MenuItem> menuItems = new ArrayList<MenuItem>();;
-
+    private List<MenuItemImage> menuItems;
     int currentItem = 0;
-
-    final int widthSize;
-    final int heightSize;
-
-    final int[] widthHeight = {1024,
-        768,
-        1200,
-        900,
-        1280,
-        960,
-        1400,
-        1050,
-        1600,
-        1200,
-        1920,
-        1080
-    };
+    String typePoney;
 
     /**
-     * Constructeur du Menu des resolution.
+     * Constructeur du Menu des paramètres.
      *
      * @param c Contrôleur
      * @param w largeur de la vue
      * @param h hauteur de la vue
      */
-    public MenuResolutionView(int idMainView, Controller c, int w, int h) {
-        this.idMainView = idMainView;
+    public MenuChoixPoneyView(Controller c, int w, int h) {
         setPrefSize(w, h);
-
-        widthSize = w;
-        heightSize = h;
 
         controller = c;
 
@@ -96,37 +74,35 @@ public class MenuResolutionView extends View {
     }
 
     private void createContent() {
-        for (int j = 0; j < widthHeight.length; j = j+2) {
-            for (int k = 1; k < widthHeight.length; k = k+2) {
-                MenuItem item = new MenuItem("Resolution : "
-                + widthHeight[j]
-                + "x"
-                + widthHeight[k]);
-                final int newWidth = widthHeight[j];
-                final int newHeight = widthHeight[k];
-                item.setOnActivate(() -> newResolution(newWidth, newHeight));
-                menuItems.add(item);
-            }
+        MenuItemImage poneyOrangeItem = new MenuItemImage("Poney normal orange", "orange");
+        poneyOrangeItem.setOnActivate(() -> setTypePoney(poneyOrangeItem.getTextTypePoney()));
 
-        }
+        MenuItemImage poneyBlueItem = new MenuItemImage("Poney normal bleu", "blue");
+        poneyBlueItem.setOnActivate(() -> setTypePoney(poneyBlueItem.getTextTypePoney()));
 
-        MenuItem resolutionItem = new MenuItem("Resolution par default : "
-                + widthSize
-                + "x"
-                + heightSize);
-        resolutionItem.setOnActivate(() -> newResolution(widthSize, heightSize
-        ));
+        MenuItemImage poneyYellowItem = new MenuItemImage("Poney normal jaune", "yellow");
+        poneyYellowItem.setOnActivate(() -> setTypePoney(poneyYellowItem.getTextTypePoney()));
 
-        menuItems.add(resolutionItem);
+        MenuItemImage poneyGreenItem = new MenuItemImage("Poney normal vert", "green");
+        poneyGreenItem.setOnActivate(() -> setTypePoney(poneyGreenItem.getTextTypePoney()));
 
-        MenuItem retourItem = new MenuItem("Back");
-        retourItem.setOnActivate(() -> controller.menuParameters());
+        MenuItemImage poneyPurpleItem = new MenuItemImage("Poney normal violet", "purple");
+        poneyPurpleItem.setOnActivate(() -> setTypePoney(poneyPurpleItem.getTextTypePoney()));
 
-        menuItems.add(retourItem);
+        MenuItemImage retourItem = new MenuItemImage("Back", "orange");
+        retourItem.setOnActivate(() -> controller.menuFromGame());
+
+        menuItems = Arrays.asList(
+                poneyOrangeItem,
+                poneyBlueItem,
+                poneyYellowItem,
+                poneyGreenItem,
+                poneyPurpleItem,
+                retourItem);
 
         Node title = createTitle("Poneymon");
 
-        VBox container = new VBox(10, title);
+        VBox container = new VBox(0, title);
 
         VBox.setMargin(title, new Insets(0, 0, 110, 0));
 
@@ -138,6 +114,7 @@ public class MenuResolutionView extends View {
 
         setBackground(new Background(
                 new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+
     }
 
     private Node createTitle(String title) {
@@ -163,7 +140,7 @@ public class MenuResolutionView extends View {
         return letters;
     }
 
-    private MenuItem getMenuItem(int index) {
+    private MenuItemImage getMenuItem(int index) {
         return menuItems.get(index);
     }
 
@@ -191,20 +168,11 @@ public class MenuResolutionView extends View {
         });
     }
 
-    /**
-     * Change la resolution par une nouvelle.
-     */
-    public final void newResolution(final int newWidth, final int newHeight) {
-        setPrefSize(newWidth, newHeight);
-        controller.changeResolution(idMainView, newWidth, newHeight);
+    public String getTypePoney() {
+        return this.typePoney;
     }
 
-    public int getWidthNew() {
-        return (int) getPrefWidth();
+    public void setTypePoney(String typePoney) {
+        this.typePoney = typePoney;
     }
-
-    public int getHeightNew() {
-        return (int) getPrefHeight();
-    }
-
 }

@@ -81,12 +81,17 @@ public class MenuView extends View {
         MenuItem exitItem = new MenuItem("Exit");
         exitItem.setOnActivate(() -> Platform.exit());
 
+        MenuItem choixPoney = new MenuItem("Poneys choice");
+        choixPoney.setOnActivate(() ->
+                controller.menuChoixPoney());
+
         MenuItem parameters = new MenuItem("Parameters");
         parameters.setOnActivate(() ->
                 controller.menuParameters());
 
         menuItems = Arrays.asList(
                 startGameItem,
+                choixPoney,
                 parameters,
                 exitItem);
 
