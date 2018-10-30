@@ -34,6 +34,7 @@ public class FieldView implements Observer {
     String backgroundResource = "grass1.jpg";
     Color backgroundColor = null;
     Image backgroundImage = null;
+    
     Canvas background;
     TrackView tview;
     Pane poneyground;
@@ -107,6 +108,9 @@ public class FieldView implements Observer {
             poneyground.getChildren().add(newPoney.getPoneyImage());
             poneyground.getChildren().add(newPoney.getPowerImage());
         }
+        
+        displayBackground();
+        tview.display();
     }
     
     /**
@@ -156,9 +160,6 @@ public class FieldView implements Observer {
      * Renouvellement de l'affichage du terrain et des poneys.
      */
     public void display() {
-        displayBackground();
-        tview.display();
-        
         displayPoneyground();
     }
     
