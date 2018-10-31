@@ -18,6 +18,9 @@ import java.util.Observer;
  *
  */
 public class FieldModel extends Observable {
+    
+    static final int NB_ITEMS = 1;
+
     /** Circuit chargé. */
     TrackModel track;
     
@@ -32,11 +35,15 @@ public class FieldModel extends Observable {
     String[] colorMap =
     new String[] {"blue", "green", "orange", "purple", "yellow"};
     
+    int nbItems;
+    //List<ItemModel> items = new ArrayList<>();
+
+    
     /** Nombre de tours pour gagner. */
     final int winAt = 3;
     int winner = -1;
     
-    List<PickableUp> pickablesUp = new ArrayList<>();
+    List<ItemModel> items = new ArrayList<>();
     
     /**
      * Constructeur du FieldModel.
@@ -53,22 +60,6 @@ public class FieldModel extends Observable {
             poneys.add(new NyanPoneyModel(colorMap[i % 5], beginLine, i, this));
             coords.add(null);
         }
-       
-        /*
-        for (int j = 0; j < 1; j++) {
-            poneys.add(new EnragedPoneyModel("purple",j));
-            progresses.add(0.0);
-        }*/
-        /* On initialise le terrain de course */
-        /*for (int i = 1; i < nbPoneys-1; i++) {
-            poneys.add(new NyanPoneyModel(colorMap[i-1 % 5], i, this));
-            progresses.add(0.0);
-        }
-
-        for (int d = 4; d < nbPoneys; d++) {
-            poneys.add(new NyanPoneyModel("Yellow", d, this));
-            progresses.add(0.0);
-        } */
         
         angles = new double[nbPoneys];
         
@@ -84,6 +75,13 @@ public class FieldModel extends Observable {
             p = (NyanPoneyModel)poneys.get(3);
             p.setStrategy(new ImStillHereNyanStrategy(this, p, 3));
         }
+        
+        this.nbItems = NB_ITEMS;
+        /* On initialise le terrain de course */
+        for (int i = 0; i < nbItems; i++) {
+            items.add(new BoostItemModel(track.getLines().get(2), i, 2.6));
+            
+        }      
     }
 
     /**
@@ -98,6 +96,14 @@ public class FieldModel extends Observable {
             double[] infos = poney.getInfos();
             coords.set(i, new double[] {infos[0], infos[1]});
             angles[i] = infos[2];
+            
+            
+            for (int j = 0; j < nbItems; j++) {
+                if (poney.position == items.get(j).getPosition() && poney.progress == items.get(j).getProg()) {
+                    poney.setCollision(true);
+                    poney.setPickableUp(items.get(j));
+                }
+            }
             
             if (poneys.get(i).getNbTours() == winAt && winner == -1) {
                 winner = i;
@@ -149,4 +155,9 @@ public class FieldModel extends Observable {
     public TrackModel getTrackModel() {
         return track;
     }
+
+    public Object getItemModel(int i) {
+        return items.get(i);
+    }
+    
 }

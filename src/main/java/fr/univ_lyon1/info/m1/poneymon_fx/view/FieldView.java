@@ -27,6 +27,10 @@ public class FieldView implements Observer {
     int nbPoneys = -1;
     List<PoneyView> poneys = new ArrayList<>();
     
+    int nbItems = 1;
+    List<ItemView> items = new ArrayList<>();
+    Pane itemground;
+    
     FieldModel field;
     TrackModel track;
     Controller controller;
@@ -71,12 +75,15 @@ public class FieldView implements Observer {
         poneyground = new Pane();
         foreground = new Canvas(w, h);
         
+        itemground = new Pane();
+        
         track = fieldModel.getTrackModel();
         tview = new TrackView(track, width, height);
         
         scale = tview.getScale();
         xOffset = tview.getxOffset();
         yOffset = tview.getyOffset();
+        
         
         field.addObserver(this);
     }
@@ -87,7 +94,10 @@ public class FieldView implements Observer {
      */
     public void initialize(StartNotification sn) {
         poneyground.setTranslateX(xOffset * scale);
-        poneyground.setTranslateY(height - yOffset * scale);
+        poneyground.setTranslateY(height - yOffset * scale);        
+        
+        itemground.setTranslateX(xOffset * scale);
+        itemground.setTranslateY(height - yOffset * scale);
         
         nbPoneys = sn.getNbPoneys();
         List<String> poneyTypes = sn.getPoneyTypes();
@@ -107,6 +117,23 @@ public class FieldView implements Observer {
             field.getPoneyModel(i).addObserver(newPoney);
             poneyground.getChildren().add(newPoney.getPoneyImage());
             poneyground.getChildren().add(newPoney.getPowerImage());
+        }
+        
+        List<String> itemTypes = new ArrayList<>();
+        itemTypes.add("BoostItemModel");
+        
+        /* On initialise le terrain de course */
+        for (int i = 0; i < nbItems; i++) {
+            ItemView newItem = null;
+            
+            switch (itemTypes.get(i)) {
+                case "BoostItemModel":
+                    newItem = new BoostItemView(scale);
+                    break;
+                default:
+                    newItem = new ItemView(scale);
+            }
+            items.add(newItem);
         }
         
         displayBackground();

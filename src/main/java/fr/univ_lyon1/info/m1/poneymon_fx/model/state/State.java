@@ -26,11 +26,7 @@ public abstract class State {
         fromPower = false;
     }
     
-    public State(int nbTurn) {
-        this.nbTurn = nbTurn;
-        fromPower = true;
-    }
-
+   
     /**
      * Applique un état au poney.
      *

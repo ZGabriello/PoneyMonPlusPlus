@@ -100,7 +100,6 @@ public class Controller {
         if (!pm.isIa()) {
             model.getPoneyModel(i).usePower();
         }
-
     }
 
     /**

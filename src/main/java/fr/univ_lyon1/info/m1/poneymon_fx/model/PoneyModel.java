@@ -7,7 +7,6 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.Strategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PoneyStartNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.power.NyanPower;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -37,10 +36,11 @@ public abstract class PoneyModel extends Observable {
     double progress;
     
     double speed;
+    double lastSpeed;
     String color;
     int position;
-    PowerModel power;
-   
+    
+    PowerModel power;   
     boolean powerState;
     int nbPowers;
 
@@ -55,12 +55,9 @@ public abstract class PoneyModel extends Observable {
 
     List<State> states;
     
-    PickableUp pu;
+    ItemModel pu;
     boolean collision;
-    
-    double lastSpeed;
-
-        
+            
 
     /**
      * Constructeur du PoneyModel sans paramètres, pour tests.
@@ -141,6 +138,11 @@ public abstract class PoneyModel extends Observable {
         
         infos = curLane.getInfos(progress);
         
+        if (isThereCollision()) {            
+            pu.collision(this);
+            setCollision(false);
+        }
+                
         checkStates();
     }
     
@@ -148,10 +150,10 @@ public abstract class PoneyModel extends Observable {
         List<State> expiredStates = new ArrayList<>();
         
         for (State state : states) {
-            if (state.getFromPower() && getNbTours()>lastNbTurns) {
+            if (state.getFromPower() && getNbTours() > lastNbTurns) {
                 state.unapplyState(this, lastSpeed);
                 expiredStates.add(state);
-            }else if (state.checkExpired()) {
+            } else if (state.checkExpired()) { 
                 state.unapplyState(this, lastSpeed);
                 expiredStates.add(state);
             }
@@ -443,8 +445,13 @@ public abstract class PoneyModel extends Observable {
         this.collision = collision;
     }
     
-    public PickableUp getPickableUp() {
+    public ItemModel getPickableUp() {
         return this.pu;
     }
+    
+    public void setPickableUp(ItemModel pu) {
+        this.pu = pu;
+    }
+            
 }
 

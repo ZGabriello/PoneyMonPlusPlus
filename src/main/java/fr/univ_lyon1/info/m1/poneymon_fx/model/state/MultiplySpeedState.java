@@ -10,14 +10,12 @@ import static fr.univ_lyon1.info.m1.poneymon_fx.model.NyanPoneyModel.SPEED_MULTI
  * @author Elo
  */
 public class MultiplySpeedState extends State {
+    
     public MultiplySpeedState(long duration) {
         super(duration);
     }
     
-    public MultiplySpeedState() {
-        super(1);
-    }
-    
+        
     /**
      * Méthode appliquant l'état au poney.
      * 

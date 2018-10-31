@@ -1,7 +1,9 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Vue d'un objet.
@@ -18,34 +20,60 @@ public class ItemView {
     
     double x; // position horizontale de l'objet
     double y; // position verticale de l'objet
+ 
+    ImageView currentImage;
+    ImageView itemImage;
     
-    String color;
-
-    Image itemImage;
-
-    GraphicsContext graphicsContext;
+    double scale;
+    double itemScale;
+    static final double laneWidth = Line.laneWidth;
     
+    final double effectiveWidth;
+    final double effectiveHeight;
     
-    public ItemView(GraphicsContext gc, int x, int y ) {
-        this.x = x;
-        this.y = y;
-        graphicsContext = gc;
+   
+    ItemView(double scale) {
+        // Tous les voisins commencent a gauche du canvas,
+        // on commence a -100 pour les faire apparaitre progressivement
+        this.scale = scale;
+        itemScale = (laneWidth * scale / IMAGE_HEIGHT);
+        
+        effectiveWidth = itemScale * IMAGE_WIDTH;
+        effectiveHeight = itemScale * IMAGE_HEIGHT;
+               
     }
     
     /**
      * Gère l'initialisation de l'objet.
      * 
      */
-    public void initialize() {
-        
-        y = (IMAGE_HEIGHT ) * position;
+    public void initialize() {       
         
         
     }
     
+    protected ImageView loadImage(String filename) {
+        // On charge l'image associée au poney
+        Image tmp = new Image(filename, effectiveWidth, effectiveHeight, false, false);
+        ImageView image = new ImageView(tmp);
+        image.setCache(true);
+        
+        return image;
+    }
+    
+    /**
+     * Affiche l'objet.
+     */
     public void display() {
-        graphicsContext.drawImage(itemImage, x, y);
+        currentImage = itemImage;
+        itemImage.setVisible(true);
+        
+        currentImage.setX(x);
+        currentImage.setY(y);
     }
     
+    public ImageView getItemImage() {
+        return itemImage;
+    }
     
 }
