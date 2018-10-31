@@ -86,7 +86,7 @@ public abstract class PoneyModel extends Observable {
         this.color = color;
         this.beginLine = beginLine;
         this.position = position;
-        
+
         setCurLane(beginLine.getNext(position));
         infos = curLane.getInfos(progress);
         

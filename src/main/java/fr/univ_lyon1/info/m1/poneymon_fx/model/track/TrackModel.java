@@ -49,7 +49,7 @@ public class TrackModel {
     public void importTrack(String filename) {
         try {
             File f = new File("src/main/resources/tracks/" + filename);
-            Scanner scanner = new Scanner(f).useLocale(Locale.US);
+            Scanner scanner = new Scanner(f).useLocale(Locale.US); 
 
             String object = null;
             
@@ -86,6 +86,8 @@ public class TrackModel {
         int zIndex = scanner.nextInt();
         int nbLanes = scanner.nextInt();
 
+        
+        
         Line line = new Line(id, x, y, multiple, zIndex, nbLanes);
         if (object.equals("beginLine")) {
             if (beginLine == null) {

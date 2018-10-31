@@ -26,7 +26,7 @@ import javafx.scene.text.TextAlignment;
 public class FieldView implements Observer {
     int nbPoneys = -1;
     List<PoneyView> poneys = new ArrayList<>();
-    
+
     FieldModel field;
     TrackModel track;
     Controller controller;
@@ -34,21 +34,21 @@ public class FieldView implements Observer {
     String backgroundResource = "grass1.jpg";
     Color backgroundColor = null;
     Image backgroundImage = null;
-    
+
     Canvas background;
     TrackView tview;
     Pane poneyground;
     Canvas foreground;
-    
+
     String middleText;
-    
+
     final int width;
     final int height;
-    
+
     double scale;
     double xOffset;
     double yOffset;
-    
+
     /**
      * Canvas dans lequel on va dessiner le jeu.
      *
@@ -60,7 +60,7 @@ public class FieldView implements Observer {
         this.controller = controller;
         width = w;
         height = h;
-        
+
         if (backgroundResource.startsWith("#")) {
             backgroundColor = Color.web(backgroundResource);
         } else if (backgroundColor == null) {
@@ -70,17 +70,17 @@ public class FieldView implements Observer {
         background = new Canvas(w, h);
         poneyground = new Pane();
         foreground = new Canvas(w, h);
-        
+
         track = fieldModel.getTrackModel();
         tview = new TrackView(track, width, height);
-        
+
         scale = tview.getScale();
         xOffset = tview.getxOffset();
         yOffset = tview.getyOffset();
-        
+
         field.addObserver(this);
     }
-    
+
     /**
      * Initialisation du terrain de course et de ses PoneyView.
      * @param sn Notification d'initialisation
@@ -88,14 +88,14 @@ public class FieldView implements Observer {
     public void initialize(StartNotification sn) {
         poneyground.setTranslateX(xOffset * scale);
         poneyground.setTranslateY(height - yOffset * scale);
-        
+
         nbPoneys = sn.getNbPoneys();
         List<String> poneyTypes = sn.getPoneyTypes();
-        
+
         /* On initialise le terrain de course */
         for (int i = 0; i < nbPoneys; i++) {
             PoneyView newPoney = null;
-            
+
             switch (poneyTypes.get(i)) {
                 case "NyanPoneyModel":
                     newPoney = new NyanPoneyView(scale);
@@ -108,11 +108,11 @@ public class FieldView implements Observer {
             poneyground.getChildren().add(newPoney.getPoneyImage());
             poneyground.getChildren().add(newPoney.getPowerImage());
         }
-        
+
         displayBackground();
         tview.display();
     }
-    
+
     /**
      * Mise à jour des positions de la vue sur notification du modèle.
      * @param pn notification de l'avancement des poneys du modèle
@@ -120,7 +120,7 @@ public class FieldView implements Observer {
     public void progress(ProgressNotification pn) {
         List<double[]> coords = pn.getCoords();
         double[] angles = pn.getAngles();
-        
+
         for (int i = 0; i < nbPoneys; i++) {
             poneys.get(i).setPos(coords.get(i), angles[i]);
         }
@@ -129,14 +129,14 @@ public class FieldView implements Observer {
     public void displayWinner(WinNotification wn) {
         middleText = "The " + wn.getWinnerColor() + " poney has won the race !";
     }
-    
+
     /**
      * Appel des différents traitements suivant la notification reçue.
      */
     @Override
     public void update(Observable obs, Object o) {
         Notification n = (Notification) o;
-        
+
         switch (n.name) {
             case "START":
                 if (nbPoneys == -1) {
@@ -155,20 +155,20 @@ public class FieldView implements Observer {
                 System.err.println("Erreur : Notification de nom '" + n.name + "' inconnue !");
         }
     }
-    
+
     /**
      * Renouvellement de l'affichage du terrain et des poneys.
      */
     public void display() {
         displayPoneyground();
     }
-    
+
     /**
      * Affiche le background.
      */
     public void displayBackground() {
         GraphicsContext gc = background.getGraphicsContext2D();
-        
+
         if (backgroundColor != null) {
             gc.setFill(backgroundColor);
             gc.fillRect(0, 0, width, height);
@@ -178,7 +178,7 @@ public class FieldView implements Observer {
             System.err.println("There's no background !");
         }
     }
-    
+
     /**
      * Affiche les poneys dans leur vue.
      */
@@ -187,39 +187,39 @@ public class FieldView implements Observer {
             poney.display();
         }
     }
-    
+
     /**
      * Affichage du texte central.
      */
     public void displayMiddleText() {
         GraphicsContext gc = foreground.getGraphicsContext2D();
-        
+
         if (middleText != null) {
             gc.setFill(Color.VIOLET);
-            gc.fillRect(0, (height - Math.round(height / 5)) / 2,
-                    width, Math.round(height / 5));
+            gc.fillRect(0, (height - Math.round(height / 5.0)) / 2,
+                    width, Math.round(height / 5.0));
             gc.setTextAlign(TextAlignment.CENTER);
             gc.setTextBaseline(VPos.CENTER);
             gc.strokeText(
                     middleText,
-                    Math.round(width / 2),
-                    Math.round(height / 2)
+                    Math.round(width / 2.0),
+                    Math.round(height / 2.0)
             );
         }
     }
-    
+
     public Canvas getBackground() {
         return background;
     }
-    
+
     public TrackView getTrackView() {
         return tview;
     }
-    
+
     public Pane getPoneyground() {
         return poneyground;
     }
-    
+
     public Canvas getForeground() {
         return foreground;
     }
