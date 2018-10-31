@@ -139,11 +139,11 @@ public class GameView extends View {
     }
 
     public void pause() {
-        pauseButton.setText("Continuer");
+        //pauseButton.setText("Continuer");
     }
 
     public void unpause() {
-        pauseButton.setText("Pause");
+        //pauseButton.setText("Pause");
     }
 
     /**

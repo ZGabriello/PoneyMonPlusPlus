@@ -12,27 +12,18 @@ import javafx.animation.AnimationTimer;
  *
  */
 public class Controller {
-
+    GameControl game;
     FieldModel model;
     List<MainView> views = new ArrayList<>();
-
+    boolean isOnline;
     AnimationTimer timer;
+    Lobby lobby;
 
     /**
      * Constructeur du contrôleur.
      */
     public Controller() {
-        timer = new AnimationTimer() {
-            /**
-             * Boucle principale du jeu.
-             *
-             * handle() est appelee a chaque rafraichissement de frame soit
-             * environ 60 fois par seconde.
-             */
-            public void handle(long currentNanoTime) {
-                model.step();
-            }
-        };
+        game = new GameControl(this);
     }
 
     /**
@@ -70,72 +61,53 @@ public class Controller {
         view.createMenuParametersView();
         view.createMenuControlesView();
         view.createMenuResolutionView();
+        view.createOnlineServerView();
+        view.createOnlineClientView();
     }
+
+
 
     /**
-     * Démarre une nouvelle partie en créant un modèle et en le fournissant aux vues suivies.
-     * @param filename nom du fichier du circuit à charger
-     * @param nbPoneys nombre de poneys
-     */
+    * Démarre une nouvelle partie en créant un modèle et en le fournissant aux
+    * vues suivies.
+    *
+    * @param filename nom du fichier du circuit à charger
+    * @param nbPoneys nombre de poneys
+    */
     public void startGame(String filename, int nbPoneys) {
-        model = new FieldModel(filename, nbPoneys);
+        game.startGame(filename, nbPoneys);
         
-        for (MainView view : views) {
-            view.setModel(model);
-            view.createGameView();
-            view.setActiveView("GameView");
-            gameUnpause();
-        }
-        
-        gamePause();
     }
-
+    
     /**
      * Utilise le pouvoir sur le poney si ce n'est pas une IA.
      *
      * @param i position du poney dans le modèle
      */
     public void usePower(int i) {
-        PoneyModel pm = model.getPoneyModel(i);
-        if (!pm.isIa()) {
-            model.getPoneyModel(i).usePower();
-        }
-
+        game.usePower(i);
     }
 
     /**
      * Permet de relancer la partie après une pause.
      */
     public void gameUnpause() {
-        timer.start();
-
-        for (MainView view : views) {
-            view.gameUnpause();
-        }
+        game.gameUnpause();
     }
 
     /**
      * Permet de mettre le jeu en pause.
      */
     public void gamePause() {
-        timer.stop();
-
-        for (MainView view : views) {
-            view.gamePause();
-        }
+        game.gamePause();
     }
 
     /**
      * Permet de retourner au menu.
      */
     public void menuFromGame() {
-        timer.stop();
-        
-        for (MainView view : views) {
-            view.setActiveView("MenuView");
-            view.deleteView("GameView");
-            view.setModel(null);
-        }
+        game.menuFromGame();
+        game = new GameControl(this);
     }
 
     /**
@@ -168,4 +140,28 @@ public class Controller {
     public void changeResolution(int idMainView, int newWidth, int newHeight) {
         views.get(idMainView).resize(newWidth, newHeight);
     }
+    
+    public void createLobby(){
+        game = new OnlineGameControl(this,game);
+        for (MainView view : views) {
+            view.setActiveView("OnlineServerView");
+        }
+    }
+    
+    public void joinLobby(){
+        game = new OnlineGameControl(this,game);
+        for (MainView view : views){
+            view.setActiveView("OnlineClientView");
+        }
+    }
+
+    public void LobbyViewFromClient() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void LobbyViewFromClient(String text, String text0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
 }

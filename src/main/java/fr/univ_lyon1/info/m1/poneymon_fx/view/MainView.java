@@ -109,6 +109,22 @@ public class MainView {
         menuControles = new MenuControlesView(controller, width, height);
         views.put("MenuControlesView", menuControles);
     }
+    
+    /**
+     * crée la vue d'un lobby client.
+     */
+    public void createOnlineClientView(){
+        View ocv = new OnlineClientView(controller, width, height);
+        views.put("OnlineClientView",ocv);
+    }
+    
+    /**
+     * crée la vue d'un lobby Serveur.
+     */
+    public void createOnlineServerView(){
+        View osv = new OnlineServerView(controller, width, height);
+        views.put("OnlineServerView", osv);
+    }
 
     public void deleteView(String view) {
         views.remove(view);

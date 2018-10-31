@@ -58,20 +58,20 @@ class ClientToServerProcessor extends Processor {
     }
 
     private void handleServerCommand(String code) {
-        String toSend;
 
         switch (code.toUpperCase()) {
             case "CLOSE":
-                toSend = "fin  de communication";
                 connexionFermeeDemande = true;
                 break;
+            case "PAUSE":
+                this.parent.lobby.controller.gameUnpauseClient();
+                break;
+            case "UNPAUSE":
+                this.parent.lobby.controller.gameUnpauseClient();
+                break;
             default:
-                toSend = "commande non reconnue";
                 break;
         }
-
-        writer.write(toSend);
-        writer.flush();
     }
 
     // les messages commandes sont de la forme "TypeDeDonnes(sur 1 caractère)+Json"
@@ -105,10 +105,10 @@ class ClientToServerProcessor extends Processor {
     public void parseInput(String substring) {
         switch (substring.substring(0, 3)) {
             case "POW":
-                this.parent.lobby.controller.applyPower(Integer.parseInt(substring.substring(3)));
+                this.parent.lobby.controller.usePowerClient(Integer.parseInt(substring.substring(3)));
                 break;
             case "PAU":
-                this.parent.lobby.controller.gamePauseClient();
+                this.parent.lobby.controller.pauseClient();
                 break;
             case "CON":
                 this.parent.lobby.controller.gameUnpauseClient();

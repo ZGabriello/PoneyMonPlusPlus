@@ -36,7 +36,7 @@ public class Lobby {
     @JsonIgnore
     Client client = null;
     @JsonIgnore
-    OnlineController controller;
+    OnlineGameControl controller;
     @JsonIgnore
     boolean isHost = false;
     @JsonIgnore
@@ -72,7 +72,7 @@ public class Lobby {
         ports.add(port);
     }
 
-    public void setController(OnlineController c) {
+    public void setController(OnlineGameControl c) {
         this.controller = c;
     }
 
@@ -97,14 +97,14 @@ public class Lobby {
     }
 
     void migrate() {
-        this.controller.gamePauseClient();
+        this.controller.gamePause();
         if (this.ips.get(0).equals(this.usedIp)) {
             setSelfServer();
             openServer();
         } else {
             getRemoteLobby(this.ips.get(0), this.ports.get(0));
         }
-        this.controller.gameUnpauseClient();
+        this.controller.gameUnpause();
     }
 
     void setSelfServer() {
