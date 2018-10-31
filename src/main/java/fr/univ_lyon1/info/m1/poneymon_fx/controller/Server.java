@@ -116,6 +116,7 @@ public class Server {
      */
     public void close() {
         isRunning = false;
+        System.out.println("closed server");
         mainThread.interrupt();
         try {
             sSocket.close();
@@ -169,7 +170,7 @@ public class Server {
             default:
                 break;
         }
-
+        
     }
 
 }

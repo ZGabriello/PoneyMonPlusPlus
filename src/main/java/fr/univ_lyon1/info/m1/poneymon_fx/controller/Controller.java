@@ -12,18 +12,19 @@ import javafx.animation.AnimationTimer;
  *
  */
 public class Controller {
+    GameControl currentGame;
     GameControl game;
     FieldModel model;
     List<MainView> views = new ArrayList<>();
     boolean isOnline;
     AnimationTimer timer;
-    Lobby lobby;
-
+    OnlineGameControl Ogame;
     /**
      * Constructeur du contrôleur.
      */
     public Controller() {
         game = new GameControl(this);
+        currentGame = game;
     }
 
     /**
@@ -75,7 +76,7 @@ public class Controller {
     * @param nbPoneys nombre de poneys
     */
     public void startGame(String filename, int nbPoneys) {
-        game.startGame(filename, nbPoneys);
+        currentGame.startGame(filename, nbPoneys);
         
     }
     
@@ -85,29 +86,30 @@ public class Controller {
      * @param i position du poney dans le modèle
      */
     public void usePower(int i) {
-        game.usePower(i);
+        currentGame.usePower(i);
     }
 
     /**
      * Permet de relancer la partie après une pause.
      */
     public void gameUnpause() {
-        game.gameUnpause();
+        currentGame.gameUnpause();
     }
 
     /**
      * Permet de mettre le jeu en pause.
      */
     public void gamePause() {
-        game.gamePause();
+        currentGame.gamePause();
     }
 
     /**
      * Permet de retourner au menu.
      */
     public void menuFromGame() {
-        game.menuFromGame();
+        currentGame.menuFromGame();
         game = new GameControl(this);
+        currentGame = game;
     }
 
     /**
@@ -142,26 +144,40 @@ public class Controller {
     }
     
     public void createLobby(){
-        game = new OnlineGameControl(this,game);
+        Ogame = new OnlineGameControl(this,game);
+        Ogame.lobby = new Lobby();
+        Ogame.lobby.setController(Ogame);
+        currentGame = Ogame;
         for (MainView view : views) {
             view.setActiveView("OnlineServerView");
         }
     }
     
     public void joinLobby(){
-        game = new OnlineGameControl(this,game);
+        Ogame = new OnlineGameControl(this,game);
+        Ogame.lobby = new Lobby();
+        Ogame.lobby.setController(Ogame);
+        currentGame = Ogame;
         for (MainView view : views){
             view.setActiveView("OnlineClientView");
         }
     }
 
-    public void LobbyViewFromClient() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public void LobbyViewFromClient(String text, String text0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Ogame.lobby.getRemoteLobby(text, Integer.parseInt(text0));
+        
+        for(MainView view : views){
+            view.createLobbyView(Ogame.lobby);
+            view.setActiveView("LobbyView");
+        }
     }
 
-    
+    public void LobbyViewFromServer(String text, String text0) {
+        Ogame.lobby.setSelfServer(text, Integer.parseInt(text0));
+        Ogame.lobby.openServer();
+        for(MainView view : views){
+            view.createLobbyView(Ogame.lobby);
+            view.setActiveView("LobbyView");
+        }
+    }
 }

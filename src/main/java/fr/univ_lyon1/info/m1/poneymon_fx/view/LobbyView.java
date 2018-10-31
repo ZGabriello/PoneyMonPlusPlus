@@ -6,19 +6,14 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.Lobby;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField; 
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -37,8 +32,10 @@ import javafx.util.Duration;
  *
  * @author Alex
  */
-
-class OnlineServerView extends View {
+public class LobbyView extends View{
+    
+    
+    
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
 
     /**
@@ -66,51 +63,26 @@ class OnlineServerView extends View {
 
     private List<MenuItem> menuItems;
     int currentItem = 0;
+    Lobby lobby;
     
-    private TextField ip,port;
-    public OnlineServerView(Controller c, int w, int h) {
+    public LobbyView (Controller c, int w, int h, Lobby l){
         setPrefSize(w,h);
-        this.controller=c;
+        this.controller = c;
         createContent();
+        lobby = l;
         setOnKeyPressedEvent();
     }
+    
     private void createContent() {
-        Label label1 = new Label("IP:");
-        ip = new TextField ();
-        HBox hb1 = new HBox();
-        hb1.getChildren().addAll(label1, ip);
-        hb1.setSpacing(10);
-        Label label2 = new Label("Port:");
-        port = new TextField ();
-        HBox hb2 = new HBox();
-        hb2.getChildren().addAll(label2, port);
-        hb2.setSpacing(10);
-        label1.setFont(FONT);
-        label1.setEffect(new GaussianBlur(2));
-        label2.setFont(FONT);
-        label2.setEffect(new GaussianBlur(2));
-        try {
-            ip.setText(InetAddress.getLocalHost().getHostAddress());
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(OnlineServerView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        port.setText("9000");
-        hb1.setAlignment(Pos.CENTER);
-        hb2.setAlignment(Pos.CENTER);
-        MenuItem validate = new MenuItem("Create this lobby");
-        validate.setOnActivate(() -> controller.LobbyViewFromServer(ip.getText(),port.getText()));
+        
         MenuItem retourItem = new MenuItem("Back");
         retourItem.setOnActivate(() -> controller.menuFromGame());
         
         menuItems = Arrays.asList(
-                validate,
                 retourItem);
-        validate.setActive(true);
+        menuItems.get(0).setActive(true);
         
         VBox container = new VBox(10);
-
-        container.getChildren().add(hb1);
-        container.getChildren().add(hb2);
 
         container.getChildren().addAll(menuItems);
         container.setAlignment(Pos.CENTER);
@@ -181,5 +153,4 @@ class OnlineServerView extends View {
             }
         });
     }
-    
 }

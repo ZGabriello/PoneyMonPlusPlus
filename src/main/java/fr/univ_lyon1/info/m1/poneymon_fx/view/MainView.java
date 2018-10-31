@@ -1,6 +1,8 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.Lobby;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.OnlineGameControl;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import java.util.HashMap;
 import javafx.scene.Group;
@@ -116,6 +118,15 @@ public class MainView {
     public void createOnlineClientView(){
         View ocv = new OnlineClientView(controller, width, height);
         views.put("OnlineClientView",ocv);
+    }
+    
+    
+    /**
+     * crée la vue d'un lobby.
+     */
+    public void createLobbyView(Lobby l){
+        View lv = new LobbyView(controller, width, height,l);
+        views.put("LobbyView",lv);
     }
     
     /**

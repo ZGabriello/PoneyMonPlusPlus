@@ -17,13 +17,16 @@ public class OnlineGameControl extends GameControl{
     public Lobby lobby;
 
     public OnlineGameControl(Controller c) {
+        
         super(c);
+        this.model = new FieldModel("test",3);
         this.lobby = new Lobby();
     }
     
     public OnlineGameControl(Controller c, GameControl gCon){
         super(c,gCon);
         this.lobby = new Lobby();
+        
     }
     
     /**
@@ -153,7 +156,9 @@ public class OnlineGameControl extends GameControl{
      */
     @Override
     public void menuFromGame() {
+        System.out.println("right logic");
         if (lobby.isHost){
+            System.out.println("am closing");
             lobby.server.close();
             timer.stop();
 
@@ -164,7 +169,10 @@ public class OnlineGameControl extends GameControl{
             }
         }
         else{
-            lobby.client.close();
+            System.out.println("not host");
+            if (lobby.client!=null){
+                lobby.client.close();
+            }
             timer.stop();
             for (MainView view : parent.views) {
                 view.setActiveView("MenuView");

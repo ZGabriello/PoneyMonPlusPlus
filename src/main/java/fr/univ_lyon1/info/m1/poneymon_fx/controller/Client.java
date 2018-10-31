@@ -29,6 +29,7 @@ public class Client {
             processor = new ClientToServerProcessor(sock, this);
             t = new Thread(processor);
             t.start();
+            System.out.println("client started");
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {

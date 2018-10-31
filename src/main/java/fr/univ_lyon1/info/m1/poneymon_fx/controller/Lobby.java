@@ -86,10 +86,12 @@ public class Lobby {
 
     public void getRemoteLobby(String ip, int port) {
         client = new Client(ip, port);
+        client.setLobby(this);
     }
 
     public void getRemoteLobby(String ip) {
         client = new Client(ip, 9000);
+        client.setLobby(this);
     }
 
     public void starMigration() {
@@ -111,6 +113,16 @@ public class Lobby {
         hostIp = this.usedIp;
         isHost = true;
         server = new Server(this.usedIp, this.portUsed);
+        server.setLobby(this);
+    }
+    
+    void setSelfServer(String ip, int port) {
+        this.usedIp = ip;
+        this.portUsed = port;
+        
+        isHost = true;
+        server = new Server(this.usedIp, this.portUsed);
+        server.setLobby(this);
     }
 
     void openServer() {

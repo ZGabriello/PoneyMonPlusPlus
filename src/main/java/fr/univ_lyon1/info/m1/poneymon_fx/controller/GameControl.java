@@ -20,6 +20,7 @@ public class GameControl {
     Controller parent;
     public GameControl(Controller c){
         parent = c;
+        model =new FieldModel("test",3);
         timer = new AnimationTimer() {
             /**
              * Boucle principale du jeu.
