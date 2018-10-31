@@ -1,7 +1,5 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.ImStillHereNyanStrategy;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.NotEnoughSpeedNyanStrategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.MoreSpeedNyanStrategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.ProgressNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.StartNotification;
@@ -25,6 +23,7 @@ public class FieldModel extends Observable {
     List<Double> progresses = new ArrayList<>();
     String[] colorMap =
     new String[] {"blue", "green", "orange", "purple", "yellow"};
+    String myChoiceColor = "blue";
 
     /** Nombre de tours pour gagner. */
     final int winAt = 3;
@@ -45,7 +44,14 @@ public class FieldModel extends Observable {
 
         // Tant qu'il n'y a pas de menus permettant de choisir les poneys
         // on part d'une partie avec 3 ia sur les poneys centraux, et 5 poneys au total
-        if (nbPoneys == 5) {
+        System.out.println(myChoiceColor);
+        for (int j = 0; j < 5; j++) {
+            if (!poneys.get(j).getColor().equals(myChoiceColor)) {
+                NyanPoneyModel p = (NyanPoneyModel)poneys.get(j);
+                p.setStrategy(new MoreSpeedNyanStrategy(this, p, j));
+            }
+        }
+        /*if (nbPoneys == 5) {
             NyanPoneyModel p = (NyanPoneyModel)poneys.get(1);
             p.setStrategy(new MoreSpeedNyanStrategy(this, p, 1));
 
@@ -54,7 +60,7 @@ public class FieldModel extends Observable {
 
             p = (NyanPoneyModel)poneys.get(3);
             p.setStrategy(new ImStillHereNyanStrategy(this, p, 3));
-        }
+        }*/
     }
 
     /**
@@ -102,5 +108,9 @@ public class FieldModel extends Observable {
 
     public int getWinAt() {
         return winAt;
+    }
+
+    public void setMyPoneyChoice(String choicePoney) {
+        this.myChoiceColor = choicePoney;
     }
 }

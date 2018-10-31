@@ -24,7 +24,6 @@ import javafx.scene.paint.Color;
 public class MenuControlesView extends View {
     Controller controller;
     GameView gv;
-    MenuView mv;
 
     Map<String, KeyCode> hmControles = new LinkedHashMap<>();
 
@@ -41,8 +40,6 @@ public class MenuControlesView extends View {
      */
     public MenuControlesView(Controller c, int w, int h) {
         setPrefSize(w, h);
-
-        mv = new MenuView(c, w, h);
 
         controller = c;
 
@@ -87,7 +84,7 @@ public class MenuControlesView extends View {
 
         menuItems.add(retourItem);
 
-        Node title = mv.createTitle("Poneymon");
+        Node title = createTitle("Poneymon");
 
         VBox container = new VBox(10, title);
 

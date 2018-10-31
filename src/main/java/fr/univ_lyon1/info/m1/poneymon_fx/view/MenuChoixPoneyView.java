@@ -23,7 +23,6 @@ import javafx.scene.paint.Color;
 public class MenuChoixPoneyView extends View {
     Controller controller;
     FieldModel model;
-    MenuView mv;
 
     private List<MenuItemImage> menuItems = new ArrayList<>();
     int currentItem = 0;
@@ -56,7 +55,6 @@ public class MenuChoixPoneyView extends View {
         setPrefSize(w, h);
 
         controller = c;
-        mv = new MenuView(c, w, h);
 
         createContent();
         setOnKeyPressedEvent();
@@ -74,7 +72,7 @@ public class MenuChoixPoneyView extends View {
         retourItem.setOnActivate(() -> controller.menuFromGame());
         menuItems.add(retourItem);
 
-        Node title = mv.createTitle("Poneymon");
+        Node title = createTitle("Poneymon");
 
         VBox container = new VBox(0, title);
 

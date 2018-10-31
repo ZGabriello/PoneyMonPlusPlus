@@ -22,6 +22,7 @@ public class MainView {
     Controller controller;
     MenuControlesView menuControles;
     MenuResolutionView menuResolution;
+    MenuChoixPoneyView menuChoixPoney;
 
     Stage stage;
     Group root;
@@ -116,7 +117,7 @@ public class MainView {
      * Crée et ajoute au cache des vues pour les touches de controles.
      */
     public void createMenuChoixPoney() {
-        MenuChoixPoneyView menuChoixPoney = new MenuChoixPoneyView(controller, width, height);
+        menuChoixPoney = new MenuChoixPoneyView(controller, width, height);
         views.put("MenuChoixPoneyView", menuChoixPoney);
     }
 
@@ -206,6 +207,10 @@ public class MainView {
             GameView gv = (GameView) views.get(gameView);
             gv.unpause();
         }
+    }
+
+    public String getMyChoicePoney() {
+        return this.menuChoixPoney.getTypePoney();
     }
 
 }

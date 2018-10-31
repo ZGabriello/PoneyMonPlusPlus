@@ -21,7 +21,6 @@ import javafx.scene.paint.Color;
  */
 public class MenuParametersView extends View {
     Controller controller;
-    MenuView mv;
 
     private List<MenuItem> menuItems;
     int currentItem = 0;
@@ -37,7 +36,6 @@ public class MenuParametersView extends View {
         setPrefSize(w, h);
 
         controller = c;
-        mv = new MenuView(c, w, h);
 
         createContent();
         setOnKeyPressedEvent();
@@ -60,7 +58,7 @@ public class MenuParametersView extends View {
                 controlesItem,
                 resolutionItem,
                 retourItem);
-        Node title = mv.createTitle("Poneymon");
+        Node title = createTitle("Poneymon");
 
         VBox container = new VBox(10, title);
 

@@ -44,6 +44,8 @@ public class Controller {
         view.setController(this);
         view.setId(views.size());
 
+
+
         initializeMainView(view);
 
         // Si il y a déjà des vues, la nouvelle doit afficher la même chose que les autres
@@ -52,6 +54,7 @@ public class Controller {
             if (model != null) {
                 view.setModel(model);
                 view.createGameView();
+                model.setMyPoneyChoice(getMyPoneyChoice());
             }
             String activeView = views.get(0).getActiveView();
             view.setActiveView(activeView);
@@ -81,6 +84,7 @@ public class Controller {
      */
     public void startGame(int nbPoneys) {
         model = new FieldModel(nbPoneys);
+        System.out.println(getMyPoneyChoice());
 
         for (MainView view : views) {
             view.setModel(model);
@@ -174,5 +178,12 @@ public class Controller {
 
     public void changeResolution(int idMainView, int newWidth, int newHeight) {
         views.get(idMainView).resize(newWidth, newHeight);
+    }
+
+    public String getMyPoneyChoice() {
+        return this.views.get(1).getMyChoicePoney();
+    }
+    public void setMyPoneyChoice(String choice) {
+        this.model.setMyPoneyChoice(choice);
     }
 }

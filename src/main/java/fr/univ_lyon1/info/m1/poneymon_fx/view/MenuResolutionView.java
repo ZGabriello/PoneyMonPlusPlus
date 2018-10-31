@@ -24,9 +24,8 @@ import javafx.scene.paint.Color;
 public class MenuResolutionView extends View {
 
     int idMainView;
-    
+
     Controller controller;
-    MenuView mv;
 
     Map<Integer, Integer> hmResolution = new LinkedHashMap<>();
     private List<MenuItem> menuItems = new ArrayList<>();
@@ -65,7 +64,6 @@ public class MenuResolutionView extends View {
         heightSize = h;
 
         controller = c;
-        mv = new MenuView(c, w, h);
 
         createContent();
         setOnKeyPressedEvent();
@@ -98,7 +96,7 @@ public class MenuResolutionView extends View {
 
         menuItems.add(retourItem);
 
-        Node title = mv.createTitle("Poneymon");
+        Node title = createTitle("Poneymon");
 
         VBox container = new VBox(10, title);
 
