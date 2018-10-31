@@ -28,7 +28,6 @@ public abstract class PoneyModel extends Observable {
     Line beginLine;
     LanePart curLane;
     
-    String laneShape;
     double[] infos;
     
     double distance;
@@ -220,7 +219,6 @@ public abstract class PoneyModel extends Observable {
     public void setCurLane(LanePart lp) {
         curLane = lp;
         curLaneLength = lp.getLength();
-        laneShape = curLane.getShape();
     }
     
     /**
@@ -273,10 +271,6 @@ public abstract class PoneyModel extends Observable {
     
     public double getDistance() {
         return distance;
-    }
-    
-    public String getLaneShape() {
-        return laneShape;
     }
     
     public double[] getInfos() {

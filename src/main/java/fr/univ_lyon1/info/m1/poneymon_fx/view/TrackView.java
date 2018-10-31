@@ -29,7 +29,7 @@ public class TrackView extends Canvas {
     final GraphicsContext gc;
     final int width;
     final int height;
-    static final int PADDING = 80;
+    static final int PADDING = 100;
     
     double scale;
     double xOffset;
@@ -152,11 +152,9 @@ public class TrackView extends Canvas {
     /*
      * Passe l'angle en degrés puis applique une symétrie par rapport à x
      * car JavaFX inverse le sens de l'ordonnée par rapport aux conventions mathématiques.
-     *
      */
     private double formatAngle(double angle) {
-        angle = toDegrees(angle);
-        angle = (720 - angle) % 360;
+        angle = -toDegrees(angle);
         
         return angle;
     }
@@ -250,7 +248,7 @@ public class TrackView extends Canvas {
         }
         
         for (Line line : track.getLines().values()) {
-            //drawLine(line, borderColor);
+            drawLine(line, borderColor);
         }
         
         drawBeginLine(track.getBeginLine(), insideColor);

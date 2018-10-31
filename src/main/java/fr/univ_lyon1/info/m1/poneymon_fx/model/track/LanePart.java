@@ -2,9 +2,6 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model.track;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import java.util.List;
-import java.util.NavigableMap;
-
-import static java.lang.Math.sqrt;
 
 /**
  * Classe gérant un bout de voie.
@@ -90,9 +87,18 @@ public abstract class LanePart {
         x3 = points2[2];
         y3 = points2[3];
         
-        startAngle = beginLine.getOppositeAngle();
-        endAngle = endLine.getOppositeAngle();
         arcLength = Util.getAngleDifference(l1, l2);
+        
+        // Avec nos conventions, on pointe vers le centre du cercle dans le sens
+        // trigonométrique, on veut donc l'opposé (angle qui part du centre)
+        // Mais dans le sens anti-trigo, on pointe déjà vers l'extérieur du cercle
+        if (arcLength >= 0) {
+            startAngle = beginLine.getOppositeAngle();
+            endAngle = endLine.getOppositeAngle();
+        } else {
+            startAngle = beginLine.getAngle();
+            endAngle = endLine.getAngle();
+        }
     }
     
     public double getLength() {
@@ -139,8 +145,6 @@ public abstract class LanePart {
     public LanePart getNext() {
         return nextLane;
     }
-    
-    public abstract String getShape();
     
     public abstract double[] getInfos(double progress);
     

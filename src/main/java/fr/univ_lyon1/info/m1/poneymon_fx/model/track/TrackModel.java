@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import java.util.Locale;
 
 /**
  * Classe gérant un terrain.
@@ -48,7 +49,7 @@ public class TrackModel {
     public void importTrack(String filename) {
         try {
             File f = new File("src/main/resources/tracks/" + filename);
-            Scanner scanner = new Scanner(f);
+            Scanner scanner = new Scanner(f).useLocale(Locale.US);
 
             String object = null;
             
@@ -57,7 +58,7 @@ public class TrackModel {
                     object = scanner.next();
                     if (object.equals("line") || object.equals("beginLine")) {
                         loadLine(object, scanner);
-                    } else if (object.equals("lanePart")) {
+                    } else if (object.equals("lane")) {
                         loadLanePart(scanner);
                     }
                 } catch (NoSuchElementException exception) {
