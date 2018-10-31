@@ -31,7 +31,7 @@ public class MenuItemImage extends HBox {
 
     private static class ImagePoney extends ImageView {
         public ImagePoney(String color) {
-            super(new Image("assets/pony-" + color + "-running.gif"));
+            super(new Image("assets/pony-" + color + "-running.gif", 150, 0, true, true));
         }
     }
 
