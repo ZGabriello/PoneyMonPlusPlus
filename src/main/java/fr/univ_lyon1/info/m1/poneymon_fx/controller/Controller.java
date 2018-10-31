@@ -183,6 +183,7 @@ public class Controller {
     public String getMyPoneyChoice() {
         return this.views.get(1).getMyChoicePoney();
     }
+    
     public void setMyPoneyChoice(String choice) {
         this.model.setMyPoneyChoice(choice);
     }
