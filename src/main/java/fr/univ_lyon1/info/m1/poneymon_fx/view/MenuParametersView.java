@@ -27,7 +27,6 @@ import javafx.util.Duration;
  *
  */
 public class MenuParametersView extends View {
-
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
 
     /**

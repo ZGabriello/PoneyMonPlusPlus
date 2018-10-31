@@ -134,4 +134,26 @@ public class Line {
     public LanePart getNext(int i) {
         return nextLaneParts.get(i);
     }
+
+    /**
+     * Récupère la voie à gauche de la voie beginLaneId si elle existe.
+     */
+    public LanePart getLeftLane(int beginLaneId) {
+        if (beginLaneId + 1 < nbLanes) {
+            return nextLaneParts.get(beginLaneId + 1);
+        }
+        
+        return null;
+    }
+
+    /**
+     * Récupère la voie à droite de la voie beginLaneId si elle existe.
+     */
+    public LanePart getRightLane(int beginLaneId) {
+        if (beginLaneId - 1 >= 0) {
+            return nextLaneParts.get(beginLaneId - 1);
+        }
+        
+        return null;
+    }
 }

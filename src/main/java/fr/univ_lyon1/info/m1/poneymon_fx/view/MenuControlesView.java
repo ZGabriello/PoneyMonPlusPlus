@@ -29,7 +29,10 @@ import javafx.util.Duration;
  *
  */
 public class MenuControlesView extends View {
-
+    // TODO: - reset currentItem = 0 quand retour sur vue
+    //       - mettre les couleurs dans classes packages
+    //       - passer les titres entre les vues
+    
     static final Font FONT = Font.font("", FontWeight.BOLD, 50);
 
     /**
@@ -85,17 +88,18 @@ public class MenuControlesView extends View {
 
     private void createContent() {
 
-        String[] defaultControlName = {"pouvoirNian1",
-            "pouvoirNian2",
-            "pouvoirNian3",
-            "pouvoirNian4",
-            "pouvoirNian5"};
+        String[] defaultControlName = {
+            "Pouvoir NyanPoney",
+            "Pouvoir EnragedPoney à gauche",
+            "Pouvoir EnragedPoney à droite",
+            "Aller sur la voie de gauche",
+            "Aller sur la voie de droite"};
 
-        KeyCode[] defaultKeyCode = {KeyCode.NUMPAD1,
-            KeyCode.NUMPAD2,
-            KeyCode.NUMPAD3,
-            KeyCode.NUMPAD4,
-            KeyCode.NUMPAD5};
+        KeyCode[] defaultKeyCode = {KeyCode.E,
+            KeyCode.A,
+            KeyCode.E,
+            KeyCode.Q,
+            KeyCode.D};
 
         //liste des controles
         for (int i = 0; i < defaultControlName.length; i++) {
@@ -183,7 +187,7 @@ public class MenuControlesView extends View {
      */
     public void waitKeyCode(MenuItem m) {
         waitingForKey = true;
-        final String controlName = m.getText().substring(0, 12);
+        final String controlName = m.getText().split(" : ")[0];
         m.setText(controlName + " : " + "Appuyer sur une touche");
         MenuControlesView parent = this;
         this.addEventHandler(KeyEvent.KEY_PRESSED,
@@ -200,7 +204,7 @@ public class MenuControlesView extends View {
      * Chenge la touche par une nouvelle touche.
      */
     public final void changeKeyCode(final MenuItem mi, KeyCode newKeyCode) {
-        final String controlName = mi.getText().substring(0, 12);
+        final String controlName = mi.getText().split(" : ")[0];
         hmControles.put(controlName, newKeyCode);
         mi.setText(controlName + " : " + newKeyCode.toString());
     }

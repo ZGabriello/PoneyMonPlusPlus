@@ -19,8 +19,8 @@ import java.util.Random;
  */
 public abstract class PoneyModel extends Observable {
     static final int SPEED_DIVIDER = 5;
-    static final double MIN_SPEED = 0.1;
-    static final double MAX_SPEED = 0.9;
+    static final double MIN_SPEED = 0;
+    static final double MAX_SPEED = 0.5;
 
     boolean isTouched;
     double acceleration;
@@ -119,7 +119,7 @@ public abstract class PoneyModel extends Observable {
         accelerer();
         
         if (distance > curLaneLength) {
-            nextLane();
+            goToNextLane();
             
             if (curLane.getBeginLine() == beginLine) {
                 newTurn();
@@ -146,15 +146,42 @@ public abstract class PoneyModel extends Observable {
         }
     }
     
-    protected void nextLane() {
-        double overProgress = distance - curLaneLength;
+    protected void goToNextLane() {
+        double overDistance = distance - curLaneLength;
         setCurLane(curLane.getNext());
-        setDistance(overProgress);
+        setDistance(overDistance);
         
         double[] points = curLane.getPoints();
         double x0 = (points[0] + points[2]) / 2;
         double y0 = (points[1] + points[3]) / 2;
     } 
+    
+    
+    /**
+     * Déplace le poney sur la voie de gauche si possible.
+     */
+    public void goToLeftLane() {
+        LanePart leftLane = curLane.getLeft();
+        
+        if (leftLane != null) {
+            setCurLane(leftLane);
+        }
+        
+        setDistance(distance);
+    }
+    
+    /**
+     * Déplace le poney sur la voie de droite si possible.
+     */
+    public void goToRightLane() {
+        LanePart rightLane = curLane.getRight();
+        
+        if (rightLane != null) {
+            setCurLane(rightLane);
+        }
+        
+        setDistance(distance);
+    }
     
     /**
      * Action à effectuer au début d'un nouveau tour.
@@ -210,7 +237,6 @@ public abstract class PoneyModel extends Observable {
         } else if (speed < MIN_SPEED) {
             speed = MIN_SPEED;
         }
-        
     }
     
     /**
@@ -320,50 +346,7 @@ public abstract class PoneyModel extends Observable {
      * 
      */  
     public void accelerer() {
-        // test si l'acceleration est possible
-        if ((this.getSpeed() + this.getAcceleration()) >= MAX_SPEED) {
-            this.setSpeed(MAX_SPEED);
-            
-        } else {
-            this.setSpeed((this.getSpeed() + this.getAcceleration()));
-        }
-    }
-    
-    /**
-     * Surcharge de la fonction accelerer.
-     */    
-    public void accelerer(double a) {   
-        // test si l'acceleration est possible
-        if ((this.getSpeed() + this.getAcceleration()) >= MAX_SPEED) {
-            this.setSpeed(MAX_SPEED);
-        } else {
-            this.setSpeed((this.getSpeed() + a));
-        }
-    }
-    
-    
-    /**
-     * Méthode gérant la décéleration du poney.
-     */
-    public void deccelerer() {
-        // test si la decceleration est possible
-        if ((this.getSpeed() - this.getAcceleration()) <= MIN_SPEED) {
-            this.setSpeed(MIN_SPEED);
-        } else {
-            this.setSpeed(this.getSpeed() - this.getAcceleration());
-        }
-    }
-    
-    /**
-    * Surcharge de la fonction deccelerer.
-    */
-    public void deccelerer(double a) {
-        // test si la decceleration est possible
-        if ((this.getSpeed() - a) <= MIN_SPEED) {
-            this.setSpeed(MIN_SPEED);
-        } else {
-            this.setSpeed(this.getSpeed() - a);
-        }
+        setSpeed(speed + acceleration);
     }
     
     /**
@@ -409,4 +392,3 @@ public abstract class PoneyModel extends Observable {
                 
     }
 }
-

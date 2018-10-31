@@ -2,6 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -167,10 +168,27 @@ public class GameView extends View {
     public void setOnKeyReleasedEvent() {
         this.setOnKeyReleased(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent e) {
-                for (int i = 0; i < menuControles.hmControles.size(); i++) {
-                    if (menuControles.hmControles.values().toArray()[i].equals(e.getCode())) {
-                        controller.usePower(i);
-                        //TODO : ajout utilisation ETATS
+                Map<String, KeyCode> controls = menuControles.hmControles;
+                for (String control : controls.keySet()) {
+                    if (controls.get(control).equals(e.getCode())) {
+                        switch (control) {
+                            case "Pouvoir NyanPoney":
+                                controller.usePower(1, "NyanPoneyModel");
+                                break;
+                            case "Pouvoir EnragedPoney à gauche":
+                                controller.usePower(1, "EnragedPoneyModel");
+                                break;
+                            case "Pouvoir EnragedPoney à droite":
+                                controller.usePower(1, "EnragedPoneyModel");
+                                break;
+                            case "Aller sur la voie de gauche":
+                                controller.goToLeftLane(1);
+                                break;
+                            case "Aller sur la voie de droite":
+                                controller.goToRightLane(1);
+                                break;
+                            default:
+                        }
                     }
                 }
             }
