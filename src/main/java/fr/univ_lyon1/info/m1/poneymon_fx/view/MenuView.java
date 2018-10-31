@@ -111,6 +111,9 @@ public class MenuView extends View {
         getChildren().add(container);
     }
 
+    /**
+     * Creer le titre de chaque menu.
+     */
     public Node createTitle(String title) {
         HBox letters = new HBox(0);
         letters.setAlignment(Pos.CENTER);
