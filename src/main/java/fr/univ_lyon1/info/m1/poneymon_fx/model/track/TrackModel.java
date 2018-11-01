@@ -59,7 +59,7 @@ public class TrackModel {
                     object = scanner.next();
                     if (object.equals("line") || object.equals("beginLine")) {
                         loadLine(object, scanner);
-                    } else if (object.equals("lanePart")) {
+                    } else if (object.equals("lane")) {
                         loadLanePart(scanner);
                     }
                 } catch (NoSuchElementException exception) {
@@ -87,6 +87,8 @@ public class TrackModel {
         int zIndex = scanner.nextInt();
         int nbLanes = scanner.nextInt();
 
+        
+        
         Line line = new Line(id, x, y, multiple, zIndex, nbLanes);
         if (object.equals("beginLine")) {
             if (beginLine == null) {

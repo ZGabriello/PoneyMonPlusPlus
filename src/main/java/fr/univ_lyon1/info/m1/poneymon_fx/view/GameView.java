@@ -2,6 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import java.util.Map;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -29,8 +30,8 @@ public class GameView extends View {
 
     Group root;
 
-    final int width;
-    final int height;
+    final int widthGame;
+    final int heightGame;
 
     /**
      * Les boutons.
@@ -38,16 +39,16 @@ public class GameView extends View {
     HBox buttons;
     Button menuButton;
     Button pauseButton;
-    
+
     int timeBeforeStartOfGame = 3;
     int timeBeforeGoVanishes = 2;
-    
+
     /** Inputs pour activer le pouvoir des poneys. */
     KeyCode[] powerInputs =
         new KeyCode[]{KeyCode.NUMPAD1, KeyCode.NUMPAD2, KeyCode.NUMPAD3,
                       KeyCode.NUMPAD4, KeyCode.NUMPAD5};
-    
-    /** 
+
+    /**
      * Constructeur de GameView.
      *
      * @param m Modèle de la partie
@@ -60,21 +61,21 @@ public class GameView extends View {
         model = m;
         menuControles = mc;
         controller = c;
-        width = w;
-        height = h;
+        widthGame = w;
+        heightGame = h;
 
-        fview = new FieldView(model, controller, width, height);
-        
+        fview = new FieldView(model, controller, widthGame, heightGame);
+
         this.getChildren().addAll(fview.getBackground(), fview.getTrackView(),
                                   fview.getPoneyground(), fview.getForeground());
 
         addButtons();
 
         setOnKeyReleasedEvent();
-        
+
         startTimer();
     }
-    
+
     private void startTimer() {
         Label timerLabel = new Label();
         this.getChildren().add(timerLabel);
@@ -82,7 +83,7 @@ public class GameView extends View {
         timerLabel.setText(Integer.toString(timeBeforeStartOfGame));
         timerLabel.setTextFill(Color.RED);
         timerLabel.setStyle("-fx-font-size: 4em;");
-        
+
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.getKeyFrames().add(
@@ -122,12 +123,13 @@ public class GameView extends View {
             }
         });
 
-        pauseButton = new Button("Continuer");
+        final String Continuer = "Continuer";
+        pauseButton = new Button(Continuer);
         pauseButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent arg0) {
                 if (pauseButton.getText().equals("Pause")) {
                     controller.gamePause();
-                } else if (pauseButton.getText().equals("Continuer")) {
+                } else if (pauseButton.getText().equals(Continuer)) {
                     controller.gameUnpause();
                 }
             }
@@ -166,21 +168,27 @@ public class GameView extends View {
     public void setOnKeyReleasedEvent() {
         this.setOnKeyReleased(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent e) {
-
-                /* affichage de la touche appuyé par l'utilisateur */
-                System.out.println(e.getCode());
-
-                /* affichage des touches qu'on a assigné */
-                System.out.println(menuControles.hmControles.values().toArray()[0]);
-                System.out.println(menuControles.hmControles.values().toArray()[1]);
-                System.out.println(menuControles.hmControles.values().toArray()[2]);
-                System.out.println(menuControles.hmControles.values().toArray()[3]);
-                System.out.println(menuControles.hmControles.values().toArray()[4]);
-
-                for (int i = 0; i < menuControles.hmControles.size(); i++) {
-                    if (menuControles.hmControles.values().toArray()[i].equals(e.getCode())) {
-                        controller.usePower(i);
-                        //TODO : ajout utilisation ETATS
+                Map<String, KeyCode> controls = menuControles.hmControles;
+                for (String control : controls.keySet()) {
+                    if (controls.get(control).equals(e.getCode())) {
+                        switch (control) {
+                            case "Pouvoir NyanPoney":
+                                controller.usePower(1, "NyanPoneyModel");
+                                break;
+                            case "Pouvoir EnragedPoney à gauche":
+                                controller.usePower(1, "EnragedPoneyModel");
+                                break;
+                            case "Pouvoir EnragedPoney à droite":
+                                controller.usePower(1, "EnragedPoneyModel");
+                                break;
+                            case "Aller sur la voie de gauche":
+                                controller.goToLeftLane(1);
+                                break;
+                            case "Aller sur la voie de droite":
+                                controller.goToRightLane(1);
+                                break;
+                            default:
+                        }
                     }
                 }
             }

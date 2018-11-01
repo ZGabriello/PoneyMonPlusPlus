@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model.track;
 
 import static java.lang.Math.PI;
+import static java.lang.Math.abs;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.toDegrees;
@@ -16,7 +17,6 @@ public class ArcLanePart extends LanePart {
     double innerRadius;
     double outerRadius;
     double midRadius;
- 
     
     /**
      * Constructeur de ArcLanePart.
@@ -39,11 +39,20 @@ public class ArcLanePart extends LanePart {
         centerX = center[0];
         centerY = center[1];
 
-        innerRadius = Util.dist(centerX, centerY, x1, y1);
+        double[] minMax;
+        
+        // Si l'on est dans le sens anti-trigonométrique
+        if (arcLength < 0) {
+            minMax = Util.minMaxInAngleRange(l1.getMultiple(), l2.getMultiple());
+            innerRadius = Util.dist(centerX, centerY, x0, y0);
+        } else {
+            minMax = Util.minMaxInAngleRange(Util.oppositeMultOf(l1.getMultiple()),
+                                             Util.oppositeMultOf(l2.getMultiple()));
+            innerRadius = Util.dist(centerX, centerY, x1, y1);
+        }
+        
         outerRadius = innerRadius + Line.laneWidth;
         midRadius = (innerRadius + outerRadius) / 2;
-        
-        double[] minMax = Util.minMaxInAngleRange(l1, l2);
 
         minX = centerX + minMax[0] * outerRadius;
         minY = centerY + minMax[1] * outerRadius;
@@ -51,26 +60,29 @@ public class ArcLanePart extends LanePart {
         maxY = centerY + minMax[3] * outerRadius;
         
         // la longueur de l'arc au milieu de celui-ci
-        length = arcLength * midRadius;
+        length = abs(arcLength) * midRadius;
     }
     
     public double[] getCenter() {
         return new double[] {centerX, centerY};
     }
-    
-    public String getShape() {
-        return "ARC";
-    }
-    
-    
+
     /**
      * Envoie les infos nécessaires pour afficher le poney (position et direction).
      */
+    @Override
     public double[] getInfos(double progress) {
         double currentAngle = startAngle + progress * arcLength;
-        double poneyDirection = currentAngle + PI / 2;
+        
         double x = centerX + cos(currentAngle) * midRadius;
         double y = centerY + sin(currentAngle) * midRadius;
+        
+        double poneyDirection;
+        if (arcLength > 0) {
+            poneyDirection = currentAngle + PI / 2;
+        } else {
+            poneyDirection = currentAngle - PI / 2;
+        }
         
         return new double[] {x, y, poneyDirection};
     }

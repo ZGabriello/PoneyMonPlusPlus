@@ -2,8 +2,6 @@ package fr.univ_lyon1.info.m1.poneymon_fx;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.MainView;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -16,7 +14,7 @@ public class App extends Application {
     // BUGS : - endPower() non appelé après sortie du pouvoir
     //        - bloquer pouvoir pendant timer de début de partie
     //        - plusieurs vues partent en couilles
-    
+
     /**
     * En javafx start() lance l'application.
     *

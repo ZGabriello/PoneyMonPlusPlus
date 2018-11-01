@@ -1,0 +1,77 @@
+#line id x y angle zIndex nbLanes
+
+line 0 0 0 2 0 3
+beginLine 1 3 0 2 0 3
+line 2 6 0 2 0 3
+line 3 9 0 2 0 3
+
+line 4 11.121320344 0.878679656 3 0 3
+line 5 12 3 4 0 3
+line 6 11.121320344 5.121320344 5 0 3
+
+line 7 9 6 6 0 3
+line 8 6 6 6 0 3
+line 9 3 6 6 0 3
+line 10 0 6 6 0 3
+
+line 11 -2.121320344 5.121320344 7 0 3
+line 12 -3 3 0 0 3
+line 13 -2.121320344 0.878679656 1 0 3
+
+#lane idBeginLine idLane idEndLine idLane
+
+lane 0 0 1 0
+lane 0 1 1 1
+lane 0 2 1 2
+
+lane 1 0 2 0
+lane 1 1 2 1
+lane 1 2 2 2
+
+lane 2 0 3 0
+lane 2 1 3 1
+lane 2 2 3 2
+
+lane 3 0 4 0
+lane 3 1 4 1
+lane 3 2 4 2
+
+lane 4 0 5 0
+lane 4 1 5 1
+lane 4 2 5 2
+
+lane 5 0 6 0
+lane 5 1 6 1
+lane 5 2 6 2
+
+lane 6 0 7 0
+lane 6 1 7 1
+lane 6 2 7 2
+
+lane 7 0 8 0
+lane 7 1 8 1
+lane 7 2 8 2
+
+lane 8 0 9 0
+lane 8 1 9 1
+lane 8 2 9 2
+
+lane 9 0 10 0
+lane 9 1 10 1
+lane 9 2 10 2
+
+lane 10 0 11 0
+lane 10 1 11 1
+lane 10 2 11 2
+
+lane 11 0 12 0
+lane 11 1 12 1
+lane 11 2 12 2
+
+lane 12 0 13 0
+lane 12 1 13 1
+lane 12 2 13 2
+
+lane 13 0 0 0
+lane 13 1 0 1
+lane 13 2 0 2

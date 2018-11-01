@@ -24,7 +24,7 @@ public class PoneyTest {
         p.step();
 
         // Then
-        assertEquals(p.getDistance(), expectedSpeed, 0.001);
+        assertEquals(expectedSpeed, p.getDistance(), 0.001);
     }
 
     /**
@@ -71,7 +71,6 @@ public class PoneyTest {
     
     //@Test
     public void testStateRemove() {
-        
         // Given
         NyanPoneyModel p = new NyanPoneyModel();
         p.setSpeed(0.42);
@@ -97,6 +96,7 @@ public class PoneyTest {
         // Given
         NyanPoneyModel p = new NyanPoneyModel();
         p.setSpeed(0.42);
+        
         double expectedSpeed = 0.42;
 
         //When
@@ -105,7 +105,7 @@ public class PoneyTest {
         p.setSpeed(0.42);
 
         //Then
-        assertEquals(p.getSpeed(), expectedSpeed, 0.001);
+        assertEquals(expectedSpeed, p.getSpeed(), 0.001);
     }
 
     /**
@@ -124,33 +124,13 @@ public class PoneyTest {
         p.setAcceleration(0.005);
         p.setSpeed(0.100);
         
-        double speedExpected = 0.105;
+        double expectedSpeed = 0.105;
         
         // When
         p.accelerer();
         
         //Then 
-        assertEquals(speedExpected, p.getSpeed(), 0.001);
-        
-    }
-    
-    /**
-     * On test si les poneys voient leur vitesse diminuer après une déccéleration.
-     */
-    @Test 
-    public void testDeccelerer(){
-        PoneyModel p = new NyanPoneyModel();
-        p.setAcceleration(0.005);
-        p.setSpeed(0.505);
-        
-        double speedExpected = 0.500;
-        
-        // When 
-        p.deccelerer();
-        
-        //Then
-        assertEquals(speedExpected, p.getSpeed(), 0.001);
-        
+        assertEquals(expectedSpeed, p.getSpeed(), 0.001);
         
     }
     
@@ -160,35 +140,16 @@ public class PoneyTest {
     @Test
     public void testTooMuchAccelerer(){
         PoneyModel p = new NyanPoneyModel();
-        p.setSpeed(0.899);
+        p.setSpeed(0.499);
         p.setAcceleration(0.005);
-        double speedExpected = 0.900;
         
+        double expectedSpeed = 0.5;
         
         // When 
         p.accelerer();
         
         //Then
-        assertEquals(speedExpected, p.getSpeed(), 0.001);
-    }
-    
-    /**
-     *  On test si les poneys aller en dessous de la vitesse autorisé après une décélération.
-     */
-    @Test 
-    public void testTooMuchDeccelerer(){
-        PoneyModel p = new NyanPoneyModel();
-        p.setSpeed(0.101);
-        p.setAcceleration(0.005);
-        double speedExpected = 0.100;
-        
-        
-        // When 
-        p.deccelerer();
-        
-        //Then
-        assertEquals(speedExpected, p.getSpeed(), 0.001);
-        
+        assertEquals(expectedSpeed, p.getSpeed(), 0.001);
     }
     
     /**
@@ -199,15 +160,15 @@ public class PoneyTest {
         PoneyModel p = new NyanPoneyModel();
         p.setSpeed(0.500);
         p.setIsTouched(true);
-        double speedExpected = 0.250;
         
+        double expectedSpeed = 0.250;
         
         // When 
         p.isTouched();
         
         
         // Then 
-        assertEquals(speedExpected, p.getSpeed(), 0.001);
+        assertEquals(expectedSpeed, p.getSpeed(), 0.001);
         
     }
     
@@ -218,14 +179,14 @@ public class PoneyTest {
     public void testNyanPower(){
         PoneyModel p = new NyanPoneyModel();
         p.setSpeed(0.300);
-        double speedExpected = 0.600;
         
+        double expectedSpeed = 0.600;
         
         //When 
         p.usePower();
         
         //then 
-        assertEquals(speedExpected, p.getSpeed(),0.001);
+        assertEquals(expectedSpeed, p.getSpeed(), 0.001);
     }
     
     /**
@@ -235,14 +196,15 @@ public class PoneyTest {
     public void testEnragedPower(){
         EnragedPoneyModel p = new EnragedPoneyModel();
         PoneyModel victim = new NyanPoneyModel();
-        double speedExpected = 0.400;
-        victim.setSpeed(0.800);
+        victim.setSpeed(0.5);
+        
+        double expectedSpeed = 0.25;
         
         //When
         p.usePower(victim);
         
         //then
-        assertEquals(speedExpected,victim.getSpeed(),0.001);
+        assertEquals(expectedSpeed, victim.getSpeed(), 0.001);
         
     }
     
@@ -251,13 +213,13 @@ public class PoneyTest {
     public void testBooleanPowerEnragedPoney(){
         EnragedPoneyModel p = new EnragedPoneyModel();
         PoneyModel victim = new NyanPoneyModel();
-        boolean statePowerExpected = true;
+        boolean expectedPowerState = true;
         
         //When
         p.usePower(victim);
         
         //then 
-        assertEquals(statePowerExpected,p.getPower().getPowerIsCasted());
+        assertEquals(expectedPowerState, p.getPower().getPowerIsCasted());
     }
     
     
@@ -270,11 +232,7 @@ public class PoneyTest {
         p.usePower();
         
         //then 
-        assertEquals(statePowerExpected,p.getPower().getPowerIsCasted());
+        assertEquals(statePowerExpected, p.getPower().getPowerIsCasted());
     }
     
 }
-
-
-
-

@@ -2,9 +2,6 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model.track;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import java.util.List;
-import java.util.NavigableMap;
-
-import static java.lang.Math.sqrt;
 
 /**
  * Classe gérant un bout de voie.
@@ -39,8 +36,8 @@ public abstract class LanePart {
     
     LanePart nextLane;
     
-    LanePart leftLanes;
-    LanePart rightLanes;
+    LanePart leftLane;
+    LanePart rightLane;
     
     //NavigableMap<Double, Objet> objets;
     //NavigableMap<Double, Obstacle> obstacles;
@@ -49,22 +46,44 @@ public abstract class LanePart {
     
     /**
      * Constructeur de LanePart.
-     * @param l1 Line de début de LanePart
+     * @param beginLine Line de début de LanePart
      * @param beginLaneId voie concernée sur la Line de début
-     * @param l2 Line de fin de LanePart
+     * @param endLine Line de fin de LanePart
      * @param endLaneId voie concernée sur la line de fin
      *
      */
-    public LanePart(Line l1, int beginLaneId, Line l2, int endLaneId) {
-        this.beginLine = l1;
+    public LanePart(Line beginLine, int beginLaneId, Line endLine, int endLaneId) {
+        this.beginLine = beginLine;
         this.beginLaneId = beginLaneId;
-        this.endLine = l2;
+        this.endLine = endLine;
         this.endLaneId = endLaneId;
         
-        l1.setNext(beginLaneId, this);
-        l2.setPrev(endLaneId, this);
-        LanePart prev = l1.getPrev(beginLaneId);
-        LanePart next = l2.getNext(endLaneId);
+        discoverNextLane();
+        discoverNeighbors();
+        
+        fetchPoints();
+        arcLength = Util.getAngleDifference(beginLine, endLine);
+        
+        // Avec nos conventions, on pointe vers le centre du cercle dans le sens
+        // trigonométrique, on veut donc l'opposé (angle qui part du centre)
+        // Mais dans le sens anti-trigo, on pointe déjà vers l'extérieur du cercle
+        if (arcLength >= 0) {
+            startAngle = beginLine.getOppositeAngle();
+            endAngle = endLine.getOppositeAngle();
+        } else {
+            startAngle = beginLine.getAngle();
+            endAngle = endLine.getAngle();
+        }
+    }
+    
+    /**
+     * Permet de trouver et de mettre à jour la voie suivante.
+     */
+    public void discoverNextLane() {
+        beginLine.setNext(beginLaneId, this);
+        endLine.setPrev(endLaneId, this);
+        LanePart prev = beginLine.getPrev(beginLaneId);
+        LanePart next = endLine.getNext(endLaneId);
         
         if (prev != null) {
             prev.setNext(this);
@@ -73,8 +92,29 @@ public abstract class LanePart {
         if (next != null) {
             nextLane = next;
         }
+    }
+    
+    /**
+     * Permet de trouver et de mettre à jour ses voisins (leftLane et rightLane).
+     */
+    public void discoverNeighbors() {
+        leftLane = beginLine.getLeftLane(beginLaneId);
+        rightLane = beginLine.getRightLane(beginLaneId);
         
-        double[] points1 = l1.getPoints(beginLaneId, 1);
+        if (leftLane != null) {
+            leftLane.setRight(this);
+        }
+        
+        if (rightLane != null) {
+            rightLane.setLeft(this);
+        }
+    }
+    
+    /**
+     * Récupère les points délimitant la LanePart.
+     */
+    public void fetchPoints() {
+        double[] points1 = beginLine.getPoints(beginLaneId, 1);
         
         x0 = points1[0];
         y0 = points1[1];
@@ -82,17 +122,13 @@ public abstract class LanePart {
         x1 = points1[2];
         y1 = points1[3];
         
-        double[] points2 = l2.getPoints(endLaneId, 1);
+        double[] points2 = endLine.getPoints(endLaneId, 1);
         
         x2 = points2[0];
         y2 = points2[1];
         
         x3 = points2[2];
         y3 = points2[3];
-        
-        startAngle = beginLine.getOppositeAngle();
-        endAngle = endLine.getOppositeAngle();
-        arcLength = Util.getAngleDifference(l1, l2);
     }
     
     public double getLength() {
@@ -140,11 +176,25 @@ public abstract class LanePart {
         return nextLane;
     }
     
-    public abstract String getShape();
+    public LanePart getLeft() {
+        return leftLane;
+    }
+    
+    public LanePart getRight() {
+        return rightLane;
+    }
     
     public abstract double[] getInfos(double progress);
     
     public void setNext(LanePart lp) {
         nextLane = lp;
+    }
+    
+    public void setLeft(LanePart lp) {
+        leftLane = lp;
+    }
+    
+    public void setRight(LanePart lp) {
+        rightLane = lp;
     }
 }

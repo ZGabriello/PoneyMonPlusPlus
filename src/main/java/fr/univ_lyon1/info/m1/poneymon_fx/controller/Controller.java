@@ -30,7 +30,9 @@ public class Controller {
              * environ 60 fois par seconde.
              */
             public void handle(long currentNanoTime) {
-                model.step();
+                if (model != null) {
+                    model.step();
+                }
             }
         };
     }
@@ -95,13 +97,34 @@ public class Controller {
      *
      * @param i position du poney dans le modèle
      */
-    public void usePower(int i) {
+    public void usePower(int i, String poneyType) {
         PoneyModel pm = model.getPoneyModel(i);
-        if (!pm.isIa()) {
-            model.getPoneyModel(i).usePower();
+        
+        if (pm.getClass().getSimpleName().equals(poneyType)) {
+            if (!pm.isIa()) {
+                model.getPoneyModel(i).usePower();
+            }
         }
     }
 
+    /**
+     * Déplace le poney sur la voie de gauche.
+     */
+    public void goToLeftLane(int i) {
+        PoneyModel pm = model.getPoneyModel(i);
+        
+        pm.goToLeftLane();
+    }
+    
+    /**
+     * Déplace le poney sur la voie de droite.
+     */
+    public void goToRightLane(int i) {
+        PoneyModel pm = model.getPoneyModel(i);
+        
+        pm.goToRightLane();
+    }
+    
     /**
      * Permet de relancer la partie après une pause.
      */
@@ -128,7 +151,7 @@ public class Controller {
      * Permet de retourner au menu.
      */
     public void menuFromGame() {
-        timer.stop();
+        model = null;
         
         for (MainView view : views) {
             view.setActiveView("MenuView");

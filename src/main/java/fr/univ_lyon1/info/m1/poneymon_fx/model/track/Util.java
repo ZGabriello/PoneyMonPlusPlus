@@ -36,24 +36,35 @@ public class Util {
     }
     
     /**
-     * Retourne la longueur de l'angle compris entre l1 et l2.
-     *
+     * Retourne la longueur de l'angle (orienté) pour aller de l1 vers l2,
+     * en cas d'ambiguité, renvoie la longueur la plus courte, et cas
+     * d'égalité (pour faire un demi-tour), le cas est indéfini, il faut segmenter
+     * le virage.
      */
     public static double getAngleDifference(Line l1, Line l2) {
-        int multDiff = modulo(l2.multiple - l1.multiple, numberOfAngles);
+        int mult1 = l1.multiple;
+        int mult2 = l2.multiple;
+        
+        int noa = Line.numberOfAngles;
+        
+        if (mult1 == 0 && mult2 > noa / 2) {
+            mult1 = noa;
+        } else if (mult2 == 0 && mult1 > noa / 2) {
+            mult2 = noa;
+        }
+        
+        int multDiff = mult2 - mult1;
         
         return multDiff * Line.minAngle;
     }
     
     /**
      * Retourne le cos et le sin minimum et maximum sur l'intervalle délimité
-     * par les angles de l1 et l2.
+     * par les multiples d'angle mult1 et mult2.
      *
      */
-    public static double[] minMaxInAngleRange(Line l1, Line l2) {
+    public static double[] minMaxInAngleRange(int mult1, int mult2) {
         int noa = Line.numberOfAngles;
-        int mult1 = oppositeMultOf(l1.multiple);
-        int mult2 = oppositeMultOf(l2.multiple);
         
         if (mult2 < mult1) {
             mult2 += noa;
