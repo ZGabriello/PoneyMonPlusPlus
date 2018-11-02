@@ -1,7 +1,13 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model.track;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.ItemModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * Classe gérant un bout de voie.
@@ -39,7 +45,7 @@ public abstract class LanePart {
     LanePart leftLane;
     LanePart rightLane;
     
-    //NavigableMap<Double, Objet> objets;
+    NavigableMap<Double, ItemModel> items;
     //NavigableMap<Double, Obstacle> obstacles;
     
     List<PoneyModel> poneysOn;
@@ -57,6 +63,8 @@ public abstract class LanePart {
         this.beginLaneId = beginLaneId;
         this.endLine = endLine;
         this.endLaneId = endLaneId;
+        
+        this.items = new TreeMap<Double, ItemModel>();
         
         discoverNextLane();
         discoverNeighbors();
@@ -196,5 +204,13 @@ public abstract class LanePart {
     
     public void setRight(LanePart lp) {
         rightLane = lp;
+    }
+    
+    public NavigableMap<Double,ItemModel> getItems() {
+        return items;
+    }
+    
+    public void setItems(Double distance, ItemModel item) {
+        this.items.put(distance, item);
     }
 }

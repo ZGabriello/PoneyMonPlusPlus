@@ -12,8 +12,8 @@ import javafx.scene.image.ImageView;
  */
 public class ItemView {
     
-    static final int IMAGE_WIDTH = 110;
-    static final int IMAGE_HEIGHT = 90;
+    static final int IMAGE_WIDTH = 220;
+    static final int IMAGE_HEIGHT = 120;
     
     // position de l'objet dans le FieldModel
     int position = 1;
@@ -40,6 +40,8 @@ public class ItemView {
         
         effectiveWidth = itemScale * IMAGE_WIDTH;
         effectiveHeight = itemScale * IMAGE_HEIGHT;
+        
+        initialize();
                
     }
     

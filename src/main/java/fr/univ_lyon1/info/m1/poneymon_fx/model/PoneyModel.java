@@ -54,7 +54,7 @@ public abstract class PoneyModel extends Observable {
 
     List<State> states;
     
-    ItemModel pu;
+    ItemModel item;
     boolean collision;
             
 
@@ -77,7 +77,6 @@ public abstract class PoneyModel extends Observable {
 
 
         this.states = new ArrayList<>();
-        this.progress = 0.0;
         //setRandSpeed();
     }
 
@@ -122,6 +121,9 @@ public abstract class PoneyModel extends Observable {
         }     
         
         setDistance(distance + speed / SPEED_DIVIDER);
+        System.out.println("progression poney " + color + " : " + progress);
+        System.out.println("distance poney " + color + " : " + distance);
+
         accelerer();
         
         if (distance > curLaneLength) {
@@ -137,8 +139,9 @@ public abstract class PoneyModel extends Observable {
         
         infos = curLane.getInfos(progress);
         
-        if (isThereCollision()) {            
-            pu.collision(this);
+        if (curLane.getItems().keySet().equals(distance)) {           
+            System.out.println("Collision");
+            item.collision(this);
             setCollision(false);
         }
                 
@@ -420,12 +423,12 @@ public abstract class PoneyModel extends Observable {
         this.collision = collision;
     }
     
-    public ItemModel getPickableUp() {
-        return this.pu;
+    public ItemModel getItem() {
+        return this.item;
     }
     
-    public void setPickableUp(ItemModel pu) {
-        this.pu = pu;
+    public void setItem(ItemModel pu) {
+        this.item = pu;
     }
             
 }

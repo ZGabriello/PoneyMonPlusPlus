@@ -19,4 +19,6 @@ public class BoostItemView extends ItemView {
         
         display();
     }
+    
+    
 }

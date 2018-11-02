@@ -45,4 +45,5 @@ public class StraightLanePart extends LanePart {
         
         return new double[] {x, y, poneyDirection};
     }
+
 }

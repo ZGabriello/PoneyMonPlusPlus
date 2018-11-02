@@ -156,4 +156,8 @@ public class Line {
         
         return null;
     }
+    
+    public double getLaneWidth() {
+        return this.laneWidth;
+    }
 }

@@ -92,14 +92,7 @@ public class FieldModel extends Observable {
             coords.set(i, new double[] {infos[0], infos[1]});
             angles[i] = infos[2];
             
-            
-            for (int j = 0; j < nbItems; j++) {
-                if (poney.position == items.get(j).getPosition() && poney.progress == items.get(j).getProg()) {
-                    poney.setCollision(true);
-                    poney.setPickableUp(items.get(j));
-                }
-            }
-            
+                       
             if (poneys.get(i).getNbTours() == winAt && winner == -1) {
                 winner = i;
                 setChanged();

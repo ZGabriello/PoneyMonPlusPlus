@@ -96,6 +96,6 @@ lane 16 0 0 0
 lane 16 1 0 1
 lane 16 2 0 2
 
-#item id pos posWidth 
+#item idLine idLane pos 
 
-boostItem 0 0 3.0
+boostItem 0 0 0.5

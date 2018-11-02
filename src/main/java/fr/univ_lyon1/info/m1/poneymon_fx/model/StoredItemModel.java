@@ -5,15 +5,14 @@
  */
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.track.LanePart;
+
 /**
  *
  * @author Elo
  */
-public class StoredItemModel extends ItemModel {
+public abstract class StoredItemModel extends ItemModel {
 
-    public StoredItemModel(int pos, double posWidth) {
-        super(pos, posWidth);
-    }
     
     
 }

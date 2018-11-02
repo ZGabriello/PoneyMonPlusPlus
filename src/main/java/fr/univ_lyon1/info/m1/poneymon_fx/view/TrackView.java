@@ -19,6 +19,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.min;
 import static java.lang.Math.toDegrees;
+import java.util.NavigableMap;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
@@ -103,10 +104,12 @@ public class TrackView extends Canvas {
         itemground.setTranslateY(height - yOffset * scale); 
         
         for(ItemModel item : track.getItems().values()) {
-            itemground.getChildren().add(new ItemView(scale).getItemImage());
+            if (item instanceof BoostItemModel) {
+                System.out.println("itemview");
+                itemground.getChildren().add(new BoostItemView(scale).getItemImage());
+            }
         }
         
-        //itemground.getChildren().add();
     }
     
     private void drawBeginLine(Line line, Color strokeColor) {
@@ -167,10 +170,10 @@ public class TrackView extends Canvas {
         gc.strokeLine(xA, yA, xB, yB);
     }
     
-    private void drawItem(ItemModel item) {
+    private void drawItem(ItemModel item, double x, double y) {
                 
         if (item instanceof BoostItemModel) {
-            gc.drawImage(new Image("assets/star.gif"),item.getPosition(), item.getProg() );
+            gc.drawImage(new Image("assets/star.gif"), x, y);
         }
         
         
@@ -230,6 +233,21 @@ public class TrackView extends Canvas {
         gc.setFill(fillColor);
         gc.setFillRule(FillRule.EVEN_ODD);
         
+        NavigableMap<Double, ItemModel> items = lp.getItems();
+        double progression;
+        
+        for (Double distance : items.keySet()) {
+           
+            progression = distance / lp.getLength();
+            double[] positionItem = lp.getInfos(progression);
+            
+            ItemModel item = items.get(distance);
+            
+            drawItem(item, positionItem[0], positionItem[1]);           
+            
+            
+        }
+        
         double[] points = lp.getPoints();
         
         double x0 = points[0];
@@ -278,9 +296,6 @@ public class TrackView extends Canvas {
             drawLine(line, borderColor);
         }
         
-        for (ItemModel item : track.getItems().values()) {
-            drawItem(item);
-        }
         
         drawBeginLine(track.getBeginLine(), insideColor);
     }

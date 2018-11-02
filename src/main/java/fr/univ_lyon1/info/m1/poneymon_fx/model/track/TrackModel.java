@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import java.util.Iterator;
 import java.util.Locale;
 
 /**
@@ -112,6 +113,7 @@ public class TrackModel {
      * Charge une LanePart.
      */
     private void loadLanePart(Scanner scanner) {
+           
         int beginLineId = scanner.nextInt();
         Line beginLine = lines.get(beginLineId);
         int beginLaneId = scanner.nextInt();
@@ -129,25 +131,33 @@ public class TrackModel {
         maxY = max(maxY, lp.getMaxY());
 
         laneParts.add(lp);
+        
     }
     
     /**
-     * Charge une LanePart.
+     * Charge un objet.
      */
     private void loadItem(String object, Scanner scanner) {
-        int id = scanner.nextInt();
-        int pos = scanner.nextInt();
-        double posWidth = scanner.nextDouble();
         
-        ItemModel item = new ItemModel(pos, posWidth) {};
+        int idLine = scanner.nextInt();      
+        int idLane = scanner.nextInt();
+        double position = scanner.nextDouble();
+        
+        ItemModel item;
         
         if (object.equals("boostItem")) {
             System.out.println("load boostItem");
 
-            item = new BoostItemModel(pos, posWidth);
+            item = new BoostItemModel();        
+        
+            for (LanePart lane : laneParts) {
+                if (lane.getBeginLaneId() == idLane) {
+                    double distance = lane.getBeginLine().getLaneWidth() * position;
+                    lane.setItems(distance, item);
+                }
+            }
         }
 
-        items.put(id, item);
     }
     
     public HashMap<Integer, Line> getLines() {

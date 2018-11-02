@@ -113,24 +113,7 @@ public class FieldView implements Observer {
             poneyground.getChildren().add(newPoney.getPoneyImage());
             poneyground.getChildren().add(newPoney.getPowerImage());
         }
-        
-        /*List<String> itemTypes = new ArrayList<>();
-        itemTypes.add("BoostItemModel");*/
-        
-        /* On initialise le terrain de course */
-        /*for (int i = 0; i < nbItems; i++) {
-            ItemView newItem = null;
-            
-            switch (itemTypes.get(i)) {
-                case "BoostItemModel":
-                    newItem = new BoostItemView(scale);
-                    break;
-                default:
-                    newItem = new ItemView(scale);
-            }
-            items.add(newItem);
-        }*/
-        
+                
         displayBackground();
         tview.display();
     }
