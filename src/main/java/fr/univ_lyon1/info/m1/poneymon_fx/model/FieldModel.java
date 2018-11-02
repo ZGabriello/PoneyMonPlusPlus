@@ -76,12 +76,7 @@ public class FieldModel extends Observable {
             p.setStrategy(new ImStillHereNyanStrategy(this, p, 3));
         }
         
-        this.nbItems = NB_ITEMS;
-        /* On initialise le terrain de course */
-        for (int i = 0; i < nbItems; i++) {
-            items.add(new BoostItemModel(track.getLines().get(2), i, 2.6));
-            
-        }      
+        
     }
 
     /**

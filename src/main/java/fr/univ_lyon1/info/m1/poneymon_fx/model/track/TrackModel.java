@@ -1,5 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model.track;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.BoostItemModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.ItemModel;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -22,6 +24,8 @@ public class TrackModel {
     Line beginLine = null;
     HashMap<Integer, Line> lines = new HashMap<>();
     HashSet<LanePart> laneParts = new LinkedHashSet<>();
+    
+    HashMap<Integer, ItemModel> items = new HashMap<>();
     
     double minX;
     double minY;
@@ -61,6 +65,9 @@ public class TrackModel {
                         loadLine(object, scanner);
                     } else if (object.equals("lane")) {
                         loadLanePart(scanner);
+                    } else if (object.equals("boostItem")) {
+                        System.out.println("scanner dans boostItem");
+                        loadItem(object, scanner);
                     }
                 } catch (NoSuchElementException exception) {
                     break;
@@ -124,12 +131,35 @@ public class TrackModel {
         laneParts.add(lp);
     }
     
+    /**
+     * Charge une LanePart.
+     */
+    private void loadItem(String object, Scanner scanner) {
+        int id = scanner.nextInt();
+        int pos = scanner.nextInt();
+        double posWidth = scanner.nextDouble();
+        
+        ItemModel item = new ItemModel(pos, posWidth) {};
+        
+        if (object.equals("boostItem")) {
+            System.out.println("load boostItem");
+
+            item = new BoostItemModel(pos, posWidth);
+        }
+
+        items.put(id, item);
+    }
+    
     public HashMap<Integer, Line> getLines() {
         return lines;
     }
     
     public HashSet<LanePart> getLaneParts() {
         return laneParts;
+    }
+    
+    public HashMap<Integer, ItemModel> getItems() {
+        return items;
     }
     
     public Line getBeginLine() {

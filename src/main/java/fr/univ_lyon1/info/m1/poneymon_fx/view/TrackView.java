@@ -1,6 +1,8 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.BoostItemModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.ItemModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.ArcLanePart;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.LanePart;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
@@ -17,6 +19,8 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.min;
 import static java.lang.Math.toDegrees;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 
 /**
  * Classe gérant l'affichage d'un terrain.
@@ -40,6 +44,8 @@ public class TrackView extends Canvas {
     final Color borderColor = Color.WHITE;
     final Color insideColor = Color.GREY;
     
+    Pane itemground;
+    
     /**
      * Canvas dans lequel on va dessiner le jeu.
      * @param track model du circuit à afficher
@@ -51,6 +57,8 @@ public class TrackView extends Canvas {
         
         this.track = track;
         this.controller = controller;
+        
+        itemground = new Pane();
 
         width = w;
         height = h;
@@ -61,6 +69,7 @@ public class TrackView extends Canvas {
     }
     
     private void initialize() {
+                
         double fakeWidth = width - PADDING;
         double fakeHeight = height - PADDING;
         
@@ -88,7 +97,16 @@ public class TrackView extends Canvas {
         // on applique un scale négatif à l'axe des y pour inverser le sens des
         // ordonnées et suivre les conventions mathématiques
         gc.scale(scale, -scale);
-        gc.setLineWidth(lineWidth / scale);
+        gc.setLineWidth(lineWidth / scale);        
+        
+        itemground.setTranslateX(xOffset * scale);
+        itemground.setTranslateY(height - yOffset * scale); 
+        
+        for(ItemModel item : track.getItems().values()) {
+            itemground.getChildren().add(new ItemView(scale).getItemImage());
+        }
+        
+        //itemground.getChildren().add();
     }
     
     private void drawBeginLine(Line line, Color strokeColor) {
@@ -147,6 +165,15 @@ public class TrackView extends Canvas {
         double yB = points[3];
         
         gc.strokeLine(xA, yA, xB, yB);
+    }
+    
+    private void drawItem(ItemModel item) {
+                
+        if (item instanceof BoostItemModel) {
+            gc.drawImage(new Image("assets/star.gif"),item.getPosition(), item.getProg() );
+        }
+        
+        
     }
     
     /*
@@ -249,6 +276,10 @@ public class TrackView extends Canvas {
         
         for (Line line : track.getLines().values()) {
             drawLine(line, borderColor);
+        }
+        
+        for (ItemModel item : track.getItems().values()) {
+            drawItem(item);
         }
         
         drawBeginLine(track.getBeginLine(), insideColor);

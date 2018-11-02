@@ -1,8 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.state.State;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.track.LanePart;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 
 /**
  * Classe abstraite ramassable.
@@ -15,9 +13,13 @@ public abstract class ItemModel {
     
     int position;
     double posWidth;
-    Line line;
         
-
+    public ItemModel(int position, double posWidth) {
+        
+        this.position = position;  
+        this.posWidth = posWidth;        
+        
+    }
     
     /**
      * Gère la collision entre un ramassable et un poney.
@@ -39,16 +41,12 @@ public abstract class ItemModel {
     }
 
 
-    int getPosition() {
+    public int getPosition() {
         return this.position;
     }
     
     
-    Line getLine() {
-        return this.line;
-    }
-    
-    double getProg() {
+    public double getProg() {
         return this.posWidth;
     }
 }
