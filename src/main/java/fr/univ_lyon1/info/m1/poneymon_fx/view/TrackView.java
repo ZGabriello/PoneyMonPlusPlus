@@ -19,6 +19,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.min;
 import static java.lang.Math.toDegrees;
+import java.util.Collection;
 import java.util.NavigableMap;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -102,11 +103,15 @@ public class TrackView extends Canvas {
         
         itemground.setTranslateX(xOffset * scale);
         itemground.setTranslateY(height - yOffset * scale); 
+        Collection<LanePart> lanes = track.getLaneParts();
         
-        for(ItemModel item : track.getItems().values()) {
-            if (item instanceof BoostItemModel) {
-                System.out.println("itemview");
-                itemground.getChildren().add(new BoostItemView(scale).getItemImage());
+        for(LanePart lane : lanes) {
+            System.out.println("lane");
+            for (ItemModel item : lane.getItems().values()) {
+                if (item instanceof BoostItemModel) {
+                    System.out.println("itemview");
+                    itemground.getChildren().add(new BoostItemView(scale).getItemImage());
+                }
             }
         }
         
@@ -176,7 +181,6 @@ public class TrackView extends Canvas {
             gc.drawImage(new Image("assets/star.gif"), x, y);
         }
         
-        
     }
     
     /*
@@ -215,6 +219,19 @@ public class TrackView extends Canvas {
         double startAngle = formatAngle(lp.getStartAngle());
         double endAngle = formatAngle(lp.getEndAngle());
         double arcLength = toDegrees(lp.getArcLength());
+        
+        NavigableMap<Double, ItemModel> items = lp.getItems();
+        double progression;
+        
+        for (Double distance : items.keySet()) {
+           
+            progression = distance / lp.getLength();
+            double[] positionItem = lp.getInfos(progression);
+            
+            ItemModel item = items.get(distance);
+            
+            drawItem(item, positionItem[0], positionItem[1]);   
+        }
         
         gc.moveTo(x0, y0);
         gc.arc(centerX, centerY, outerRadius, outerRadius, startAngle, -arcLength);
