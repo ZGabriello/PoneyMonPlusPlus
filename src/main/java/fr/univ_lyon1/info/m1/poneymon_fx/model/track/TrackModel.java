@@ -151,7 +151,7 @@ public class TrackModel {
             item = new BoostItemModel();        
         
             for (LanePart lane : laneParts) {
-                if (lane.getBeginLine().id == idLine) {
+                if (lane.getBeginLine().id == idLine && lane.getBeginLaneId() == idLane) {
                     System.out.println("item dans lane");
                     double distance = lane.getBeginLine().getLaneWidth() * position;
                     lane.setItems(distance, item);

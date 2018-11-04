@@ -139,10 +139,18 @@ public abstract class PoneyModel extends Observable {
         
         infos = curLane.getInfos(progress);
         
-        if (curLane.getItems().keySet().equals(distance)) {           
-            System.out.println("Collision");
-            item.collision(this);
-            setCollision(false);
+        
+        for (Double key : curLane.getItems().keySet()) {
+            System.out.println("curLane.getInfos(key)[0] : " + curLane.getInfos(key)[0]);            
+            System.out.println("infos[0] : " + infos[0]);
+            System.out.println("curLane.getInfos(key)[1] : " + curLane.getInfos(key)[1]);            
+            System.out.println("infos[1] : " + infos[1]);
+
+            if (curLane.getInfos(key)[0] == infos[0] && curLane.getInfos(key)[1] == infos[1]) {           
+                System.out.println("Collision");
+                item.collision(this);
+                setCollision(false);
+            }
         }
                 
         checkStates();

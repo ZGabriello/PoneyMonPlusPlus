@@ -106,7 +106,6 @@ public class TrackView extends Canvas {
         Collection<LanePart> lanes = track.getLaneParts();
         
         for(LanePart lane : lanes) {
-            System.out.println("lane");
             for (ItemModel item : lane.getItems().values()) {
                 if (item instanceof BoostItemModel) {
                     System.out.println("itemview");
