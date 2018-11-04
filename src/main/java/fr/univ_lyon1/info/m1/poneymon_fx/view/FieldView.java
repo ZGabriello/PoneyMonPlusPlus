@@ -27,10 +27,7 @@ public class FieldView implements Observer {
     int nbPoneys = -1;
     List<PoneyView> poneys = new ArrayList<>();
     
-    int nbItems = 1;
-    List<ItemView> items = new ArrayList<>();
-    Pane itemground;
-    
+       
     FieldModel field;
     TrackModel track;
     Controller controller;
@@ -92,7 +89,10 @@ public class FieldView implements Observer {
      */
     public void initialize(StartNotification sn) {
         poneyground.setTranslateX(xOffset * scale);
-        poneyground.setTranslateY(height - yOffset * scale);       
+        poneyground.setTranslateY(height - yOffset * scale); 
+        
+        System.out.println("xOffset * scale : " + xOffset * scale);
+        System.out.println("height - yOffset * scale : " + (height - yOffset * scale));
         
         nbPoneys = sn.getNbPoneys();
         List<String> poneyTypes = sn.getPoneyTypes();

@@ -17,7 +17,7 @@ public class BoostItemView extends ItemView {
         
         itemImage = loadImage("assets/star.gif");
         
-        display();
+        displayNormalAnimation();;
     }
     
     

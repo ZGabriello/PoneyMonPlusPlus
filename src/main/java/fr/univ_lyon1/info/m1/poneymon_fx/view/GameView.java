@@ -67,7 +67,7 @@ public class GameView extends View {
         fview = new FieldView(model, controller, widthGame, heightGame);
 
         this.getChildren().addAll(fview.getBackground(), fview.getTrackView(),
-                                  fview.getPoneyground(), fview.getForeground());
+                                  fview.getPoneyground(), fview.getForeground(), fview.getTrackView().getItemground());
 
         addButtons();
 

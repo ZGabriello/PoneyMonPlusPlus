@@ -19,8 +19,12 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.min;
 import static java.lang.Math.toDegrees;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.NavigableMap;
+import java.util.TreeMap;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
@@ -47,6 +51,9 @@ public class TrackView extends Canvas {
     final Color insideColor = Color.GREY;
     
     Pane itemground;
+    
+    List<ItemView> items = new ArrayList<>();
+    int nbItems;
     
     /**
      * Canvas dans lequel on va dessiner le jeu.
@@ -101,18 +108,33 @@ public class TrackView extends Canvas {
         gc.scale(scale, -scale);
         gc.setLineWidth(lineWidth / scale);        
         
+        
+        double posX,posY;
         itemground.setTranslateX(xOffset * scale);
         itemground.setTranslateY(height - yOffset * scale); 
         Collection<LanePart> lanes = track.getLaneParts();
         
         for(LanePart lane : lanes) {
-            for (ItemModel item : lane.getItems().values()) {
-                if (item instanceof BoostItemModel) {
-                    System.out.println("itemview");
-                    itemground.getChildren().add(new BoostItemView(scale).getItemImage());
+            nbItems = lane.getItems().size();
+            for (Map.Entry<Double,ItemModel> item : lane.getItems().entrySet()) {
+                ItemView newItem = null;
+                if (item.getValue() instanceof BoostItemModel) {
+                    System.out.println("boostitemview");
+                    newItem = new BoostItemView(scale);                    
+                }
+                items.add(newItem);
+                itemground.getChildren().add(newItem.getItemImage());
+                
+                double[] coords = lane.getInfos(item.getKey());
+                posX = coords[0];
+                posY = coords[1];
+                for (int i = 0; i < nbItems; i++) {
+                    items.get(i).setPos(posX,posY);
                 }
             }
         }
+       
+        displayItemground();
         
     }
     
@@ -229,7 +251,7 @@ public class TrackView extends Canvas {
             
             ItemModel item = items.get(distance);
             
-            drawItem(item, positionItem[0], positionItem[1]);   
+            //drawItem(item, positionItem[0], positionItem[1]);   
         }
         
         gc.moveTo(x0, y0);
@@ -259,7 +281,7 @@ public class TrackView extends Canvas {
             
             ItemModel item = items.get(distance);
             
-            drawItem(item, positionItem[0], positionItem[1]);           
+            //drawItem(item, positionItem[0], positionItem[1]);           
             
             
         }
@@ -316,6 +338,15 @@ public class TrackView extends Canvas {
         drawBeginLine(track.getBeginLine(), insideColor);
     }
     
+     /**
+     * Affiche les poneys dans leur vue.
+     */
+    public void displayItemground() {
+        for (ItemView item : items) {
+            item.display();
+        }
+    }
+    
     public double getScale() {
         return scale;
     }
@@ -326,5 +357,9 @@ public class TrackView extends Canvas {
     
     public double getyOffset() {
         return yOffset;
+    }
+    
+    public Pane getItemground() {
+        return itemground;
     }
 }

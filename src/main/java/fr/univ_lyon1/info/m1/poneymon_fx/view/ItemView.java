@@ -67,15 +67,27 @@ public class ItemView {
      * Affiche l'objet.
      */
     public void display() {
-        currentImage = itemImage;
-        itemImage.setVisible(true);
+       
+        
+        System.out.println("x : " + x);
+        System.out.println("y : " + y);
         
         currentImage.setX(x);
         currentImage.setY(y);
     }
     
+     protected void displayNormalAnimation() {
+        currentImage = itemImage;
+        itemImage.setVisible(true);
+    }
+    
     public ImageView getItemImage() {
         return itemImage;
+    }
+
+    void setPos(double posX, double posY) {
+        x = posX;
+        y = posY;
     }
     
 }
