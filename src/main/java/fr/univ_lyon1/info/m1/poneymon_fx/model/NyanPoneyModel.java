@@ -6,12 +6,13 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.ImStillHereNyanStrategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.NyanStrategy;
+import java.io.Serializable;
 
 /**
  * Classe gérant la logique du NyanPoney.
  *
  */
-public class NyanPoneyModel extends PoneyModel {
+public class NyanPoneyModel extends PoneyModel{
     public static final int SPEED_MULTIPLIER = 2;
 
     /**

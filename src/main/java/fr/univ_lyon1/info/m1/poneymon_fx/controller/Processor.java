@@ -26,7 +26,7 @@ public abstract class Processor implements Runnable {
         String reponse = "";
         int stream;
         byte[] b;
-        b = new byte[4096];
+        b = new byte[16384];
         stream = reader.read(b);
         if (stream > 0) {
             reponse = new String(Arrays.copyOf(b, stream), "ISO-8859-1");
@@ -52,6 +52,7 @@ public abstract class Processor implements Runnable {
     void sendData(String s) {
 
         String toSend = H_DATA + s;
+        System.out.println("taille bloc :" + toSend.length());
         writer.write(toSend);
         writer.flush();
     }

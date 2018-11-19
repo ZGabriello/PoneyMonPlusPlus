@@ -66,9 +66,7 @@ public class OnlineGameControl extends GameControl{
             }
             lobby.server.sendToAll("COMMAND", "PAUSE");
         }
-        else{
-            lobby.client.sendCommand("PAUSE");
-        }
+        
     }
     
     public void pauseClient(){
@@ -87,9 +85,9 @@ public class OnlineGameControl extends GameControl{
     * @param nbPoneys nombre de poneys
     */
     @Override
-    public void startGame(String filename, int nbPoneys) {
-        model = new FieldModel(filename, nbPoneys);
-
+    public void startGame() {
+        lobby.launchGame();
+        System.out.println("lets go");
         for (MainView view : parent.views) {
             view.setModel(model);
             view.createGameView();
@@ -136,9 +134,7 @@ public class OnlineGameControl extends GameControl{
             for (MainView view : parent.views) {
                 view.gameUnpause();
             }
-        }
-        else{
-            lobby.client.sendCommand("UNPAUSE");
+            lobby.server.sendToAll("COMMAND", "UNPAUSE");
         }
     }
     

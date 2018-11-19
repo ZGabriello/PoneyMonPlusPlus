@@ -253,5 +253,6 @@ public class Lobby {
     public void setIsHost(boolean isHost) {
         this.isHost = isHost;
     }
+    
 
 }

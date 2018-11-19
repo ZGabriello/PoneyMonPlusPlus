@@ -60,8 +60,7 @@ public class GameControl {
     * @param filename nom du fichier du circuit à charger
     * @param nbPoneys nombre de poneys
     */
-    public void startGame(String filename, int nbPoneys) {
-        model = new FieldModel(filename, nbPoneys);
+    public void startGame() {
 
         for (MainView view : parent.views) {
             view.setModel(model);

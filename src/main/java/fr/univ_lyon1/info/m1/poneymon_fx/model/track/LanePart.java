@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model.track;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
+import java.io.Serializable;
 import java.util.List;
 import java.util.NavigableMap;
 
@@ -10,7 +11,7 @@ import static java.lang.Math.sqrt;
  * Classe gérant un bout de voie.
  *
  */
-public abstract class LanePart {
+public abstract class LanePart implements Serializable{
     Line beginLine;
     int beginLaneId;
     

@@ -18,7 +18,7 @@ import java.util.Random;
  * Classe gérant la logique du Poney.
  *
  */
-public abstract class PoneyModel extends Observable {
+public abstract class PoneyModel extends Observable implements Serializable{
     static final int SPEED_DIVIDER = 5;
     static final double MIN_SPEED = 0.1;
     static final double MAX_SPEED = 0.9;

@@ -18,7 +18,7 @@ import java.util.Observer;
  * Classe gérant la logique du Field.
  *
  */
-public class FieldModel extends Observable {
+public class FieldModel extends Observable implements Serializable {
     /** Circuit chargé. */
     TrackModel track;
     

@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model.track;
 
+import java.io.Serializable;
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;
 import static java.lang.Math.cos;
@@ -13,7 +14,7 @@ import java.util.List;
  * la taille de la ligne.
  *
  */
-public class Line {
+public class Line implements Serializable{
     int id;
     double x;
     double y;

@@ -7,13 +7,17 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Lobby;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -68,26 +72,65 @@ public class LobbyView extends View{
     public LobbyView (Controller c, int w, int h, Lobby l){
         setPrefSize(w,h);
         this.controller = c;
-        createContent();
         lobby = l;
+        createContent();
+        
         setOnKeyPressedEvent();
+        Task task = new Task<Void>() {
+            @Override
+            public Void call() throws Exception{
+                while(true){
+                    
+                    Platform.runLater(() -> {
+                        for (int i=0;i<getChildren().size();i++){
+                            getChildren().remove(i);
+                        }
+                        createContent();
+                    });
+                    Thread.sleep(1000);
+                }
+            }
+        };
+        Thread th =new Thread(task);
+        th.setDaemon(true);
+        th.start();
+        
     }
     
     private void createContent() {
-        
+        MenuItem playItem =null;
         MenuItem retourItem = new MenuItem("Back");
         retourItem.setOnActivate(() -> controller.menuFromGame());
+        if (lobby.isIsHost()){
+            playItem = new MenuItem("Play");
+            playItem.setOnActivate(()->controller.startGame());
+        }
+        List<String> ips = lobby.getIps();
+        List<Label> labels=new ArrayList<>();
+        labels.add(new Label());
+        labels.get(0).setText("Joueurs : ");
+        for (int i =0; i<lobby.getIps().size(); i++){
+            labels.add(new Label(ips.get(i)));
+        }
         
-        menuItems = Arrays.asList(
-                retourItem);
+        if (playItem!=null){
+            menuItems = Arrays.asList(
+                    playItem,
+                    retourItem);
+        }
+        else{
+            menuItems = Arrays.asList(
+                    retourItem);
+        }
         menuItems.get(0).setActive(true);
         
+        
         VBox container = new VBox(10);
-
+        container.getChildren().addAll(labels);
         container.getChildren().addAll(menuItems);
         container.setAlignment(Pos.CENTER);
         getChildren().add(container);
-
+        
         setBackground(new Background(
                 new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         

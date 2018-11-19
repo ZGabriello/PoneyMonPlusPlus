@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model.state;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -8,7 +9,7 @@ import java.sql.Timestamp;
  *
  * @author Elo
  */
-public abstract class State {
+public abstract class State implements Serializable{
     long startTime;
     long endTime;
     long duration;

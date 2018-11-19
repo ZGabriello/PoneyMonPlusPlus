@@ -75,8 +75,8 @@ public class Controller {
     * @param filename nom du fichier du circuit à charger
     * @param nbPoneys nombre de poneys
     */
-    public void startGame(String filename, int nbPoneys) {
-        currentGame.startGame(filename, nbPoneys);
+    public void startGame() {
+        currentGame.startGame();
         
     }
     

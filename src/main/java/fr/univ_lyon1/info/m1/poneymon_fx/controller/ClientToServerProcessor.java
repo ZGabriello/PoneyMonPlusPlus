@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 
 /**
  * thread du client communiquant avec le serveur.
@@ -57,17 +59,32 @@ class ClientToServerProcessor extends Processor {
         }
     }
 
-    private void handleServerCommand(String code) {
+    @Override
+    void parseCommand(String code) {
 
         switch (code.toUpperCase()) {
             case "CLOSE":
                 connexionFermeeDemande = true;
                 break;
             case "PAUSE":
-                this.parent.lobby.controller.gameUnpauseClient();
+                this.parent.lobby.controller.gamePause();
                 break;
             case "UNPAUSE":
                 this.parent.lobby.controller.gameUnpauseClient();
+                break;
+            case "STARTGAME":
+                Task task = new Task<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                            Platform.runLater(() -> {
+                                parent.lobby.controller.startGame();
+                            });
+                            return null;
+                    }
+                };
+                Thread th = new Thread(task);
+                th.setDaemon(true);
+                th.start();
                 break;
             default:
                 break;

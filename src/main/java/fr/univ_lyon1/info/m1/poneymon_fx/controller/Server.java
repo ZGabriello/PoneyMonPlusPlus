@@ -78,7 +78,9 @@ public class Server {
             @Override
             public void run() {
 
-                new Thread(updater).start();
+                Thread updaterThread = new Thread(updater);
+                updaterThread.setDaemon(true);
+                updaterThread.start();
                 while (isRunning) {
                     try {
 
@@ -93,7 +95,7 @@ public class Server {
 
                         processors.add(processor);
                         t = new Thread(processor);
-
+                        t.setDaemon(true);
                         clients.add(client);
                         t.start();
                     } catch (IOException ex) {

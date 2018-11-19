@@ -2,6 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model.track;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -16,7 +17,7 @@ import java.util.Locale;
  * Classe gérant un terrain.
  *
  */
-public class TrackModel {
+public class TrackModel implements Serializable{
     String name;
     
     Line beginLine = null;
