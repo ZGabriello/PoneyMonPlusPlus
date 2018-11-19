@@ -8,6 +8,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.MainView;
+import javafx.animation.AnimationTimer;
 
 /**
  *
@@ -19,14 +20,55 @@ public class OnlineGameControl extends GameControl{
     public OnlineGameControl(Controller c) {
         
         super(c);
+        
         this.model = new FieldModel("test",3);
         this.lobby = new Lobby();
+        timer = new AnimationTimer() {
+            /**
+             * Boucle principale du jeu.
+             *
+             * handle() est appelee a chaque rafraichissement de frame soit
+             * environ 60 fois par seconde.
+             */
+            @Override
+            public void handle(long currentNanoTime) {
+                
+                if (lobby.isIsHost()){
+                    System.out.println("host");
+                    model.step();
+                }
+                else{
+                    System.out.println("client");
+                    model.lookAtMe();
+                }
+            }
+        };
     }
     
     public OnlineGameControl(Controller c, GameControl gCon){
         super(c,gCon);
         this.lobby = new Lobby();
-        
+        timer = new AnimationTimer() {
+            /**
+             * Boucle principale du jeu.
+             *
+             * handle() est appelee a chaque rafraichissement de frame soit
+             * environ 60 fois par seconde.
+             */
+            @Override
+            public void handle(long currentNanoTime) {
+                
+                if (lobby.isIsHost()){
+                    System.out.println("host");
+                    model.step();
+                }
+                else{
+                    System.out.println("client");
+                    //model.lookAtMe();
+                    model.step();
+                }
+            }
+        };
     }
     
     /**

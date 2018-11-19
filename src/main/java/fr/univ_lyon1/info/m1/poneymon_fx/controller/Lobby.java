@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.SerializableModel;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -157,7 +158,8 @@ public class Lobby {
     byte[] serializeModelBinary() throws IOException {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         try (ObjectOutputStream stream = new ObjectOutputStream(b)) {
-            stream.writeObject(this.controller.model);
+            SerializableModel toSend = new SerializableModel(this.controller.model);
+            stream.writeObject(toSend);
         }
         byte[] toReturn = b.toByteArray();
         return toReturn;
@@ -187,9 +189,10 @@ public class Lobby {
         ObjectInputStream o;
         try {
             o = new ObjectInputStream(stream);
-            FieldModel m = (FieldModel) o.readObject();
+            SerializableModel m = (SerializableModel) o.readObject();
             if (this.controller.model == null) {
-                this.controller.model = m;
+                this.controller.model = new FieldModel(m.trackName,m.poneys.size());
+                this.controller.model.copy(m);
             } else {
                 this.controller.model.copy(m);
             }

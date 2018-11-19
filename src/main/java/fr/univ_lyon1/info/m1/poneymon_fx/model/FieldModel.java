@@ -21,7 +21,7 @@ import java.util.Observer;
 public class FieldModel extends Observable implements Serializable {
     /** Circuit chargé. */
     TrackModel track;
-    
+    String trackName;
     /** Tableau des joueurs réels. */
     int[] players = new int[] { 0, 1 };
     
@@ -43,6 +43,7 @@ public class FieldModel extends Observable implements Serializable {
      * @param nbPoneys Nombre de PoneyModel à instancier
      */
     public FieldModel(String filename, int nbPoneys) {
+        trackName = filename;
         track = new TrackModel(filename);
         Line beginLine = track.getBeginLine();
         
@@ -175,7 +176,29 @@ public class FieldModel extends Observable implements Serializable {
             poneys.get(i).speed = m.poneys.get(i).speed;
         }
         setChanged();
-        //notifyObservers(new ProgressNotification(progresses));
+        notifyObservers(new ProgressNotification(coords,angles));
+    }
+    
+    /**
+     * copie un fieldModel.
+     * @param m modèle à copier.
+     */
+    public void copy(SerializableModel m) {
+        //this.progresses = m.progresses;
+        for (int i = 0; i < poneys.size(); i++) {
+            poneys.get(i).nbTurns = m.poneys.get(i).nbTurns;
+            poneys.get(i).infos = m.poneys.get(i).infos;
+            poneys.get(i).speed = m.poneys.get(i).speed;
+            poneys.get(i).acceleration = m.poneys.get(i).acceleration;
+            poneys.get(i).distance = m.poneys.get(i).distance;
+            poneys.get(i).lanesPassed = m.poneys.get(i).lanesPassed;
+            poneys.get(i).setOnRightLane();
+            coords.set(i, new double[] {poneys.get(i).infos[0], poneys.get(i).infos[1]});
+            angles[i] = poneys.get(i).infos[2];
+        }
+        step();
+        setChanged();
+        notifyObservers(new ProgressNotification(coords,angles));
     }
 
     /**

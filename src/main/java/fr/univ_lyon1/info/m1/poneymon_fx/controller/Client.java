@@ -28,6 +28,7 @@ public class Client {
             sock = new Socket(InetAddress.getByName(addresse), port);
             processor = new ClientToServerProcessor(sock, this);
             t = new Thread(processor);
+            t.setDaemon(true);
             t.start();
             System.out.println("client started");
         } catch (UnknownHostException e) {

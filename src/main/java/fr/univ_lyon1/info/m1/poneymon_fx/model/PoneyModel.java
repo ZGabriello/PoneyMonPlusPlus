@@ -21,7 +21,7 @@ import java.util.Random;
 public abstract class PoneyModel extends Observable implements Serializable{
     static final int SPEED_DIVIDER = 5;
     static final double MIN_SPEED = 0.1;
-    static final double MAX_SPEED = 0.9;
+    static final double MAX_SPEED = 0.3;
 
     boolean isTouched;
     double acceleration;
@@ -35,12 +35,13 @@ public abstract class PoneyModel extends Observable implements Serializable{
     double distance;
     double curLaneLength;
     double progress;
+    int lanesPassed;
     
     double speed;
     String color;
     int position;
     PowerModel power;
-
+    
    
     boolean powerState;
     int nbPowers;
@@ -61,11 +62,11 @@ public abstract class PoneyModel extends Observable implements Serializable{
     public PoneyModel() {
         distance = 0;
         progress = 0;
-        
         powerState = false;
         nbPowers = 0;
-
+        
         nbTurns = 0;
+        lanesPassed=0;
         ia = false;
         
         speed = MIN_SPEED;
@@ -74,7 +75,7 @@ public abstract class PoneyModel extends Observable implements Serializable{
 
         this.states = new ArrayList<>();
         this.progress = 0.0;
-        //setRandSpeed();
+        setRandSpeed();
     }
 
     /**
@@ -149,6 +150,7 @@ public abstract class PoneyModel extends Observable implements Serializable{
     }
     
     protected void nextLane() {
+        lanesPassed++;
         double overProgress = distance - curLaneLength;
         setCurLane(curLane.getNext());
         setDistance(overProgress);
@@ -158,17 +160,12 @@ public abstract class PoneyModel extends Observable implements Serializable{
         double y0 = (points[1] + points[3]) / 2;
     } 
     
-    /**
-     * step spécifique au client en ligne.
-     * @return la nouvelle progression du poney.
-     */
-    public double clientStep() {
-        progress += (speed / SPEED_DIVIDER);
-
-        if (progress > 1.0) {
-            newTurn();
+    protected void setOnRightLane(){
+        LanePart lane = beginLine.getNext(position);
+        for (int i = 0; i<lanesPassed;i++){
+            lane = lane.getNext();
         }
-        return progress;
+        curLane = lane;
     }
 
     /**
@@ -177,7 +174,7 @@ public abstract class PoneyModel extends Observable implements Serializable{
     protected void newTurn() {
         setDistance(0);
         nbTurns++;
-        //setRandSpeed();
+        setRandSpeed();
     }
 
     /**

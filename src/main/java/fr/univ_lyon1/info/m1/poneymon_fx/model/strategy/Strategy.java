@@ -10,7 +10,6 @@ import java.io.Serializable;
  */
 public abstract class Strategy implements Serializable {
 
-    @JsonIgnore
     FieldModel field;
     int position;
 

@@ -26,13 +26,13 @@ class TimedUpdater implements Runnable {
     @Override
     public void run() {
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(TimedUpdater.class.getName()).log(Level.SEVERE, null, ex);
         }
         while (!isClosed) {
             try {
-                Thread.sleep(5000);
+                Thread.sleep(250);
                 byte[] b = parent.lobby.serializeModelBinary();
                 //System.out.println("tiU : " + Arrays.toString(b));
                 this.parent.sendToAll("DATA", 'f' + new String(b, "ISO-8859-1"));

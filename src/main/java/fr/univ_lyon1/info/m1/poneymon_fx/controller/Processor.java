@@ -31,7 +31,6 @@ public abstract class Processor implements Runnable {
         if (stream > 0) {
             reponse = new String(Arrays.copyOf(b, stream), "ISO-8859-1");
         }
-
         return reponse;
     }
 

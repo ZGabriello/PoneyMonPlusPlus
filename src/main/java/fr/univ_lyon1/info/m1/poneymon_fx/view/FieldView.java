@@ -125,7 +125,8 @@ public class FieldView implements Observer {
         double[] angles = pn.getAngles();
         
         for (int i = 0; i < nbPoneys; i++) {
-            poneys.get(i).setPos(coords.get(i), angles[i]);
+            poneys.get(i).setPos(
+                    coords.get(i), angles[i]);
         }
     }
 

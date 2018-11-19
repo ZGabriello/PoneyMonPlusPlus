@@ -106,6 +106,7 @@ public class Server {
                 close();
             }
         });
+        mainThread.setDaemon(true);
         mainThread.start();
     }
 
