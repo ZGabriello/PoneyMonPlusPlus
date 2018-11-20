@@ -1,6 +1,9 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,8 +15,17 @@ import javafx.scene.image.ImageView;
  */
 public class ItemView {
     
+    double xOffset;
+    double yOffset;
+    
     static final int IMAGE_WIDTH = 220;
     static final int IMAGE_HEIGHT = 120;
+    
+    double pivotX; // pivot pour effet miroir
+    double pivotY;
+    
+    boolean mirrored;
+    double angle;
     
     // position de l'objet dans le FieldModel
     int position = 1;
@@ -85,9 +97,34 @@ public class ItemView {
         return itemImage;
     }
 
-    void setPos(double posX, double posY) {
-        x = posX;
-        y = posY;
+    private double[] formatPos(double[] pos) {
+        double newX = pos[0] * scale;
+        double newY = -pos[1] * scale;
+        
+        return new double[] {newX, newY};
+    }
+    
+    /**
+     * Met à jour les informations d'affichage à partir des données de position
+     * et de direction du poney (angle) données par le modèle.
+     *
+     */
+    public void setPos(double[] pos, double angle) {
+        angle = angle % (2 * PI);
+        if (angle < 0) {
+            angle = angle + 2 * PI;
+        }
+        
+        xOffset = -effectiveWidth * cos(angle) - effectiveHeight / 2 * sin(angle);
+        yOffset = effectiveWidth * sin(angle) - effectiveHeight / 2 * cos(angle);
+
+        double[] newPos = formatPos(pos);
+        
+        pivotX = newPos[0];
+        pivotY = newPos[1];
+        x = pivotX + xOffset;
+        y = pivotY + yOffset;
+        this.angle = angle;
     }
     
 }

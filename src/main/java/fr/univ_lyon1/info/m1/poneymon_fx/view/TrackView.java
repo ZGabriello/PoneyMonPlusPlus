@@ -110,8 +110,7 @@ public class TrackView extends Canvas {
         
         
         double posX,posY;
-        itemground.setTranslateX(xOffset * scale);
-        itemground.setTranslateY(height - yOffset * scale); 
+         
         Collection<LanePart> lanes = track.getLaneParts();
         
         for(LanePart lane : lanes) {
@@ -123,20 +122,37 @@ public class TrackView extends Canvas {
                     newItem = new BoostItemView(scale);                    
                 }
                 items.add(newItem);
-                itemground.getChildren().add(newItem.getItemImage());
                 
                 double[] coords = lane.getInfos(item.getKey());
                 posX = coords[0];
                 posY = coords[1];
                 for (int i = 0; i < nbItems; i++) {
-                    items.get(i).setPos(posX,posY);
+                    items.get(i).setPos(coords,1);
                 }
+                
+                itemground.setTranslateX(130);
+                itemground.setTranslateY(330);
+                itemground.getChildren().add(newItem.getItemImage());
+
             }
         }
        
         displayItemground();
         
     }
+    
+     /**
+     * Mise à jour des positions de la vue sur notification du modèle.
+     * @param pn notification de l'avancement des poneys du modèle
+     */
+   /* public void progress(ItemView item) {
+        List<double[]> coords = item.getCoords();
+        double[] angles = item.getAngles();
+
+        for (int i = 0; i < nbItems; i++) {
+            items.get(i).setPos(coords.get(i), angles[i]);
+        }
+    }*/
     
     private void drawBeginLine(Line line, Color strokeColor) {
         gc.setStroke(Color.WHITE);

@@ -12,7 +12,9 @@ import java.util.Scanner;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -27,6 +29,8 @@ public class TrackModel {
     HashSet<LanePart> laneParts = new LinkedHashSet<>();
     
     HashMap<Integer, ItemModel> items = new HashMap<>();
+    List<double[]> coords = new ArrayList<>();
+    double[] angles;
     
     double minX;
     double minY;

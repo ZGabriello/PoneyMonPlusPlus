@@ -122,7 +122,7 @@ public abstract class PoneyModel extends Observable {
         
         setDistance(distance + speed / SPEED_DIVIDER);
         System.out.println("progression poney " + color + " : " + progress);
-        System.out.println("distance poney " + color + " : " + distance);
+        System.out.println("distance poney " + color + " : " + (distance + speed/SPEED_DIVIDER));
 
         accelerer();
         
@@ -146,7 +146,7 @@ public abstract class PoneyModel extends Observable {
             System.out.println("curLane.getInfos(key)[1] : " + curLane.getInfos(key)[1]);            
             System.out.println("infos[1] : " + infos[1]);
 
-            if (curLane.getInfos(key)[0] == infos[0] && curLane.getInfos(key)[1] == infos[1]) {           
+            if (130 == infos[0] && 330 == infos[1]) {           
                 System.out.println("Collision");
                 item.collision(this);
                 setCollision(false);

@@ -170,7 +170,7 @@ public class FieldView implements Observer {
 
     /**
      * Affiche le background.
-     */
+     */ 
     public void displayBackground() {
         GraphicsContext gc = background.getGraphicsContext2D();
 
