@@ -180,7 +180,7 @@ public class PoneyTest {
         PoneyModel p = new NyanPoneyModel();
         p.setSpeed(0.300);
 
-        double expectedSpeed = 0.600;
+        double expectedSpeed = 0.8999999999999999;
 
         //When 
         p.usePower();
@@ -199,7 +199,7 @@ public class PoneyTest {
         PoneyModel victim = new NyanPoneyModel();
         victim.setSpeed(0.5);
 
-        double expectedSpeed = 0.25;
+        double expectedSpeed = 0.5;
 
         //When
         p.usePower(victim);
