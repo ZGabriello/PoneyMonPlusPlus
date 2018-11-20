@@ -59,7 +59,7 @@ public class TrackModel implements Serializable{
                     object = scanner.next();
                     if (object.equals("line") || object.equals("beginLine")) {
                         loadLine(object, scanner);
-                    } else if (object.equals("lanePart")) {
+                    } else if (object.equals("lane")) {
                         loadLanePart(scanner);
                     }
                 } catch (NoSuchElementException exception) {

@@ -14,7 +14,7 @@ public class App extends Application {
     // BUGS : - endPower() non appelé après sortie du pouvoir
     //        - bloquer pouvoir pendant timer de début de partie
     //        - plusieurs vues partent en couilles
-    
+
     /**
     * En javafx start() lance l'application.
     *

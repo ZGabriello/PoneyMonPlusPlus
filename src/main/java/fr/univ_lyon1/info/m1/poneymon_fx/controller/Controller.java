@@ -90,6 +90,24 @@ public class Controller {
     }
 
     /**
+     * Déplace le poney sur la voie de gauche.
+     */
+    public void goToLeftLane(int i) {
+        PoneyModel pm = model.getPoneyModel(i);
+        
+        pm.goToLeftLane();
+    }
+    
+    /**
+     * Déplace le poney sur la voie de droite.
+     */
+    public void goToRightLane(int i) {
+        PoneyModel pm = model.getPoneyModel(i);
+        
+        pm.goToRightLane();
+    }
+    
+    /**
      * Permet de relancer la partie après une pause.
      */
     public void gameUnpause() {

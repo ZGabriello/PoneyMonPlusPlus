@@ -82,6 +82,10 @@ public class PoneyView implements Observer {
      *
      */
     public void setPos(double[] pos, double angle) {
+        angle = angle % (2 * PI);
+        if (angle < 0) {
+            angle = angle + 2 * PI;
+        }
         if (angle > PI / 2 && angle < 3 * PI / 2) {
             if (!mirrored) {
                 mirrored = true;

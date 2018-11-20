@@ -156,16 +156,16 @@ public class UtilTest {
     @Test
     public void testMinMaxInAngleRange1() {
         //Given
-        Line l1 = new Line(0, 0, 6, 2 - Line.numberOfAngles / 2, 0, 0);
-        Line l2 = new Line(1, 0, 0, 2, 0, 0);
+        Line l1 = new Line(0, 0, 6, 0, 0, 0);
+        Line l2 = new Line(1, 0, 0, Line.numberOfAngles / 4, 0, 0);
         
         // When
-        double[] minMax = Util.minMaxInAngleRange(l1, l2);
+        double[] minMax = Util.minMaxInAngleRange(l1.multiple, l2.multiple);
         
         // Then
-        assertEquals(-1, minMax[0], tolerance);
-        assertEquals(-1, minMax[1], tolerance);
-        assertEquals(0, minMax[2], tolerance);
+        assertEquals(0, minMax[0], tolerance);
+        assertEquals(0, minMax[1], tolerance);
+        assertEquals(1, minMax[2], tolerance);
         assertEquals(1, minMax[3], tolerance);
     }
     
@@ -179,12 +179,12 @@ public class UtilTest {
         Line l2 = new Line(1, 11.121320344, 0.878679656, 3 * Line.numberOfAngles / 8, 0, 3);
         
         // When
-        double[] minMax = Util.minMaxInAngleRange(l1, l2);
+        double[] minMax = Util.minMaxInAngleRange(l1.multiple, l2.multiple);
         
         // Then
-        assertEquals(0, minMax[0], tolerance);
-        assertEquals(-1, minMax[1], tolerance);
-        assertEquals(sqrt(2) / 2, minMax[2],  tolerance);
-        assertEquals(-sqrt(2) / 2, minMax[3], tolerance);
+        assertEquals(-sqrt(2) / 2, minMax[0], tolerance);
+        assertEquals(sqrt(2) / 2, minMax[1], tolerance);
+        assertEquals(0, minMax[2],  tolerance);
+        assertEquals(1, minMax[3], tolerance);
     }
 }

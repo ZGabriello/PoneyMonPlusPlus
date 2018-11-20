@@ -32,14 +32,10 @@ public class StraightLanePart extends LanePart {
         // entre startAngle et la direction du poney dans la voie
         
         double laneWidth = Line.laneWidth;
-        double diagonal = Util.dist(x1, y1, x2, y2);
+        double diagonal = Util.dist(x0, y0, x3, y3);
         double angleOffset = acos(((laneWidth * laneWidth + length * length 
                                     - diagonal * diagonal) / (2 * laneWidth * length)));
         poneyDirection = startAngle + angleOffset;
-    }
-    
-    public String getShape() {
-        return "STRAIGHT";
     }
     
     @Override
