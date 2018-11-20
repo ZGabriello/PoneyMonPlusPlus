@@ -85,6 +85,11 @@ public class Lobby {
         this.hostIp = ip;
     }
 
+    /**
+     * Se connecte a un serveur distant. 
+     * @param ip @ip du serveur distant.
+     * @param port port utilisé par le serveur distant.
+     */
     public void getRemoteLobby(String ip, int port) {
         client = new Client(ip, port);
         this.portUsed = client.sock.getLocalPort();
@@ -92,6 +97,10 @@ public class Lobby {
         client.setLobby(this);
     }
 
+    /**
+     * Se connecte a un serveur distant avec un numéro de port par défaut (9000).
+     * @param ip adresse ip du serveur distant.
+     */
     public void getRemoteLobby(String ip) {
         client = new Client(ip, 9000);
         this.portUsed = client.sock.getLocalPort();
@@ -233,7 +242,8 @@ public class Lobby {
     public String getHostIp() {
         return hostIp;
     }
-    public List<Integer> getPorts(){
+
+    public List<Integer> getPorts() {
         return this.ports;
     }
 

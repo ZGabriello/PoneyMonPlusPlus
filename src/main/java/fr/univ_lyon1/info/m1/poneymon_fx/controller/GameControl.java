@@ -8,6 +8,7 @@ import javafx.animation.AnimationTimer;
 
 /**
  * sous-classe du controller qui gère la logique du jeu.
+ *
  * @author Alex
  */
 public class GameControl {
@@ -16,15 +17,17 @@ public class GameControl {
     AnimationTimer timer;
     Controller parent;
     int controlledPoney = 0;
+
     /**
      * constructeur.
+     *
      * @param c Controlleur parent.
      */
     public GameControl(Controller c) {
         parent = c;
         model = new FieldModel("circular", 3);
         timer = new AnimationTimer() {
-            
+
             /**
              * Boucle principale du jeu.
              *
@@ -40,6 +43,7 @@ public class GameControl {
 
     /**
      * constructeur par copied'un autre GameControl.
+     *
      * @param c Controlleur parent.
      * @param gCon GameControler a copier.
      */
@@ -48,7 +52,7 @@ public class GameControl {
         this.model = gCon.model;
         this.timer = gCon.timer;
     }
-    
+
     /**
      * Déplace le poney sur la voie de gauche.
      */
@@ -57,7 +61,7 @@ public class GameControl {
 
         pm.goToLeftLane();
     }
-    
+
     /**
      * Déplace le poney sur la voie de droite.
      */
@@ -132,15 +136,14 @@ public class GameControl {
             view.setModel(null);
         }
     }
-    
-    
-    public void setDefaultControlledPoney(){
+
+    public void setDefaultControlledPoney() {
         controlledPoney = 1;
         System.out.println("default poney");
     }
-    
-    void setControlledPoney(int i){
-        if (i<model.getNbPoneys()-1){
+
+    void setControlledPoney(int i) {
+        if (i < model.getNbPoneys() - 1) {
             controlledPoney = i;
         }
     }

@@ -8,6 +8,7 @@ import javafx.animation.AnimationTimer;
 
 /**
  * sous classe de controleur, gère la logique de jeu en ligne.
+ *
  * @author Alex
  */
 public class OnlineGameControl extends GameControl {
@@ -16,6 +17,7 @@ public class OnlineGameControl extends GameControl {
 
     /**
      * constructeur.
+     *
      * @param c Controlleur parent.
      */
     public OnlineGameControl(Controller c) {
@@ -25,7 +27,7 @@ public class OnlineGameControl extends GameControl {
         this.model = new FieldModel("test", 3);
         this.lobby = new Lobby();
         timer = new AnimationTimer() {
-            
+
             /**
              * Boucle principale du jeu.
              *
@@ -43,9 +45,10 @@ public class OnlineGameControl extends GameControl {
             }
         };
     }
-    
+
     /**
      * constructeur par copie d'un GameController.
+     *
      * @param c Controlleur parent.
      * @param gCon GameController a copier.
      */
@@ -53,7 +56,7 @@ public class OnlineGameControl extends GameControl {
         super(c, gCon);
         this.lobby = new Lobby();
         timer = new AnimationTimer() {
-            
+
             /**
              * Boucle principale du jeu.
              *
@@ -107,14 +110,12 @@ public class OnlineGameControl extends GameControl {
                 view.gamePause();
             }
             lobby.server.sendToAll("COMMAND", "PAUSE");
-        }
-        else{
+        } else {
             lobby.client.sendCommand("PAUSE");
         }
 
     }
 
-    
     /**
      * met le jeu en pause, utilisé par le client.
      */
@@ -151,14 +152,14 @@ public class OnlineGameControl extends GameControl {
      * @param i position du poney dans le modèle
      */
     @Override
-    public void usePower(int i,String poneyType) {
+    public void usePower(int i, String poneyType) {
         if (lobby.isHost) {
             PoneyModel pm = model.getPoneyModel(i);
             if (!pm.isIa()) {
                 model.getPoneyModel(i).usePower();
-                lobby.server.sendToAll("INPUT", "POW"+i);
+                lobby.server.sendToAll("INPUT", "POW" + i);
             }
-            
+
         } else {
             lobby.client.sendInput("POW" + i);
         }
@@ -167,6 +168,7 @@ public class OnlineGameControl extends GameControl {
 
     /**
      * utilisatoin du pouvoir pour un client.
+     *
      * @param i poney utilisant le pouvoir.
      */
     void usePowerClient(int i) {
@@ -188,8 +190,7 @@ public class OnlineGameControl extends GameControl {
                 view.gameUnpause();
             }
             lobby.server.sendToAll("COMMAND", "UNPAUSE");
-        }
-        else{
+        } else {
             lobby.client.sendCommand("UNPAUSE");
         }
     }
@@ -206,30 +207,29 @@ public class OnlineGameControl extends GameControl {
 
     }
 
-    
     /**
      * Déplace le poney sur la voie de gauche.
+     *
      * @param i numero du poney a deplacer.
      */
     @Override
     public void goToLeftLane(int i) {
         System.out.println("left");
-        if (lobby.isHost){
+        if (lobby.isHost) {
             System.out.println("left");
             PoneyModel pm = model.getPoneyModel(i);
 
             pm.goToLeftLane();
-            lobby.server.sendToAll("INPUT", "LFT"+i);
-        }
-        else{
+            lobby.server.sendToAll("INPUT", "LFT" + i);
+        } else {
             System.out.println("hi");
-            lobby.client.sendInput("LFT"+i);
+            lobby.client.sendInput("LFT" + i);
         }
     }
-    
-    
+
     /**
      * Déplace le poney sur la voie de gauche.
+     *
      * @param i numero du poney a deplacer.
      */
     public void goToLeftLaneClient(int i) {
@@ -237,49 +237,46 @@ public class OnlineGameControl extends GameControl {
 
         pm.goToLeftLane();
     }
-    
-    
-    
-    
+
     /**
      * Déplace le poney sur la voie de droite.
+     *
      * @param i numero du poney a déplacer.
      */
     @Override
     public void goToRightLane(int i) {
-        if (lobby.isHost){
+        if (lobby.isHost) {
             PoneyModel pm = model.getPoneyModel(i);
             pm.goToRightLane();
-            lobby.server.sendToAll("INPUT", "RGT"+i);
-        }
-        else{
-            lobby.client.sendInput("RGT"+i);
+            lobby.server.sendToAll("INPUT", "RGT" + i);
+        } else {
+            lobby.client.sendInput("RGT" + i);
         }
 
-        
     }
+
     @Override
-    public void setDefaultControlledPoney(){
+    public void setDefaultControlledPoney() {
         List<String> ips = lobby.getIps();
         List<Integer> ports = lobby.getPorts();
-        for (int i=0;i<ips.size();i++){
-            if (ips.get(i).equals(lobby.usedIp) && ports.get(i)==lobby.portUsed){
-                controlledPoney=i;
+        for (int i = 0; i < ips.size(); i++) {
+            if (ips.get(i).equals(lobby.usedIp) && ports.get(i) == lobby.portUsed) {
+                controlledPoney = i;
             }
         }
         System.out.println("je suis le poney nim :" + controlledPoney);
     }
-    
+
     /**
      * Déplace le poney sur la voie de droite.
+     *
      * @param i numero du poney a déplacer.
      */
     public void goToRightLaneClient(int i) {
         PoneyModel pm = model.getPoneyModel(i);
         pm.goToRightLane();
     }
-    
-    
+
     /**
      * Permet de retourner au menu.
      */

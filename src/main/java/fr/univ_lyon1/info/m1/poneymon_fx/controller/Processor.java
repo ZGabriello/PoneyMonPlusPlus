@@ -55,7 +55,7 @@ public abstract class Processor implements Runnable {
     }
 
     void parseMessage(String message) {
-        
+
         switch (message.charAt(0)) {
             case H_COMMAND:
                 System.out.println(message);
@@ -66,7 +66,7 @@ public abstract class Processor implements Runnable {
                 parseInput(message.substring(1));
                 break;
             case H_DATA:
-                
+
                 parseData(message.substring(1));
                 break;
             default:

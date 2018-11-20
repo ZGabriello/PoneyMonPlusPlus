@@ -75,7 +75,7 @@ public class Controller {
      *
      */
     public void startGame() {
-        
+
         currentGame.startGame();
 
     }
@@ -93,7 +93,7 @@ public class Controller {
      * Déplace le poney sur la voie de gauche.
      */
     public void goToLeftLane(int i) {
-        
+
         currentGame.goToLeftLane(i);
     }
 
@@ -144,7 +144,7 @@ public class Controller {
             view.setActiveView("MenuChoixPoneyView");
         }
     }
-    
+
     /**
      * Permet d'aller dans le menu paramètres.
      */
@@ -179,7 +179,7 @@ public class Controller {
             view.setActiveView("OnlineServerView");
         }
     }
-    
+
     /**
      * rejoins un lobby.
      */
@@ -195,12 +195,13 @@ public class Controller {
 
     /**
      * lance la vue lobby pour le client, adapte le lobby en conéquence.
+     *
      * @param ip @ip du serveur distant.
      * @param port port du serveur distant.
      */
     public void lobbyViewFromClient(String ip, String port) {
         oGame.lobby.getRemoteLobby(ip, Integer.parseInt(port));
-        
+
         for (MainView view : views) {
             view.createLobbyView(oGame.lobby);
             view.setActiveView("LobbyView");
@@ -209,6 +210,7 @@ public class Controller {
 
     /**
      * lance la vue lobby pour un serveur, adapte le lobby en conséquance.
+     *
      * @param ip ip du serveur a créer.
      * @param port port du serveur a créer.
      */
@@ -221,8 +223,8 @@ public class Controller {
             view.setActiveView("LobbyView");
         }
     }
-    
-    public int getControlledPoney(){
+
+    public int getControlledPoney() {
         return currentGame.controlledPoney;
     }
 }

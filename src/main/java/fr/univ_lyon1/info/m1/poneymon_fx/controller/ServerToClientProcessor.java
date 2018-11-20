@@ -58,8 +58,9 @@ class ServerToClientProcessor extends Processor {
             }
         }
     }
+
     @Override
-     void parseCommand(String code) {
+    void parseCommand(String code) {
         String toSend = "";
 
         switch (code.toUpperCase()) {
@@ -97,14 +98,14 @@ class ServerToClientProcessor extends Processor {
             case "RGT":
                 this.parent.lobby.controller
                         .goToRightLane(Integer.parseInt(substring.substring(3)));
-                break;     
+                break;
             case "LFT":
                 this.parent.lobby.controller
                         .goToLeftLane(Integer.parseInt(substring.substring(3)));
-                break;   
+                break;
             case "POW":
                 this.parent.lobby.controller
-                        .usePower(Integer.parseInt(substring.substring(3)),"");
+                        .usePower(Integer.parseInt(substring.substring(3)), "");
                 break;
             case "PAU":
                 this.parent.lobby.controller.gamePause();

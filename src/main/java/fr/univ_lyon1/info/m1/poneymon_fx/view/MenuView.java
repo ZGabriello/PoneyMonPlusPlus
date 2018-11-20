@@ -59,9 +59,9 @@ public class MenuView extends View {
         onlineClient.setOnActivate(() -> controller.joinLobby());
         MenuItem onlineHost = new MenuItem("Create a lobby");
         onlineHost.setOnActivate(() -> controller.createLobby());
-        
+
         MenuItem choixPoney = new MenuItem("Choose Poney");
-        choixPoney.setOnActivate(()-> controller.menuChoixPoney());
+        choixPoney.setOnActivate(() -> controller.menuChoixPoney());
         menuItems = Arrays.asList(
                 startGameItem,
                 onlineHost,

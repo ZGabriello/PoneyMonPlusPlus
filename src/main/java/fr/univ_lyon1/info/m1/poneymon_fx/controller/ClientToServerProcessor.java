@@ -125,11 +125,11 @@ class ClientToServerProcessor extends Processor {
             case "RGT":
                 this.parent.lobby.controller
                         .goToRightLaneClient(Integer.parseInt(substring.substring(3)));
-                break;     
+                break;
             case "LFT":
                 this.parent.lobby.controller
                         .goToLeftLaneClient(Integer.parseInt(substring.substring(3)));
-                break;   
+                break;
             case "POW":
                 this.parent.lobby.controller
                         .usePowerClient(Integer.parseInt(substring.substring(3)));

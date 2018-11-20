@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
  *
  */
 public class MenuChoixPoneyView extends View {
+
     Controller controller;
     FieldModel model;
 
@@ -28,17 +29,13 @@ public class MenuChoixPoneyView extends View {
     private int currentItem = 0;
     private String typePoney;
 
-
     static final String[] descriptifPoney = {"Poney normal orange",
         "Poney normal bleu",
-        "Poney normal vert",
-    };
+        "Poney normal vert",};
 
     static final String[] couleurPoney = {"orange",
         "blue",
-        "green",
-    };
-
+        "green",};
 
     /**
      * Constructeur du Menu des paramètres.

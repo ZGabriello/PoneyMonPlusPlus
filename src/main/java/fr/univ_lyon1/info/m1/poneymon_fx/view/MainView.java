@@ -150,8 +150,7 @@ public class MainView {
     public void deleteView(String view) {
         views.remove(view);
     }
-    
-    
+
     public String getMyChoicePoney() {
         return this.menuChoixPoney.getTypePoney();
     }

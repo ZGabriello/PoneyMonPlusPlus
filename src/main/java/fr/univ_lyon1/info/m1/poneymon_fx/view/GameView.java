@@ -176,19 +176,24 @@ public class GameView extends View {
                     if (controls.get(control).equals(e.getCode())) {
                         switch (control) {
                             case "Pouvoir NyanPoney":
-                                controller.usePower(controller.getControlledPoney(), "NyanPoneyModel");
+                                controller.usePower(
+                                        controller.getControlledPoney(), "NyanPoneyModel");
                                 break;
                             case "Pouvoir EnragedPoney à gauche":
-                                controller.usePower(controller.getControlledPoney(), "EnragedPoneyModel");
+                                controller.usePower(
+                                        controller.getControlledPoney(), "EnragedPoneyModel");
                                 break;
                             case "Pouvoir EnragedPoney à droite":
-                                controller.usePower(controller.getControlledPoney(), "EnragedPoneyModel");
+                                controller.usePower(
+                                        controller.getControlledPoney(), "EnragedPoneyModel");
                                 break;
                             case "Aller sur la voie de gauche":
-                                controller.goToLeftLane(controller.getControlledPoney());
+                                controller.goToLeftLane(
+                                        controller.getControlledPoney());
                                 break;
                             case "Aller sur la voie de droite":
-                                controller.goToRightLane(controller.getControlledPoney());
+                                controller.goToRightLane(
+                                        controller.getControlledPoney());
                                 break;
                             default:
                         }
