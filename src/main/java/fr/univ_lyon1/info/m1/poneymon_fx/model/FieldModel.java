@@ -202,13 +202,10 @@ public class FieldModel extends Observable implements Serializable {
             poneys.get(i).nbTurns = m.poneys.get(i).nbTurns;
             poneys.get(i).infos = m.poneys.get(i).infos;
             poneys.get(i).speed = m.poneys.get(i).speed;
+            poneys.get(i).position = m.poneys.get(i).position;
             poneys.get(i).acceleration = m.poneys.get(i).acceleration;
             poneys.get(i).distance = m.poneys.get(i).distance;
             poneys.get(i).lanesPassed = m.poneys.get(i).lanesPassed;
-            if (m.poneys.get(i).powerState != poneys.get(i).powerState) {
-                poneys.get(i).powerState = m.poneys.get(i).powerState;
-                notifyObservers(new PowerNotification(m.poneys.get(i).powerState));
-            }
             poneys.get(i).setOnRightLane();
             coords.set(i, new double[]{poneys.get(i).infos[0], poneys.get(i).infos[1]});
             angles[i] = poneys.get(i).infos[2];

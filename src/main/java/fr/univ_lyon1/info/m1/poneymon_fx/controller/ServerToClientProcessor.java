@@ -58,8 +58,8 @@ class ServerToClientProcessor extends Processor {
             }
         }
     }
-
-    private void handleClientCommand(String code) {
+    @Override
+     void parseCommand(String code) {
         String toSend = "";
 
         switch (code.toUpperCase()) {
@@ -70,10 +70,10 @@ class ServerToClientProcessor extends Processor {
                 connexionFermeeDemande = true;
                 break;
             case "PAUSE":
-                //TODO
+                this.parent.lobby.controller.gamePause();
                 break;
-            case "RESTART":
-                //TODO
+            case "UNPAUSE":
+                this.parent.lobby.controller.gameUnpause();
                 break;
             case "GIVELOBBY":
                 //TODO
@@ -92,9 +92,25 @@ class ServerToClientProcessor extends Processor {
 
     @Override
     public void parseInput(String substring) {
+        System.out.println(substring);
         switch (substring.substring(0, 3)) {
+            case "RGT":
+                this.parent.lobby.controller
+                        .goToRightLane(Integer.parseInt(substring.substring(3)));
+                break;     
+            case "LFT":
+                this.parent.lobby.controller
+                        .goToLeftLane(Integer.parseInt(substring.substring(3)));
+                break;   
             case "POW":
-                this.parent.lobby.controller.usePower(Integer.parseInt(substring.substring(3)));
+                this.parent.lobby.controller
+                        .usePower(Integer.parseInt(substring.substring(3)),"");
+                break;
+            case "PAU":
+                this.parent.lobby.controller.gamePause();
+                break;
+            case "CON":
+                this.parent.lobby.controller.gameUnpause();
                 break;
             default:
                 break;

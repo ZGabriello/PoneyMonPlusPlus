@@ -109,11 +109,12 @@ public class LobbyView extends View {
             playItem.setOnActivate(() -> controller.startGame());
         }
         List<String> ips = lobby.getIps();
+        List<Integer>ports = lobby.getPorts();
         List<Label> labels = new ArrayList<>();
         labels.add(new Label());
         labels.get(0).setText("Joueurs : ");
         for (int i = 0; i < lobby.getIps().size(); i++) {
-            labels.add(new Label(ips.get(i)));
+            labels.add(new Label(ips.get(i)+" : "+ports.get(i)));
         }
 
         if (playItem != null) {

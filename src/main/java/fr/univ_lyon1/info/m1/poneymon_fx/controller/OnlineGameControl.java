@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.MainView;
+import java.util.List;
 import javafx.animation.AnimationTimer;
 
 /**
@@ -63,10 +64,8 @@ public class OnlineGameControl extends GameControl {
             public void handle(long currentNanoTime) {
 
                 if (lobby.isIsHost()) {
-                    System.out.println("host");
                     model.step();
                 } else {
-                    System.out.println("client");
                     //model.lookAtMe();
                     model.step();
                 }
@@ -109,6 +108,9 @@ public class OnlineGameControl extends GameControl {
             }
             lobby.server.sendToAll("COMMAND", "PAUSE");
         }
+        else{
+            lobby.client.sendCommand("PAUSE");
+        }
 
     }
 
@@ -131,6 +133,7 @@ public class OnlineGameControl extends GameControl {
     @Override
     public void startGame() {
         lobby.launchGame();
+        setDefaultControlledPoney();
         System.out.println("lets go");
         for (MainView view : parent.views) {
             view.setModel(model);
@@ -147,12 +150,15 @@ public class OnlineGameControl extends GameControl {
      *
      * @param i position du poney dans le modèle
      */
-    public void usePower(int i) {
+    @Override
+    public void usePower(int i,String poneyType) {
         if (lobby.isHost) {
             PoneyModel pm = model.getPoneyModel(i);
             if (!pm.isIa()) {
                 model.getPoneyModel(i).usePower();
+                lobby.server.sendToAll("INPUT", "POW"+i);
             }
+            
         } else {
             lobby.client.sendInput("POW" + i);
         }
@@ -183,6 +189,9 @@ public class OnlineGameControl extends GameControl {
             }
             lobby.server.sendToAll("COMMAND", "UNPAUSE");
         }
+        else{
+            lobby.client.sendCommand("UNPAUSE");
+        }
     }
 
     /**
@@ -197,6 +206,80 @@ public class OnlineGameControl extends GameControl {
 
     }
 
+    
+    /**
+     * Déplace le poney sur la voie de gauche.
+     * @param i numero du poney a deplacer.
+     */
+    @Override
+    public void goToLeftLane(int i) {
+        System.out.println("left");
+        if (lobby.isHost){
+            System.out.println("left");
+            PoneyModel pm = model.getPoneyModel(i);
+
+            pm.goToLeftLane();
+            lobby.server.sendToAll("INPUT", "LFT"+i);
+        }
+        else{
+            System.out.println("hi");
+            lobby.client.sendInput("LFT"+i);
+        }
+    }
+    
+    
+    /**
+     * Déplace le poney sur la voie de gauche.
+     * @param i numero du poney a deplacer.
+     */
+    public void goToLeftLaneClient(int i) {
+        PoneyModel pm = model.getPoneyModel(i);
+
+        pm.goToLeftLane();
+    }
+    
+    
+    
+    
+    /**
+     * Déplace le poney sur la voie de droite.
+     * @param i numero du poney a déplacer.
+     */
+    @Override
+    public void goToRightLane(int i) {
+        if (lobby.isHost){
+            PoneyModel pm = model.getPoneyModel(i);
+            pm.goToRightLane();
+            lobby.server.sendToAll("INPUT", "RGT"+i);
+        }
+        else{
+            lobby.client.sendInput("RGT"+i);
+        }
+
+        
+    }
+    @Override
+    public void setDefaultControlledPoney(){
+        List<String> ips = lobby.getIps();
+        List<Integer> ports = lobby.getPorts();
+        for (int i=0;i<ips.size();i++){
+            if (ips.get(i).equals(lobby.usedIp) && ports.get(i)==lobby.portUsed){
+                controlledPoney=i;
+            }
+        }
+        System.out.println("je suis le poney nim :" + controlledPoney);
+    }
+    
+    /**
+     * Déplace le poney sur la voie de droite.
+     * @param i numero du poney a déplacer.
+     */
+    public void goToRightLaneClient(int i) {
+        PoneyModel pm = model.getPoneyModel(i);
+        pm.goToRightLane();
+    }
+    
+    
     /**
      * Permet de retourner au menu.
      */

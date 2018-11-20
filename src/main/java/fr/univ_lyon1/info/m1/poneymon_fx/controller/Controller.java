@@ -74,6 +74,7 @@ public class Controller {
      *
      */
     public void startGame() {
+        
         currentGame.startGame();
 
     }
@@ -91,18 +92,15 @@ public class Controller {
      * Déplace le poney sur la voie de gauche.
      */
     public void goToLeftLane(int i) {
-        PoneyModel pm = model.getPoneyModel(i);
-
-        pm.goToLeftLane();
+        
+        currentGame.goToLeftLane(i);
     }
 
     /**
      * Déplace le poney sur la voie de droite.
      */
     public void goToRightLane(int i) {
-        PoneyModel pm = model.getPoneyModel(i);
-
-        pm.goToRightLane();
+        currentGame.goToRightLane(i);
     }
 
     /**
@@ -192,7 +190,7 @@ public class Controller {
      */
     public void lobbyViewFromClient(String ip, String port) {
         oGame.lobby.getRemoteLobby(ip, Integer.parseInt(port));
-
+        
         for (MainView view : views) {
             view.createLobbyView(oGame.lobby);
             view.setActiveView("LobbyView");
@@ -207,9 +205,14 @@ public class Controller {
     public void lobbyViewFromServer(String ip, String port) {
         oGame.lobby.setSelfServer(ip, Integer.parseInt(port));
         oGame.lobby.openServer();
+        oGame.setControlledPoney(0);
         for (MainView view : views) {
             view.createLobbyView(oGame.lobby);
             view.setActiveView("LobbyView");
         }
+    }
+    
+    public int getControlledPoney(){
+        return currentGame.controlledPoney;
     }
 }

@@ -173,6 +173,7 @@ public abstract class PoneyModel extends Observable implements Serializable {
         LanePart leftLane = curLane.getLeft();
 
         if (leftLane != null) {
+            position++;
             setCurLane(leftLane);
         }
 
@@ -186,6 +187,7 @@ public abstract class PoneyModel extends Observable implements Serializable {
         LanePart rightLane = curLane.getRight();
 
         if (rightLane != null) {
+            position--;
             setCurLane(rightLane);
         }
 

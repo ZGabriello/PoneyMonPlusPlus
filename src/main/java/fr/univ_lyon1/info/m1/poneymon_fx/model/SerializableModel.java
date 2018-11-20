@@ -24,7 +24,6 @@ public class SerializableModel implements Serializable {
         public final double[] infos;
         double distance;
         int lanesPassed;
-
         public SerializablePoney(PoneyModel p) {
             progress = p.progress;
             position = p.position;
@@ -35,6 +34,7 @@ public class SerializableModel implements Serializable {
             infos = p.infos;
             lanesPassed = p.lanesPassed;
             distance = p.distance;
+            
         }
     }
 

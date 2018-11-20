@@ -87,11 +87,15 @@ public class Lobby {
 
     public void getRemoteLobby(String ip, int port) {
         client = new Client(ip, port);
+        this.portUsed = client.sock.getLocalPort();
+        System.out.println(portUsed);
         client.setLobby(this);
     }
 
     public void getRemoteLobby(String ip) {
         client = new Client(ip, 9000);
+        this.portUsed = client.sock.getLocalPort();
+        System.out.println(portUsed);
         client.setLobby(this);
     }
 
@@ -143,6 +147,7 @@ public class Lobby {
 
     void addConnection(Socket client) {
         ips.add(client.getInetAddress().getHostAddress());
+        ports.add(client.getPort());
     }
 
     String serializeModel() throws JsonProcessingException {
@@ -227,6 +232,9 @@ public class Lobby {
 
     public String getHostIp() {
         return hostIp;
+    }
+    public List<Integer> getPorts(){
+        return this.ports;
     }
 
     public void setHostIp(String hostIp) {
