@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.TrackModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.NewModelNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.Notification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.ProgressNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.StartNotification;
@@ -24,6 +25,7 @@ import javafx.scene.text.TextAlignment;
  *
  */
 public class FieldView implements Observer {
+
     int nbPoneys = -1;
     List<PoneyView> poneys = new ArrayList<>();
 
@@ -65,7 +67,7 @@ public class FieldView implements Observer {
             backgroundColor = Color.web(backgroundResource);
         } else if (backgroundColor == null) {
             backgroundImage = new Image("assets/" + backgroundResource,
-                                        width, height, false, false);
+                    width, height, false, false);
         }
         background = new Canvas(w, h);
         poneyground = new Pane();
@@ -83,6 +85,7 @@ public class FieldView implements Observer {
 
     /**
      * Initialisation du terrain de course et de ses PoneyView.
+     *
      * @param sn Notification d'initialisation
      */
     public void initialize(StartNotification sn) {
@@ -115,6 +118,7 @@ public class FieldView implements Observer {
 
     /**
      * Mise à jour des positions de la vue sur notification du modèle.
+     *
      * @param pn notification de l'avancement des poneys du modèle
      */
     public void progress(ProgressNotification pn) {
@@ -122,7 +126,8 @@ public class FieldView implements Observer {
         double[] angles = pn.getAngles();
 
         for (int i = 0; i < nbPoneys; i++) {
-            poneys.get(i).setPos(coords.get(i), angles[i]);
+            poneys.get(i).setPos(
+                    coords.get(i), angles[i]);
         }
     }
 
@@ -139,9 +144,9 @@ public class FieldView implements Observer {
 
         switch (n.name) {
             case "START":
-                if (nbPoneys == -1) {
-                    initialize((StartNotification) n);
-                }
+
+                initialize((StartNotification) n);
+
                 break;
             case "PROGRESS":
                 progress((ProgressNotification) n);
@@ -151,9 +156,13 @@ public class FieldView implements Observer {
                 displayWinner((WinNotification) n);
                 displayMiddleText();
                 break;
+            case "NEWMODEL":
+                break;
             default:
                 System.err.println("Erreur : Notification de nom '" + n.name + "' inconnue !");
         }
+
+        display();
     }
 
     /**

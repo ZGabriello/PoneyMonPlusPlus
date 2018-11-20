@@ -5,12 +5,14 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.power.NyanPower;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.ImStillHereNyanStrategy;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.NyanStrategy;
+import java.io.Serializable;
 
 /**
  * Classe gérant la logique du NyanPoney.
  *
  */
 public class NyanPoneyModel extends PoneyModel {
+
     public static final int SPEED_MULTIPLIER = 2;
 
     /**
@@ -46,7 +48,7 @@ public class NyanPoneyModel extends PoneyModel {
      * @param strategy stratégie à utiliser pour l'ia
      */
     public NyanPoneyModel(String color, Line beginLine, int position,
-                          NyanStrategy strategy, PowerModel p) {
+            NyanStrategy strategy, PowerModel p) {
         super(color, beginLine, position, strategy);
         this.setPower(p);
     }

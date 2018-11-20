@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
  *
  */
 public class MenuParametersView extends View {
+
     Controller controller;
 
     private List<MenuItem> menuItems;

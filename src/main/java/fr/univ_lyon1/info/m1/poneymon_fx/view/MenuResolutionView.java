@@ -143,5 +143,5 @@ public class MenuResolutionView extends View {
         setPrefSize(newWidth, newHeight);
         controller.changeResolution(idMainView, newWidth, newHeight);
     }
-    
+
 }

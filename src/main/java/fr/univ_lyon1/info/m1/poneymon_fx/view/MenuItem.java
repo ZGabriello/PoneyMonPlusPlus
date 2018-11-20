@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
  *
  */
 public class MenuItem extends HBox {
+
     static final Font FONT = Font.font("", FontWeight.BOLD, 30);
 
     private MiniPoney p1 = new MiniPoney("orange");
@@ -23,6 +24,7 @@ public class MenuItem extends HBox {
     private Runnable script;
 
     private static class MiniPoney extends ImageView {
+
         public MiniPoney(String color) {
             super(new Image("assets/pony-" + color + "-rainbow.gif", 100, 0, true, true));
         }
@@ -30,6 +32,7 @@ public class MenuItem extends HBox {
 
     /**
      * Constructeur du MenuItem.
+     *
      * @param name texte affiché dans le MenuItem
      */
     public MenuItem(String name) {
@@ -46,6 +49,7 @@ public class MenuItem extends HBox {
 
     /**
      * Donne un effet spécial à un item lorsqu'il a le focus.
+     *
      * @param b booléan servant à activer ou désactiver l'effet
      */
     public void setActive(boolean b) {

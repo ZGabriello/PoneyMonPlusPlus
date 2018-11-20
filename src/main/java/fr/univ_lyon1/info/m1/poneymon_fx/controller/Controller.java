@@ -13,28 +13,20 @@ import javafx.animation.AnimationTimer;
  */
 public class Controller {
 
+    GameControl currentGame;
+    GameControl game;
     FieldModel model;
     List<MainView> views = new ArrayList<>();
-
+    boolean isOnline;
     AnimationTimer timer;
+    OnlineGameControl oGame;
 
     /**
      * Constructeur du contrôleur.
      */
     public Controller() {
-        timer = new AnimationTimer() {
-            /**
-             * Boucle principale du jeu.
-             *
-             * handle() est appelee a chaque rafraichissement de frame soit
-             * environ 60 fois par seconde.
-             */
-            public void handle(long currentNanoTime) {
-                if (model != null) {
-                    model.step();
-                }
-            }
-        };
+        game = new GameControl(this);
+        currentGame = game;
     }
 
     /**
@@ -72,24 +64,18 @@ public class Controller {
         view.createMenuParametersView();
         view.createMenuControlesView();
         view.createMenuResolutionView();
+        view.createOnlineServerView();
+        view.createOnlineClientView();
     }
 
     /**
-     * Démarre une nouvelle partie en créant un modèle et en le fournissant aux vues suivies.
-     * @param filename nom du fichier du circuit à charger
-     * @param nbPoneys nombre de poneys
+     * Démarre une nouvelle partie en créant un modèle et en le fournissant aux
+     * vues suivies.
+     *
      */
-    public void startGame(String filename, int nbPoneys) {
-        model = new FieldModel(filename, nbPoneys);
-        
-        for (MainView view : views) {
-            view.setModel(model);
-            view.createGameView();
-            view.setActiveView("GameView");
-            gameUnpause();
-        }
-        
-        gamePause();
+    public void startGame() {
+        currentGame.startGame();
+
     }
 
     /**
@@ -98,13 +84,7 @@ public class Controller {
      * @param i position du poney dans le modèle
      */
     public void usePower(int i, String poneyType) {
-        PoneyModel pm = model.getPoneyModel(i);
-        
-        if (pm.getClass().getSimpleName().equals(poneyType)) {
-            if (!pm.isIa()) {
-                model.getPoneyModel(i).usePower();
-            }
-        }
+        currentGame.usePower(i, poneyType);
     }
 
     /**
@@ -112,52 +92,40 @@ public class Controller {
      */
     public void goToLeftLane(int i) {
         PoneyModel pm = model.getPoneyModel(i);
-        
+
         pm.goToLeftLane();
     }
-    
+
     /**
      * Déplace le poney sur la voie de droite.
      */
     public void goToRightLane(int i) {
         PoneyModel pm = model.getPoneyModel(i);
-        
+
         pm.goToRightLane();
     }
-    
+
     /**
      * Permet de relancer la partie après une pause.
      */
     public void gameUnpause() {
-        timer.start();
-
-        for (MainView view : views) {
-            view.gameUnpause();
-        }
+        currentGame.gameUnpause();
     }
 
     /**
      * Permet de mettre le jeu en pause.
      */
     public void gamePause() {
-        timer.stop();
-
-        for (MainView view : views) {
-            view.gamePause();
-        }
+        currentGame.gamePause();
     }
 
     /**
      * Permet de retourner au menu.
      */
     public void menuFromGame() {
-        model = null;
-        
-        for (MainView view : views) {
-            view.setActiveView("MenuView");
-            view.deleteView("GameView");
-            view.setModel(null);
-        }
+        currentGame.menuFromGame();
+        game = new GameControl(this);
+        currentGame = game;
     }
 
     /**
@@ -189,5 +157,59 @@ public class Controller {
 
     public void changeResolution(int idMainView, int newWidth, int newHeight) {
         views.get(idMainView).resize(newWidth, newHeight);
+    }
+
+    /**
+     * crée un lobby en ligne.
+     */
+    public void createLobby() {
+        oGame = new OnlineGameControl(this, game);
+        oGame.lobby = new Lobby();
+        oGame.lobby.setController(oGame);
+        currentGame = oGame;
+        for (MainView view : views) {
+            view.setActiveView("OnlineServerView");
+        }
+    }
+    
+    /**
+     * rejoins un lobby.
+     */
+    public void joinLobby() {
+        oGame = new OnlineGameControl(this, game);
+        oGame.lobby = new Lobby();
+        oGame.lobby.setController(oGame);
+        currentGame = oGame;
+        for (MainView view : views) {
+            view.setActiveView("OnlineClientView");
+        }
+    }
+
+    /**
+     * lance la vue lobby pour le client, adapte le lobby en conéquence.
+     * @param ip @ip du serveur distant.
+     * @param port port du serveur distant.
+     */
+    public void lobbyViewFromClient(String ip, String port) {
+        oGame.lobby.getRemoteLobby(ip, Integer.parseInt(port));
+
+        for (MainView view : views) {
+            view.createLobbyView(oGame.lobby);
+            view.setActiveView("LobbyView");
+        }
+    }
+
+    /**
+     * lance la vue lobby pour un serveur, adapte le lobby en conséquance.
+     * @param ip ip du serveur a créer.
+     * @param port port du serveur a créer.
+     */
+    public void lobbyViewFromServer(String ip, String port) {
+        oGame.lobby.setSelfServer(ip, Integer.parseInt(port));
+        oGame.lobby.openServer();
+        for (MainView view : views) {
+            view.createLobbyView(oGame.lobby);
+            view.setActiveView("LobbyView");
+        }
     }
 }

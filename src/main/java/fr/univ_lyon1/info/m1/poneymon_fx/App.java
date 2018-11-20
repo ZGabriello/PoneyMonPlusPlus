@@ -16,19 +16,18 @@ public class App extends Application {
     //        - plusieurs vues partent en couilles
 
     /**
-    * En javafx start() lance l'application.
-    *
-    */
+     * En javafx start() lance l'application.
+     *
+     */
     @Override
     public void start(Stage stage) throws Exception {
-        MainView v = new MainView(stage, 1680, 1050);
+        MainView v = new MainView(stage, 600, 600);
         Controller c = new Controller();
 
         c.addMainView(v);
 
         //Stage s2 = new Stage();
         //MainView v2 = new MainView(s2, 1000, 600);
-
         //c.addMainView(v2);
     }
 

@@ -1,6 +1,8 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.Lobby;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.OnlineGameControl;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import java.util.HashMap;
 import javafx.scene.Group;
@@ -13,6 +15,7 @@ import javafx.stage.Stage;
  *
  */
 public class MainView {
+
     int id;
 
     HashMap<String, View> views = new HashMap<>();
@@ -112,6 +115,30 @@ public class MainView {
         views.put("MenuControlesView", menuControles);
     }
 
+    /**
+     * crée la vue d'un lobby client.
+     */
+    public void createOnlineClientView() {
+        View ocv = new OnlineClientView(controller, width, height);
+        views.put("OnlineClientView", ocv);
+    }
+
+    /**
+     * crée la vue d'un lobby.
+     */
+    public void createLobbyView(Lobby l) {
+        View lv = new LobbyView(controller, width, height, l);
+        views.put("LobbyView", lv);
+    }
+
+    /**
+     * crée la vue d'un lobby Serveur.
+     */
+    public void createOnlineServerView() {
+        View osv = new OnlineServerView(controller, width, height);
+        views.put("OnlineServerView", osv);
+    }
+
     public void deleteView(String view) {
         views.remove(view);
     }
@@ -199,7 +226,6 @@ public class MainView {
             gv.unpause();
         }
     }
-
 
     public void setWidth(int newWidth) {
         width = newWidth;
