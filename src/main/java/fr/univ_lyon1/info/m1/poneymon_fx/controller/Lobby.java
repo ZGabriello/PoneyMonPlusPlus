@@ -116,11 +116,11 @@ public class Lobby {
         server = new Server(this.usedIp, this.portUsed);
         server.setLobby(this);
     }
-    
+
     void setSelfServer(String ip, int port) {
         this.usedIp = ip;
         this.portUsed = port;
-        
+
         isHost = true;
         server = new Server(this.usedIp, this.portUsed);
         server.setLobby(this);
@@ -191,7 +191,7 @@ public class Lobby {
             o = new ObjectInputStream(stream);
             SerializableModel m = (SerializableModel) o.readObject();
             if (this.controller.model == null) {
-                this.controller.model = new FieldModel(m.trackName,m.poneys.size());
+                this.controller.model = new FieldModel(m.trackName, m.poneys.size());
                 this.controller.model.copy(m);
             } else {
                 this.controller.model.copy(m);
@@ -256,6 +256,5 @@ public class Lobby {
     public void setIsHost(boolean isHost) {
         this.isHost = isHost;
     }
-    
 
 }

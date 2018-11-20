@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
@@ -11,19 +6,25 @@ import fr.univ_lyon1.info.m1.poneymon_fx.view.MainView;
 import javafx.animation.AnimationTimer;
 
 /**
- *
+ * sous classe de controleur, gère la logique de jeu en ligne.
  * @author Alex
  */
-public class OnlineGameControl extends GameControl{
+public class OnlineGameControl extends GameControl {
+
     public Lobby lobby;
 
+    /**
+     * constructeur.
+     * @param c Controlleur parent.
+     */
     public OnlineGameControl(Controller c) {
-        
+
         super(c);
-        
-        this.model = new FieldModel("test",3);
+
+        this.model = new FieldModel("test", 3);
         this.lobby = new Lobby();
         timer = new AnimationTimer() {
+            
             /**
              * Boucle principale du jeu.
              *
@@ -32,21 +33,26 @@ public class OnlineGameControl extends GameControl{
              */
             @Override
             public void handle(long currentNanoTime) {
-                
-                if (lobby.isIsHost()){
+
+                if (lobby.isIsHost()) {
                     model.step();
-                }
-                else{
+                } else {
                     model.lookAtMe();
                 }
             }
         };
     }
     
-    public OnlineGameControl(Controller c, GameControl gCon){
-        super(c,gCon);
+    /**
+     * constructeur par copie d'un GameController.
+     * @param c Controlleur parent.
+     * @param gCon GameController a copier.
+     */
+    public OnlineGameControl(Controller c, GameControl gCon) {
+        super(c, gCon);
         this.lobby = new Lobby();
         timer = new AnimationTimer() {
+            
             /**
              * Boucle principale du jeu.
              *
@@ -55,12 +61,11 @@ public class OnlineGameControl extends GameControl{
              */
             @Override
             public void handle(long currentNanoTime) {
-                
-                if (lobby.isIsHost()){
+
+                if (lobby.isIsHost()) {
                     System.out.println("host");
                     model.step();
-                }
-                else{
+                } else {
                     System.out.println("client");
                     //model.lookAtMe();
                     model.step();
@@ -68,7 +73,7 @@ public class OnlineGameControl extends GameControl{
             }
         };
     }
-    
+
     /**
      * crée un lobby pour le controller, le lobby devient server par défaut.
      */
@@ -90,15 +95,13 @@ public class OnlineGameControl extends GameControl{
         lobby.client.lobby = lobby;
         lobby.setController(this);
     }
-    
-    
-    
+
     /**
      * Permet de mettre le jeu en pause.
      */
     @Override
     public void gamePause() {
-        if (lobby.isHost){
+        if (lobby.isHost) {
             timer.stop();
 
             for (MainView view : parent.views) {
@@ -106,24 +109,25 @@ public class OnlineGameControl extends GameControl{
             }
             lobby.server.sendToAll("COMMAND", "PAUSE");
         }
-        
+
     }
+
     
-    public void pauseClient(){
+    /**
+     * met le jeu en pause, utilisé par le client.
+     */
+    public void pauseClient() {
         timer.stop();
         for (MainView view : parent.views) {
             view.gamePause();
         }
     }
-    
-    
+
     /**
-    * Démarre une nouvelle partie en créant un modèle et en le fournissant aux
-    * vues suivies.
-    *
-    * @param filename nom du fichier du circuit à charger
-    * @param nbPoneys nombre de poneys
-    */
+     * Démarre une nouvelle partie en créant un modèle et en le fournissant aux
+     * vues suivies.
+     *
+     */
     @Override
     public void startGame() {
         lobby.launchGame();
@@ -137,26 +141,29 @@ public class OnlineGameControl extends GameControl{
 
         gamePause();
     }
-    
+
     /**
      * Utilise le pouvoir sur le poney si ce n'est pas une IA.
      *
      * @param i position du poney dans le modèle
      */
     public void usePower(int i) {
-        if (lobby.isHost){
+        if (lobby.isHost) {
             PoneyModel pm = model.getPoneyModel(i);
             if (!pm.isIa()) {
                 model.getPoneyModel(i).usePower();
             }
-        }
-        else{
-            lobby.client.sendInput("POW"+i);
+        } else {
+            lobby.client.sendInput("POW" + i);
         }
 
     }
-    
-    void usePowerClient(int i){
+
+    /**
+     * utilisatoin du pouvoir pour un client.
+     * @param i poney utilisant le pouvoir.
+     */
+    void usePowerClient(int i) {
         PoneyModel pm = model.getPoneyModel(i);
         if (!pm.isIa()) {
             model.getPoneyModel(i).usePower();
@@ -168,7 +175,7 @@ public class OnlineGameControl extends GameControl{
      */
     @Override
     public void gameUnpause() {
-        if (lobby.isHost){
+        if (lobby.isHost) {
             timer.start();
 
             for (MainView view : parent.views) {
@@ -177,23 +184,26 @@ public class OnlineGameControl extends GameControl{
             lobby.server.sendToAll("COMMAND", "UNPAUSE");
         }
     }
-    
-    void gameUnpauseClient(){
+
+    /**
+     * reprise du jeu pour un client.
+     */
+    void gameUnpauseClient() {
         timer.start();
 
         for (MainView view : parent.views) {
             view.gameUnpause();
         }
-        
+
     }
-    
+
     /**
      * Permet de retourner au menu.
      */
     @Override
     public void menuFromGame() {
         System.out.println("right logic");
-        if (lobby.isHost){
+        if (lobby.isHost) {
             System.out.println("am closing");
             lobby.server.close();
             timer.stop();
@@ -203,10 +213,9 @@ public class OnlineGameControl extends GameControl{
                 view.deleteView("GameView");
                 view.setModel(null);
             }
-        }
-        else{
+        } else {
             System.out.println("not host");
-            if (lobby.client!=null){
+            if (lobby.client != null) {
                 lobby.client.close();
             }
             timer.stop();

@@ -22,6 +22,7 @@ import static javafx.scene.layout.Region.USE_PREF_SIZE;
  *
  */
 public class MenuView extends View {
+
     Controller controller;
 
     private List<MenuItem> menuItems;
@@ -29,6 +30,7 @@ public class MenuView extends View {
 
     /**
      * Constructeur du Menu.
+     *
      * @param c Contrôleur
      * @param w largeur de la vue
      * @param h hauteur de la vue
@@ -46,13 +48,12 @@ public class MenuView extends View {
         // On démarre par défaut une partie avec 5 poneys
         MenuItem startGameItem = new MenuItem("Start a game");
         startGameItem.setOnActivate(() -> controller.startGame());
-        
+
         MenuItem exitItem = new MenuItem("Exit");
         exitItem.setOnActivate(() -> Platform.exit());
 
         MenuItem parameters = new MenuItem("Parameters");
-        parameters.setOnActivate(() ->
-                controller.menuParameters());
+        parameters.setOnActivate(() -> controller.menuParameters());
 
         MenuItem onlineClient = new MenuItem("Join Lobby");
         onlineClient.setOnActivate(() -> controller.joinLobby());
@@ -76,7 +77,7 @@ public class MenuView extends View {
         getMenuItem(0).setActive(true);
 
         setBackground(new Background(
-                      new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+                new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
         getChildren().add(container);
     }

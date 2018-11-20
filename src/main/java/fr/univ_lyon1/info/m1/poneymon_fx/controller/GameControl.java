@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
@@ -11,17 +6,24 @@ import fr.univ_lyon1.info.m1.poneymon_fx.view.MainView;
 import javafx.animation.AnimationTimer;
 
 /**
- *
+ * sous-classe du controller qui gère la logique du jeu.
  * @author Alex
  */
 public class GameControl {
+
     FieldModel model;
     AnimationTimer timer;
     Controller parent;
-    public GameControl(Controller c){
+
+    /**
+     * constructeur.
+     * @param c Controlleur parent.
+     */
+    public GameControl(Controller c) {
         parent = c;
-        model =new FieldModel("test",3);
+        model = new FieldModel("test", 3);
         timer = new AnimationTimer() {
+            
             /**
              * Boucle principale du jeu.
              *
@@ -34,13 +36,18 @@ public class GameControl {
             }
         };
     }
-    
-    public GameControl(Controller c, GameControl gCon){
+
+    /**
+     * constructeur par copied'un autre GameControl.
+     * @param c Controlleur parent.
+     * @param gCon GameControler a copier.
+     */
+    public GameControl(Controller c, GameControl gCon) {
         this.parent = c;
         this.model = gCon.model;
         this.timer = gCon.timer;
     }
-    
+
     /**
      * Permet de mettre le jeu en pause.
      */
@@ -51,15 +58,11 @@ public class GameControl {
             view.gamePause();
         }
     }
-    
-    
+
     /**
-    * Démarre une nouvelle partie en créant un modèle et en le fournissant aux
-    * vues suivies.
-    *
-    * @param filename nom du fichier du circuit à charger
-    * @param nbPoneys nombre de poneys
-    */
+     * Démarre une nouvelle partie en créant un modèle et en le fournissant aux
+     * vues suivies.
+     */
     public void startGame() {
 
         for (MainView view : parent.views) {
@@ -71,7 +74,7 @@ public class GameControl {
 
         gamePause();
     }
-    
+
     /**
      * Utilise le pouvoir sur le poney si ce n'est pas une IA.
      *
@@ -79,7 +82,7 @@ public class GameControl {
      */
     public void usePower(int i, String poneyType) {
         PoneyModel pm = model.getPoneyModel(i);
-        
+
         if (pm.getClass().getSimpleName().equals(poneyType)) {
             if (!pm.isIa()) {
                 model.getPoneyModel(i).usePower();
@@ -97,7 +100,7 @@ public class GameControl {
             view.gameUnpause();
         }
     }
-    
+
     /**
      * Permet de retourner au menu.
      */

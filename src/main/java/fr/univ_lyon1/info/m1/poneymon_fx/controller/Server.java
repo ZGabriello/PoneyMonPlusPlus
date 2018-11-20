@@ -100,7 +100,7 @@ public class Server {
                         t.start();
                     } catch (IOException ex) {
                         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-                    } 
+                    }
                 }
 
                 close();
@@ -137,7 +137,7 @@ public class Server {
 
     /**
      * renvoie les ips des sockets clients associés.
-     * 
+     *
      * @return la liste d'ips.
      */
     public List<String> getIpsClients() {
@@ -150,6 +150,7 @@ public class Server {
 
     /**
      * envoie à tous les clients.
+     *
      * @param type type de message.
      * @param message contenu du message.
      */
@@ -173,7 +174,7 @@ public class Server {
             default:
                 break;
         }
-        
+
     }
 
 }

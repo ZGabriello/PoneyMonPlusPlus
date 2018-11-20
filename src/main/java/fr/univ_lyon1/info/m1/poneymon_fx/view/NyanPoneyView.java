@@ -11,20 +11,23 @@ import javafx.scene.transform.Rotate;
  *
  */
 public class NyanPoneyView extends PoneyView {
+
     NyanPoneyView(double scale) {
         super(scale);
     }
-    
+
     /**
-     * Gère l'initialisation du NyanPoneyView à partir des données du PoneyModel.
+     * Gère l'initialisation du NyanPoneyView à partir des données du
+     * PoneyModel.
+     *
      * @param psn notification pour initialiser le poney
      */
     @Override
     public void initialize(PoneyStartNotification psn) {
         super.initialize(psn);
-        
+
         powerImage = loadImage("assets/pony-" + color + "-rainbow.gif");
-        
+
         displayNormalAnimation();
     }
 }

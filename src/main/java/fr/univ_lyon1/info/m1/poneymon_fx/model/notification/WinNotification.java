@@ -5,11 +5,13 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model.notification;
  *
  */
 public class WinNotification extends Notification {
+
     int winner;
     String winnerColor;
-    
+
     /**
      * Constructeur de la notification de victoire.
+     *
      * @param winner Numéro du poney gagnant
      * @param winnerColor Couleur du poney gagnant
      */
@@ -18,11 +20,11 @@ public class WinNotification extends Notification {
         this.winner = winner;
         this.winnerColor = winnerColor;
     }
-    
+
     public int getWinner() {
         return winner;
     }
-    
+
     public String getWinnerColor() {
         return winnerColor;
     }

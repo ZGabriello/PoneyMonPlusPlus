@@ -6,7 +6,8 @@ import java.io.Serializable;
  * Classe gérant une pièce pouvant être utilisée pour créer un terrain.
  *
  */
-public class TrackPiece implements Serializable{
+public class TrackPiece implements Serializable {
+
     String name;
     Line lineBegin;
 }

@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 /**
  * thread envoyant régulièrement le lobby et le modèle sérialisés au clients.
+ *
  * @author Alex
  */
 class TimedUpdater implements Runnable {

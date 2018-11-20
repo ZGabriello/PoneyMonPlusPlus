@@ -18,7 +18,8 @@ import java.util.Random;
  * Classe gérant la logique du Poney.
  *
  */
-public abstract class PoneyModel extends Observable implements Serializable{
+public abstract class PoneyModel extends Observable implements Serializable {
+
     static final int SPEED_DIVIDER = 5;
     static final double MIN_SPEED = 0;
     static final double MAX_SPEED = 0.5;
@@ -28,20 +29,19 @@ public abstract class PoneyModel extends Observable implements Serializable{
 
     Line beginLine;
     LanePart curLane;
-    
+
     double[] infos;
-    
+
     double distance;
     double curLaneLength;
     double progress;
     int lanesPassed;
-    
+
     double speed;
     String color;
     int position;
     PowerModel power;
-    
-   
+
     boolean powerState;
     int nbPowers;
 
@@ -63,14 +63,13 @@ public abstract class PoneyModel extends Observable implements Serializable{
         progress = 0;
         powerState = false;
         nbPowers = 0;
-        
+
         nbTurns = 0;
-        lanesPassed=0;
+        lanesPassed = 0;
         ia = false;
-        
+
         speed = MIN_SPEED;
         acceleration = 0.002;
-
 
         this.states = new ArrayList<>();
         this.progress = 0.0;
@@ -91,7 +90,7 @@ public abstract class PoneyModel extends Observable implements Serializable{
 
         setCurLane(beginLine.getNext(position));
         infos = curLane.getInfos(progress);
-        
+
         setDistance(0);
     }
 
@@ -110,58 +109,58 @@ public abstract class PoneyModel extends Observable implements Serializable{
 
     /**
      * Fonction chargée de faire avancer le poney à chaque frame.
-     * 
+     *
      */
     public void step() {
         if (ia) {
             strategy.checkPower();
         }
-        
+
         setDistance(distance + speed / SPEED_DIVIDER);
         accelerer();
-        
+
         if (distance > curLaneLength) {
             goToNextLane();
-            
+
             if (curLane.getBeginLine() == beginLine) {
                 newTurn();
             }
         }
-        
+
         infos = curLane.getInfos(progress);
-        
+
         checkStates();
     }
-    
+
     protected void checkStates() {
         List<State> expiredStates = new ArrayList<>();
-        
+
         for (State state : states) {
             if (state.checkExpired()) {
                 state.unapplyState(this);
                 expiredStates.add(state);
             }
         }
-        
+
         for (State state : expiredStates) {
             removeState(state);
         }
     }
-    
+
     protected void goToNextLane() {
         lanesPassed++;
         double overDistance = distance - curLaneLength;
         setCurLane(curLane.getNext());
         setDistance(overDistance);
-        
+
         double[] points = curLane.getPoints();
         double x0 = (points[0] + points[2]) / 2;
         double y0 = (points[1] + points[3]) / 2;
-    } 
-    
-    protected void setOnRightLane(){
+    }
+
+    protected void setOnRightLane() {
         LanePart lane = beginLine.getNext(position);
-        for (int i = 0; i<lanesPassed;i++){
+        for (int i = 0; i < lanesPassed; i++) {
             lane = lane.getNext();
         }
         curLane = lane;
@@ -172,27 +171,27 @@ public abstract class PoneyModel extends Observable implements Serializable{
      */
     public void goToLeftLane() {
         LanePart leftLane = curLane.getLeft();
-        
+
         if (leftLane != null) {
             setCurLane(leftLane);
         }
-        
+
         setDistance(distance);
     }
-    
+
     /**
      * Déplace le poney sur la voie de droite si possible.
      */
     public void goToRightLane() {
         LanePart rightLane = curLane.getRight();
-        
+
         if (rightLane != null) {
             setCurLane(rightLane);
         }
-        
+
         setDistance(distance);
     }
-    
+
     /**
      * Action à effectuer au début d'un nouveau tour.
      */
@@ -209,15 +208,15 @@ public abstract class PoneyModel extends Observable implements Serializable{
         ++nbPowers;
         powerState = true;
         power.use(this);
-        
+
         setChanged();
         notifyObservers(new PowerNotification(true));
     }
-    
-    public void usePower(PoneyModel p){
-        
+
+    public void usePower(PoneyModel p) {
+
     }
-    
+
     /**
      * Sortie de l'etat d'utilisation du pouvoir du poney.
      */
@@ -256,7 +255,7 @@ public abstract class PoneyModel extends Observable implements Serializable{
         curLane = lp;
         curLaneLength = lp.getLength();
     }
-    
+
     /**
      * Mutateur pour changer la vitesse du poney.
      *
@@ -287,12 +286,12 @@ public abstract class PoneyModel extends Observable implements Serializable{
     public void setIa(boolean b) {
         ia = b;
     }
-    
+
     public void setDistance(double distance) {
         this.distance = distance;
         progress = distance / curLaneLength;
     }
-    
+
     public double getSpeed() {
         return speed;
     }
@@ -308,7 +307,7 @@ public abstract class PoneyModel extends Observable implements Serializable{
     public int getNbTours() {
         return nbTurns;
     }
-    
+
     public double getDistance() {
         return distance;
     }
@@ -316,7 +315,7 @@ public abstract class PoneyModel extends Observable implements Serializable{
     public double getProgress() {
         return progress;
     }
-    
+
     public double[] getInfos() {
         return infos;
     }
@@ -328,54 +327,54 @@ public abstract class PoneyModel extends Observable implements Serializable{
     public boolean getIsTouched() {
         return isTouched;
     }
-    
+
     public void setIsTouched(boolean t) {
         this.isTouched = t;
     }
-    
+
     public double getAcceleration() {
         return this.acceleration;
     }
-    
+
     public void setAcceleration(double a) {
         this.acceleration = a;
     }
-    
+
     public PowerModel getPower() {
         return this.power;
     }
-    
+
     public void setPower(PowerModel p) {
         this.power = p;
     }
-   
+
     /**
      * Calcul la distance avec le poney donné en prenant en compte les tours,
      * une distance positive veut dire qu'on est devant, et négative l'inverse.
      *
      * @param poney poney par rapport auquel on calcule la distance
      */
-    public double distanceTo(PoneyModel poney) { 
+    public double distanceTo(PoneyModel poney) {
         return (distance + nbTurns) - (poney.distance + poney.nbTurns);
     }
 
     /**
      * Méthode gérant l'accéleration du poney.
-     * 
-     */  
+     *
+     */
     public void accelerer() {
         setSpeed(speed + acceleration);
     }
-    
+
     /**
-     *  Baisse de la vitesse après que le poney ait été touché.
+     * Baisse de la vitesse après que le poney ait été touché.
      */
     public void isTouched() {
         if (this.getIsTouched()) {
-            this.setSpeed(this.getSpeed() / 2);    
+            this.setSpeed(this.getSpeed() / 2);
         }
     }
-    
+
     public void addState(State state) {
         states.add(state);
     }
@@ -394,17 +393,16 @@ public abstract class PoneyModel extends Observable implements Serializable{
 
     public void setpowerState(boolean b) {
         this.powerState = b;
-            
+
     }
 
     public void multiplySpeed(int speedMultipler) {
         speed *= speedMultipler;
     }
 
-
     public void divideSpeed(int speedDivider) {
         speed /= speedDivider;
-                
+
     }
 
     public int getPosition() {

@@ -18,16 +18,16 @@ public class ServerTest {
     Server instance;
 
     public ServerTest() {
-        
+
         instance = new Server();
         instance.open();
     }
 
-    
     @After
-    public void closeServer(){
+    public void closeServer() {
         instance.close();
     }
+
     /**
      * Test of close method, of class Server.
      */
@@ -62,7 +62,6 @@ public class ServerTest {
         instance.close();
         Thread.sleep(1000);
         assert (instance.nbConnections > 0);
- 
 
     }
 

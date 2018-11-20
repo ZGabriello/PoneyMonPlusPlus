@@ -25,6 +25,7 @@ import javafx.scene.text.TextAlignment;
  *
  */
 public class FieldView implements Observer {
+
     int nbPoneys = -1;
     List<PoneyView> poneys = new ArrayList<>();
 
@@ -66,7 +67,7 @@ public class FieldView implements Observer {
             backgroundColor = Color.web(backgroundResource);
         } else if (backgroundColor == null) {
             backgroundImage = new Image("assets/" + backgroundResource,
-                                        width, height, false, false);
+                    width, height, false, false);
         }
         background = new Canvas(w, h);
         poneyground = new Pane();
@@ -143,9 +144,9 @@ public class FieldView implements Observer {
 
         switch (n.name) {
             case "START":
-                
+
                 initialize((StartNotification) n);
-                
+
                 break;
             case "PROGRESS":
                 progress((ProgressNotification) n);

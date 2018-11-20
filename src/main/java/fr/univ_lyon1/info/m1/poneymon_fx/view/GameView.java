@@ -22,6 +22,7 @@ import javafx.util.Duration;
  *
  */
 public class GameView extends View {
+
     FieldModel model;
     MenuControlesView menuControles;
     Controller controller;
@@ -43,10 +44,12 @@ public class GameView extends View {
     int timeBeforeStartOfGame = 3;
     int timeBeforeGoVanishes = 2;
 
-    /** Inputs pour activer le pouvoir des poneys. */
-    KeyCode[] powerInputs =
-        new KeyCode[]{KeyCode.NUMPAD1, KeyCode.NUMPAD2, KeyCode.NUMPAD3,
-                      KeyCode.NUMPAD4, KeyCode.NUMPAD5};
+    /**
+     * Inputs pour activer le pouvoir des poneys.
+     */
+    KeyCode[] powerInputs
+            = new KeyCode[]{KeyCode.NUMPAD1, KeyCode.NUMPAD2, KeyCode.NUMPAD3,
+                KeyCode.NUMPAD4, KeyCode.NUMPAD5};
 
     /**
      * Constructeur de GameView.
@@ -67,7 +70,7 @@ public class GameView extends View {
         fview = new FieldView(model, controller, widthGame, heightGame);
 
         this.getChildren().addAll(fview.getBackground(), fview.getTrackView(),
-                                  fview.getPoneyground(), fview.getForeground());
+                fview.getPoneyground(), fview.getForeground());
 
         addButtons();
 
@@ -88,7 +91,7 @@ public class GameView extends View {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.getKeyFrames().add(
                 new KeyFrame(Duration.seconds(1),
-                  new EventHandler<ActionEvent>() {
+                        new EventHandler<ActionEvent>() {
                     // KeyFrame event handler
                     public void handle(ActionEvent event) {
                         --timeBeforeStartOfGame;

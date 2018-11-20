@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public abstract class View extends StackPane {
+
     int width;
     int height;
 
@@ -32,12 +33,12 @@ public abstract class View extends StackPane {
     static final Color YELLOW = Color.web("#E47702");
     static final Color LIGHTYELLOW = Color.web("#FCB31F");
 
-    Color[] titleColors =
-    new Color[] { LIGHTBLUE,
-        LIGHTGREEN,
-        LIGHTORANGE,
-        LIGHTPURPLE,
-        LIGHTYELLOW };
+    Color[] titleColors
+            = new Color[]{LIGHTBLUE,
+                LIGHTGREEN,
+                LIGHTORANGE,
+                LIGHTPURPLE,
+                LIGHTYELLOW};
 
     /**
      * Resize toutes les vues.
@@ -58,8 +59,8 @@ public abstract class View extends StackPane {
             letter.setFill(titleColors[i % titleColors.length]);
             letters.getChildren().add(letter);
 
-            TranslateTransition tt =
-                    new TranslateTransition(Duration.seconds(2), letter);
+            TranslateTransition tt
+                    = new TranslateTransition(Duration.seconds(2), letter);
             tt.setDelay(Duration.millis(i * 50));
             tt.setToY(-25);
             tt.setAutoReverse(true);

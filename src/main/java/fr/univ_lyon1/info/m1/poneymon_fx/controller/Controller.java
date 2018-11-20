@@ -12,13 +12,15 @@ import javafx.animation.AnimationTimer;
  *
  */
 public class Controller {
+
     GameControl currentGame;
     GameControl game;
     FieldModel model;
     List<MainView> views = new ArrayList<>();
     boolean isOnline;
     AnimationTimer timer;
-    OnlineGameControl Ogame;
+    OnlineGameControl oGame;
+
     /**
      * Constructeur du contrôleur.
      */
@@ -66,27 +68,23 @@ public class Controller {
         view.createOnlineClientView();
     }
 
-
-
     /**
-    * Démarre une nouvelle partie en créant un modèle et en le fournissant aux
-    * vues suivies.
-    *
-    * @param filename nom du fichier du circuit à charger
-    * @param nbPoneys nombre de poneys
-    */
+     * Démarre une nouvelle partie en créant un modèle et en le fournissant aux
+     * vues suivies.
+     *
+     */
     public void startGame() {
         currentGame.startGame();
-        
+
     }
-    
+
     /**
      * Utilise le pouvoir sur le poney si ce n'est pas une IA.
      *
      * @param i position du poney dans le modèle
      */
-    public void usePower(int i,String poneyType) {
-        currentGame.usePower(i,poneyType);
+    public void usePower(int i, String poneyType) {
+        currentGame.usePower(i, poneyType);
     }
 
     /**
@@ -94,19 +92,19 @@ public class Controller {
      */
     public void goToLeftLane(int i) {
         PoneyModel pm = model.getPoneyModel(i);
-        
+
         pm.goToLeftLane();
     }
-    
+
     /**
      * Déplace le poney sur la voie de droite.
      */
     public void goToRightLane(int i) {
         PoneyModel pm = model.getPoneyModel(i);
-        
+
         pm.goToRightLane();
     }
-    
+
     /**
      * Permet de relancer la partie après une pause.
      */
@@ -160,41 +158,57 @@ public class Controller {
     public void changeResolution(int idMainView, int newWidth, int newHeight) {
         views.get(idMainView).resize(newWidth, newHeight);
     }
-    
-    public void createLobby(){
-        Ogame = new OnlineGameControl(this,game);
-        Ogame.lobby = new Lobby();
-        Ogame.lobby.setController(Ogame);
-        currentGame = Ogame;
+
+    /**
+     * crée un lobby en ligne.
+     */
+    public void createLobby() {
+        oGame = new OnlineGameControl(this, game);
+        oGame.lobby = new Lobby();
+        oGame.lobby.setController(oGame);
+        currentGame = oGame;
         for (MainView view : views) {
             view.setActiveView("OnlineServerView");
         }
     }
     
-    public void joinLobby(){
-        Ogame = new OnlineGameControl(this,game);
-        Ogame.lobby = new Lobby();
-        Ogame.lobby.setController(Ogame);
-        currentGame = Ogame;
-        for (MainView view : views){
+    /**
+     * rejoins un lobby.
+     */
+    public void joinLobby() {
+        oGame = new OnlineGameControl(this, game);
+        oGame.lobby = new Lobby();
+        oGame.lobby.setController(oGame);
+        currentGame = oGame;
+        for (MainView view : views) {
             view.setActiveView("OnlineClientView");
         }
     }
 
-    public void LobbyViewFromClient(String text, String text0) {
-        Ogame.lobby.getRemoteLobby(text, Integer.parseInt(text0));
-        
-        for(MainView view : views){
-            view.createLobbyView(Ogame.lobby);
+    /**
+     * lance la vue lobby pour le client, adapte le lobby en conéquence.
+     * @param ip @ip du serveur distant.
+     * @param port port du serveur distant.
+     */
+    public void lobbyViewFromClient(String ip, String port) {
+        oGame.lobby.getRemoteLobby(ip, Integer.parseInt(port));
+
+        for (MainView view : views) {
+            view.createLobbyView(oGame.lobby);
             view.setActiveView("LobbyView");
         }
     }
 
-    public void LobbyViewFromServer(String text, String text0) {
-        Ogame.lobby.setSelfServer(text, Integer.parseInt(text0));
-        Ogame.lobby.openServer();
-        for(MainView view : views){
-            view.createLobbyView(Ogame.lobby);
+    /**
+     * lance la vue lobby pour un serveur, adapte le lobby en conséquance.
+     * @param ip ip du serveur a créer.
+     * @param port port du serveur a créer.
+     */
+    public void lobbyViewFromServer(String ip, String port) {
+        oGame.lobby.setSelfServer(ip, Integer.parseInt(port));
+        oGame.lobby.openServer();
+        for (MainView view : views) {
+            view.createLobbyView(oGame.lobby);
             view.setActiveView("LobbyView");
         }
     }

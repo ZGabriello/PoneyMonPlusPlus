@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
  *
  */
 public class MenuControlesView extends View {
+
     Controller controller;
     GameView gv;
 
@@ -138,13 +139,14 @@ public class MenuControlesView extends View {
         m.setText(controlName + " : " + "Appuyer sur une touche");
         MenuControlesView parent = this;
         this.addEventHandler(KeyEvent.KEY_PRESSED,
-                new EventHandler<KeyEvent>() {
-                    public void handle(KeyEvent e) {
-                        changeKeyCode(m, e.getCode());
-                        parent.removeEventHandler(KeyEvent.KEY_PRESSED, this);
-                        waitingForKey = false;
-                    }
-                });
+            new EventHandler<KeyEvent>() {
+                public void handle(KeyEvent e) {
+                    changeKeyCode(m, e.getCode());
+                    parent.removeEventHandler(KeyEvent.KEY_PRESSED, this);
+                    waitingForKey = false;
+                }
+            }
+        );
     }
 
     /**

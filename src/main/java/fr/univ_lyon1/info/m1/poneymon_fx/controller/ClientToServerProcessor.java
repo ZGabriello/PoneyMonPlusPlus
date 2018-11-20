@@ -76,10 +76,10 @@ class ClientToServerProcessor extends Processor {
                 Task task = new Task<Void>() {
                     @Override
                     public Void call() throws Exception {
-                            Platform.runLater(() -> {
-                                parent.lobby.controller.startGame();
-                            });
-                            return null;
+                        Platform.runLater(() -> {
+                            parent.lobby.controller.startGame();
+                        });
+                        return null;
                     }
                 };
                 Thread th = new Thread(task);
@@ -122,7 +122,8 @@ class ClientToServerProcessor extends Processor {
     public void parseInput(String substring) {
         switch (substring.substring(0, 3)) {
             case "POW":
-                this.parent.lobby.controller.usePowerClient(Integer.parseInt(substring.substring(3)));
+                this.parent.lobby.controller
+                        .usePowerClient(Integer.parseInt(substring.substring(3)));
                 break;
             case "PAU":
                 this.parent.lobby.controller.pauseClient();

@@ -7,11 +7,13 @@ import java.util.List;
  *
  */
 public class StartNotification extends Notification {
+
     int nbPoneys;
     List<String> poneyTypes;
-    
+
     /**
      * Constructeur de la notification d'initialisation du terrain.
+     *
      * @param nbPoneys Nombre de poneys dans la course
      * @param poneyTypes Différents types des poneys dans la course
      */
@@ -20,11 +22,11 @@ public class StartNotification extends Notification {
         this.nbPoneys = nbPoneys;
         this.poneyTypes = poneyTypes;
     }
-    
+
     public int getNbPoneys() {
         return nbPoneys;
     }
-    
+
     public List<String> getPoneyTypes() {
         return poneyTypes;
     }

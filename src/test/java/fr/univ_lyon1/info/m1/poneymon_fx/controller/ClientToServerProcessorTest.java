@@ -21,18 +21,20 @@ public class ClientToServerProcessorTest {
     ClientToServerProcessor instance;
 
     public ClientToServerProcessorTest() {
-        
+
         s = new Server();
         s.open();
         c = new Client("localhost", s.port);
         instance = c.processor;
 
     }
+
     @After
-    public void clean(){
+    public void clean() {
         s.close();
         c.close();
     }
+
     /**
      * Test of run method, of class ClientToServerProcessor.
      */
@@ -40,12 +42,12 @@ public class ClientToServerProcessorTest {
     public void testReceive() throws IOException, InterruptedException {
         System.out.println("run");
         Thread.sleep(1000);
-        s.sendToAll("COMMAND","CLOSE");
+        s.sendToAll("COMMAND", "CLOSE");
         Thread.sleep(1000);
         c.close();
         s.close();
         assert (instance.connexionFermee);
-        
+
     }
 
 }

@@ -17,21 +17,22 @@ import java.util.Locale;
  * Classe gérant un terrain.
  *
  */
-public class TrackModel implements Serializable{
+public class TrackModel implements Serializable {
+
     String name;
-    
+
     Line beginLine = null;
     HashMap<Integer, Line> lines = new HashMap<>();
     HashSet<LanePart> laneParts = new LinkedHashSet<>();
-    
+
     double minX;
     double minY;
     double maxX;
     double maxY;
-    
+
     double width;
     double height;
-    
+
     /**
      * Constructeur de TrackModel.
      */
@@ -40,20 +41,20 @@ public class TrackModel implements Serializable{
         minY = Double.POSITIVE_INFINITY;
         maxX = Double.NEGATIVE_INFINITY;
         maxY = Double.NEGATIVE_INFINITY;
-        
+
         importTrack(filename);
     }
-    
+
     /**
      * Charge le Track présent dans le fichier filename.
      */
     public void importTrack(String filename) {
         try {
             File f = new File("src/main/resources/tracks/" + filename);
-            Scanner scanner = new Scanner(f).useLocale(Locale.US); 
+            Scanner scanner = new Scanner(f).useLocale(Locale.US);
 
             String object = null;
-            
+
             while (true) {
                 try {
                     object = scanner.next();
@@ -71,11 +72,11 @@ public class TrackModel implements Serializable{
         } catch (FileNotFoundException exception) {
             System.out.println("Le fichier n'a pas été trouvé");
         }
-        
+
         width = maxX - minX;
         height = maxY - minY;
     }
-    
+
     /**
      * Charge une Line.
      */
@@ -87,8 +88,6 @@ public class TrackModel implements Serializable{
         int zIndex = scanner.nextInt();
         int nbLanes = scanner.nextInt();
 
-        
-        
         Line line = new Line(id, x, y, multiple, zIndex, nbLanes);
         if (object.equals("beginLine")) {
             if (beginLine == null) {
@@ -100,7 +99,7 @@ public class TrackModel implements Serializable{
 
         lines.put(id, line);
     }
-    
+
     /**
      * Charge une LanePart.
      */
@@ -112,7 +111,7 @@ public class TrackModel implements Serializable{
         int endLineId = scanner.nextInt();
         Line endLine = lines.get(endLineId);
         int endLaneId = scanner.nextInt();
-        
+
         LanePartBuilder lpb = new LanePartBuilder();
         LanePart lp = lpb.buildLanePart(beginLine, beginLaneId, endLine, endLaneId);
 
@@ -123,39 +122,39 @@ public class TrackModel implements Serializable{
 
         laneParts.add(lp);
     }
-    
+
     public HashMap<Integer, Line> getLines() {
         return lines;
     }
-    
+
     public HashSet<LanePart> getLaneParts() {
         return laneParts;
     }
-    
+
     public Line getBeginLine() {
         return beginLine;
     }
-    
+
     public double getMinX() {
         return minX;
     }
-    
+
     public double getMinY() {
         return minY;
     }
-    
+
     public double getMaxX() {
         return maxX;
     }
-    
+
     public double getMaxY() {
         return maxY;
     }
-    
+
     public double getWidth() {
         return width;
     }
-    
+
     public double getHeight() {
         return height;
     }

@@ -15,6 +15,7 @@ import javafx.stage.Stage;
  *
  */
 public class MainView {
+
     int id;
 
     HashMap<String, View> views = new HashMap<>();
@@ -113,28 +114,27 @@ public class MainView {
         menuControles = new MenuControlesView(controller, width, height);
         views.put("MenuControlesView", menuControles);
     }
-    
+
     /**
      * crée la vue d'un lobby client.
      */
-    public void createOnlineClientView(){
+    public void createOnlineClientView() {
         View ocv = new OnlineClientView(controller, width, height);
-        views.put("OnlineClientView",ocv);
+        views.put("OnlineClientView", ocv);
     }
-    
-    
+
     /**
      * crée la vue d'un lobby.
      */
-    public void createLobbyView(Lobby l){
-        View lv = new LobbyView(controller, width, height,l);
-        views.put("LobbyView",lv);
+    public void createLobbyView(Lobby l) {
+        View lv = new LobbyView(controller, width, height, l);
+        views.put("LobbyView", lv);
     }
-    
+
     /**
      * crée la vue d'un lobby Serveur.
      */
-    public void createOnlineServerView(){
+    public void createOnlineServerView() {
         View osv = new OnlineServerView(controller, width, height);
         views.put("OnlineServerView", osv);
     }
@@ -226,7 +226,6 @@ public class MainView {
             gv.unpause();
         }
     }
-
 
     public void setWidth(int newWidth) {
         width = newWidth;
