@@ -25,11 +25,11 @@ public class MenuControlesView extends View {
     Controller controller;
     GameView gv;
 
-    Map<String, KeyCode> hmControles = new LinkedHashMap<>();
+    protected Map<String, KeyCode> hmControles = new LinkedHashMap<>();
 
     private List<MenuItem> menuItems = new ArrayList<>();
-    int currentItem = 0;
-    boolean waitingForKey = false;
+    private int currentItem = 0;
+    private boolean waitingForKey = false;
 
     /**
      * Constructeur du Menu de controles.
@@ -132,7 +132,7 @@ public class MenuControlesView extends View {
      * Attend une nouvelle touche et met à jour le texte de l'item.
      *
      */
-    public void waitKeyCode(MenuItem m) {
+    private  void waitKeyCode(MenuItem m) {
         waitingForKey = true;
         final String controlName = m.getText().substring(0, 12);
         m.setText(controlName + " : " + "Appuyer sur une touche");
@@ -150,7 +150,7 @@ public class MenuControlesView extends View {
     /**
      * Chenge la touche par une nouvelle touche.
      */
-    public final void changeKeyCode(final MenuItem mi, KeyCode newKeyCode) {
+    private final void changeKeyCode(final MenuItem mi, KeyCode newKeyCode) {
         final String controlName = mi.getText().substring(0, 12);
         hmControles.put(controlName, newKeyCode);
         mi.setText(controlName + " : " + newKeyCode.toString());

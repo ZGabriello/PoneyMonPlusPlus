@@ -25,7 +25,7 @@ public class MenuView extends View {
     Controller controller;
 
     private List<MenuItem> menuItems;
-    int currentItem = 0;
+    private int currentItem = 0;
 
     /**
      * Constructeur du Menu.

@@ -32,7 +32,7 @@ public class MenuResolutionView extends View {
     final private int widthSize;
     final private int heightSize;
 
-    static final int[] widthHeight = {1024,
+    static final private int[] widthHeight = {1024,
         768,
         1200,
         900,
@@ -109,7 +109,7 @@ public class MenuResolutionView extends View {
                 new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
-    public MenuItem getMenuItem(int index) {
+    private MenuItem getMenuItem(int index) {
         return menuItems.get(index);
     }
 
