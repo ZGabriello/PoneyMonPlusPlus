@@ -2,9 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,17 +21,16 @@ import javafx.scene.paint.Color;
  */
 public class MenuResolutionView extends View {
 
-    int idMainView;
+    private int idMainView;
 
     Controller controller;
 
-    Map<Integer, Integer> hmResolution = new LinkedHashMap<>();
     private List<MenuItem> menuItems = new ArrayList<>();
 
-    int currentItem = 0;
+    private int currentItem = 0;
 
-    final int widthSize;
-    final int heightSize;
+    final private int widthSize;
+    final private int heightSize;
 
     static final int[] widthHeight = {1024,
         768,
@@ -112,7 +109,7 @@ public class MenuResolutionView extends View {
                 new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
-    private MenuItem getMenuItem(int index) {
+    public MenuItem getMenuItem(int index) {
         return menuItems.get(index);
     }
 
@@ -139,7 +136,7 @@ public class MenuResolutionView extends View {
     /**
      * Change la resolution par une nouvelle.
      */
-    public final void newResolution(final int newWidth, final int newHeight) {
+    private final void newResolution(final int newWidth, final int newHeight) {
         setPrefSize(newWidth, newHeight);
         controller.changeResolution(idMainView, newWidth, newHeight);
     }

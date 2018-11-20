@@ -25,22 +25,18 @@ public class MenuChoixPoneyView extends View {
     FieldModel model;
 
     private List<MenuItemImage> menuItems = new ArrayList<>();
-    int currentItem = 0;
-    String typePoney;
+    private int currentItem = 0;
+    private String typePoney;
 
 
-    final String[] descriptifPoney = {"Poney normal orange",
+    static final String[] descriptifPoney = {"Poney normal orange",
         "Poney normal bleu",
-        "Poney normal jaune",
         "Poney normal vert",
-        "Poney normal violet",
     };
 
-    final String[] couleurPoney = {"orange",
+    static final String[] couleurPoney = {"orange",
         "blue",
-        "yellow",
         "green",
-        "purple",
     };
 
 
@@ -68,7 +64,7 @@ public class MenuChoixPoneyView extends View {
             menuItems.add(poneyItem);
         }
 
-        MenuItemImage retourItem = new MenuItemImage("Back", "orange");
+        MenuItemImage retourItem = new MenuItemImage("Back", "purple");
         retourItem.setOnActivate(() -> controller.menuFromGame());
         menuItems.add(retourItem);
 
