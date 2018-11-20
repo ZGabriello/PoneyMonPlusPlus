@@ -36,12 +36,7 @@ public class OnlineGameControl extends GameControl {
              */
             @Override
             public void handle(long currentNanoTime) {
-
-                if (lobby.isIsHost()) {
-                    model.step();
-                } else {
-                    model.lookAtMe();
-                }
+                model.step();
             }
         };
     }
