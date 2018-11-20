@@ -35,14 +35,13 @@ public abstract class Processor implements Runnable {
     }
 
     void sendCommand(String s) {
-        System.out.println("sending command...");
         String toSend = H_COMMAND + s;
         writer.write(toSend);
         writer.flush();
     }
 
     void sendInput(String s) {
-        System.out.println("sending input...");
+        System.out.println("sending : " + s);
         String toSend = H_INPUT + s;
         writer.write(toSend);
         writer.flush();
@@ -51,25 +50,27 @@ public abstract class Processor implements Runnable {
     void sendData(String s) {
 
         String toSend = H_DATA + s;
-        System.out.println("taille bloc :" + toSend.length());
         writer.write(toSend);
         writer.flush();
     }
 
     void parseMessage(String message) {
-        //System.out.println("parsing message");
+
         switch (message.charAt(0)) {
             case H_COMMAND:
+                System.out.println(message);
                 parseCommand(message.substring(1));
                 break;
             case H_INPUT:
-                System.out.println("tis input");
+                System.out.println(message);
                 parseInput(message.substring(1));
                 break;
             case H_DATA:
+
                 parseData(message.substring(1));
                 break;
             default:
+                System.out.println(message);
                 break;
         }
     }

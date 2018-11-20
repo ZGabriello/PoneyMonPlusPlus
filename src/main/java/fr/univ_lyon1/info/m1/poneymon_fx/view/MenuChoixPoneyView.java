@@ -1,11 +1,12 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
-import java.util.Arrays;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import java.util.ArrayList;
 import java.util.List;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -15,27 +16,35 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import static javafx.scene.layout.Region.USE_PREF_SIZE;
-
 /**
- * Vue du menu.
+ * Vue du menu choix poney.
  *
  */
-public class MenuView extends View {
+public class MenuChoixPoneyView extends View {
 
     Controller controller;
+    FieldModel model;
 
-    private List<MenuItem> menuItems;
-    int currentItem = 0;
+    private List<MenuItemImage> menuItems = new ArrayList<>();
+    private int currentItem = 0;
+    private String typePoney;
+
+    static final String[] descriptifPoney = {"Poney normal orange",
+        "Poney normal bleu",
+        "Poney normal vert",};
+
+    static final String[] couleurPoney = {"orange",
+        "blue",
+        "green",};
 
     /**
-     * Constructeur du Menu.
+     * Constructeur du Menu des paramètres.
      *
      * @param c Contrôleur
      * @param w largeur de la vue
      * @param h hauteur de la vue
      */
-    public MenuView(Controller c, int w, int h) {
+    public MenuChoixPoneyView(Controller c, int w, int h) {
         setPrefSize(w, h);
 
         controller = c;
@@ -45,48 +54,35 @@ public class MenuView extends View {
     }
 
     private void createContent() {
-        // On démarre par défaut une partie avec 5 poneys
-        MenuItem startGameItem = new MenuItem("Start a game");
-        startGameItem.setOnActivate(() -> controller.startGame());
+        for (int i = 0; i < descriptifPoney.length; i++) {
+            final String myPoneyChoice = couleurPoney[i];
+            MenuItemImage poneyItem = new MenuItemImage(descriptifPoney[i], couleurPoney[i]);
+            poneyItem.setOnActivate(() -> setTypePoney(myPoneyChoice));
+            menuItems.add(poneyItem);
+        }
 
-        MenuItem exitItem = new MenuItem("Exit");
-        exitItem.setOnActivate(() -> Platform.exit());
-
-        MenuItem parameters = new MenuItem("Parameters");
-        parameters.setOnActivate(() -> controller.menuParameters());
-
-        MenuItem onlineClient = new MenuItem("Join Lobby");
-        onlineClient.setOnActivate(() -> controller.joinLobby());
-        MenuItem onlineHost = new MenuItem("Create a lobby");
-        onlineHost.setOnActivate(() -> controller.createLobby());
-
-        MenuItem choixPoney = new MenuItem("Choose Poney");
-        choixPoney.setOnActivate(() -> controller.menuChoixPoney());
-        menuItems = Arrays.asList(
-                startGameItem,
-                onlineHost,
-                onlineClient,
-                choixPoney,
-                parameters,
-                exitItem);
+        MenuItemImage retourItem = new MenuItemImage("Back", "purple");
+        retourItem.setOnActivate(() -> controller.menuFromGame());
+        menuItems.add(retourItem);
 
         Node title = createTitle("Poneymon");
-        VBox container = new VBox(10, title);
+
+        VBox container = new VBox(0, title);
 
         VBox.setMargin(title, new Insets(0, 0, 110, 0));
 
         container.getChildren().addAll(menuItems);
-        container.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
+        container.setAlignment(Pos.CENTER);
+        getChildren().add(container);
 
         getMenuItem(0).setActive(true);
 
         setBackground(new Background(
                 new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        getChildren().add(container);
     }
 
-    private MenuItem getMenuItem(int index) {
+    private MenuItemImage getMenuItem(int index) {
         return menuItems.get(index);
     }
 
@@ -108,5 +104,14 @@ public class MenuView extends View {
                 }
             }
         });
+    }
+
+    public String getTypePoney() {
+        return this.typePoney;
+    }
+
+    public void setTypePoney(String typePoney) {
+        this.typePoney = typePoney;
+        System.out.println(getTypePoney());
     }
 }

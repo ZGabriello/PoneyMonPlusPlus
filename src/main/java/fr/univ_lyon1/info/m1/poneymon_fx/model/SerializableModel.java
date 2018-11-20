@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * classe serializable et légère permettent de récupérer les infos d'un poney.
+ *
  * @author Alex
  */
 public class SerializableModel implements Serializable {
@@ -35,11 +36,13 @@ public class SerializableModel implements Serializable {
             infos = p.infos;
             lanesPassed = p.lanesPassed;
             distance = p.distance;
+
         }
     }
 
     /**
      * constructeur.
+     *
      * @param m poneyModel a copier.
      */
     public SerializableModel(FieldModel m) {

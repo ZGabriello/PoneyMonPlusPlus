@@ -67,7 +67,7 @@ class ClientToServerProcessor extends Processor {
                 connexionFermeeDemande = true;
                 break;
             case "PAUSE":
-                this.parent.lobby.controller.gamePause();
+                this.parent.lobby.controller.pauseClient();
                 break;
             case "UNPAUSE":
                 this.parent.lobby.controller.gameUnpauseClient();
@@ -120,7 +120,16 @@ class ClientToServerProcessor extends Processor {
 
     @Override
     public void parseInput(String substring) {
+        System.out.println(substring);
         switch (substring.substring(0, 3)) {
+            case "RGT":
+                this.parent.lobby.controller
+                        .goToRightLaneClient(Integer.parseInt(substring.substring(3)));
+                break;
+            case "LFT":
+                this.parent.lobby.controller
+                        .goToLeftLaneClient(Integer.parseInt(substring.substring(3)));
+                break;
             case "POW":
                 this.parent.lobby.controller
                         .usePowerClient(Integer.parseInt(substring.substring(3)));

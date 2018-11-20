@@ -30,6 +30,7 @@ import javafx.util.Duration;
 
 /**
  * Vue de création d'un lobby côté serveur.
+ *
  * @author Alex
  */
 class OnlineServerView extends View {

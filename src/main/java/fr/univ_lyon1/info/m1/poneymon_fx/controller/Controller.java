@@ -66,6 +66,7 @@ public class Controller {
         view.createMenuResolutionView();
         view.createOnlineServerView();
         view.createOnlineClientView();
+        view.createMenuChoixPoney();
     }
 
     /**
@@ -74,6 +75,7 @@ public class Controller {
      *
      */
     public void startGame() {
+
         currentGame.startGame();
 
     }
@@ -91,18 +93,15 @@ public class Controller {
      * Déplace le poney sur la voie de gauche.
      */
     public void goToLeftLane(int i) {
-        PoneyModel pm = model.getPoneyModel(i);
 
-        pm.goToLeftLane();
+        currentGame.goToLeftLane(i);
     }
 
     /**
      * Déplace le poney sur la voie de droite.
      */
     public void goToRightLane(int i) {
-        PoneyModel pm = model.getPoneyModel(i);
-
-        pm.goToRightLane();
+        currentGame.goToRightLane(i);
     }
 
     /**
@@ -134,6 +133,15 @@ public class Controller {
     public void menuControles() {
         for (MainView view : views) {
             view.setActiveView("MenuControlesView");
+        }
+    }
+
+    /**
+     * Permet d'aller dans le menu choix poney.
+     */
+    public void menuChoixPoney() {
+        for (MainView view : views) {
+            view.setActiveView("MenuChoixPoneyView");
         }
     }
 
@@ -171,7 +179,7 @@ public class Controller {
             view.setActiveView("OnlineServerView");
         }
     }
-    
+
     /**
      * rejoins un lobby.
      */
@@ -187,6 +195,7 @@ public class Controller {
 
     /**
      * lance la vue lobby pour le client, adapte le lobby en conéquence.
+     *
      * @param ip @ip du serveur distant.
      * @param port port du serveur distant.
      */
@@ -201,15 +210,21 @@ public class Controller {
 
     /**
      * lance la vue lobby pour un serveur, adapte le lobby en conséquance.
+     *
      * @param ip ip du serveur a créer.
      * @param port port du serveur a créer.
      */
     public void lobbyViewFromServer(String ip, String port) {
         oGame.lobby.setSelfServer(ip, Integer.parseInt(port));
         oGame.lobby.openServer();
+        oGame.setControlledPoney(0);
         for (MainView view : views) {
             view.createLobbyView(oGame.lobby);
             view.setActiveView("LobbyView");
         }
+    }
+
+    public int getControlledPoney() {
+        return currentGame.controlledPoney;
     }
 }

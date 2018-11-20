@@ -26,6 +26,7 @@ import javafx.util.Duration;
 
 /**
  * vue de récupération d'un lobby en ligne.
+ *
  * @author Alex
  */
 class OnlineClientView extends View {
@@ -47,7 +48,7 @@ class OnlineClientView extends View {
     static final Color LIGHTYELLOW = Color.web("#FCB31F");
 
     Color[] titleColors
-            = new Color[]{LIGHTBLUE,LIGHTGREEN,LIGHTORANGE,LIGHTPURPLE,LIGHTYELLOW};
+            = new Color[]{LIGHTBLUE, LIGHTGREEN, LIGHTORANGE, LIGHTPURPLE, LIGHTYELLOW};
 
     Controller controller;
     private List<MenuItem> menuItems;

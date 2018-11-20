@@ -132,7 +132,7 @@ public class GameView extends View {
             public void handle(MouseEvent arg0) {
                 if (pauseButton.getText().equals("Pause")) {
                     controller.gamePause();
-                } else if (pauseButton.getText().equals(Continuer)) {
+                } else if (pauseButton.getText().equals("Continuer")) {
                     controller.gameUnpause();
                 }
             }
@@ -144,11 +144,11 @@ public class GameView extends View {
     }
 
     public void pause() {
-        //pauseButton.setText("Continuer");
+        pauseButton.setText("Continuer");
     }
 
     public void unpause() {
-        //pauseButton.setText("Pause");
+        pauseButton.setText("Pause");
     }
 
     /**
@@ -176,19 +176,24 @@ public class GameView extends View {
                     if (controls.get(control).equals(e.getCode())) {
                         switch (control) {
                             case "Pouvoir NyanPoney":
-                                controller.usePower(1, "NyanPoneyModel");
+                                controller.usePower(
+                                        controller.getControlledPoney(), "NyanPoneyModel");
                                 break;
                             case "Pouvoir EnragedPoney à gauche":
-                                controller.usePower(1, "EnragedPoneyModel");
+                                controller.usePower(
+                                        controller.getControlledPoney(), "EnragedPoneyModel");
                                 break;
                             case "Pouvoir EnragedPoney à droite":
-                                controller.usePower(1, "EnragedPoneyModel");
+                                controller.usePower(
+                                        controller.getControlledPoney(), "EnragedPoneyModel");
                                 break;
                             case "Aller sur la voie de gauche":
-                                controller.goToLeftLane(1);
+                                controller.goToLeftLane(
+                                        controller.getControlledPoney());
                                 break;
                             case "Aller sur la voie de droite":
-                                controller.goToRightLane(1);
+                                controller.goToRightLane(
+                                        controller.getControlledPoney());
                                 break;
                             default:
                         }

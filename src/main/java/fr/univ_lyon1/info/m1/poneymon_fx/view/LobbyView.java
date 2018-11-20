@@ -29,6 +29,7 @@ import javafx.util.Duration;
 
 /**
  * vue d'un Lobby.
+ *
  * @author Alex
  */
 public class LobbyView extends View {
@@ -64,6 +65,7 @@ public class LobbyView extends View {
 
     /**
      * constructeur.
+     *
      * @param c Controleur parent.
      * @param w largeur du canvas.
      * @param h hauteur du canvas.
@@ -109,11 +111,12 @@ public class LobbyView extends View {
             playItem.setOnActivate(() -> controller.startGame());
         }
         List<String> ips = lobby.getIps();
+        List<Integer> ports = lobby.getPorts();
         List<Label> labels = new ArrayList<>();
         labels.add(new Label());
         labels.get(0).setText("Joueurs : ");
         for (int i = 0; i < lobby.getIps().size(); i++) {
-            labels.add(new Label(ips.get(i)));
+            labels.add(new Label(ips.get(i) + " : " + ports.get(i)));
         }
 
         if (playItem != null) {
@@ -139,6 +142,7 @@ public class LobbyView extends View {
 
     /**
      * récupère un objet du menu.
+     *
      * @param index index de l'objet a récupérer.
      * @return l'objet voulu.
      */

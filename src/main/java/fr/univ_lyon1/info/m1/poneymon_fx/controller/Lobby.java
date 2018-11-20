@@ -85,13 +85,26 @@ public class Lobby {
         this.hostIp = ip;
     }
 
+    /**
+     * Se connecte a un serveur distant. 
+     * @param ip @ip du serveur distant.
+     * @param port port utilisé par le serveur distant.
+     */
     public void getRemoteLobby(String ip, int port) {
         client = new Client(ip, port);
+        this.portUsed = client.sock.getLocalPort();
+        System.out.println(portUsed);
         client.setLobby(this);
     }
 
+    /**
+     * Se connecte a un serveur distant avec un numéro de port par défaut (9000).
+     * @param ip adresse ip du serveur distant.
+     */
     public void getRemoteLobby(String ip) {
         client = new Client(ip, 9000);
+        this.portUsed = client.sock.getLocalPort();
+        System.out.println(portUsed);
         client.setLobby(this);
     }
 
@@ -143,6 +156,7 @@ public class Lobby {
 
     void addConnection(Socket client) {
         ips.add(client.getInetAddress().getHostAddress());
+        ports.add(client.getPort());
     }
 
     String serializeModel() throws JsonProcessingException {
@@ -227,6 +241,10 @@ public class Lobby {
 
     public String getHostIp() {
         return hostIp;
+    }
+
+    public List<Integer> getPorts() {
+        return this.ports;
     }
 
     public void setHostIp(String hostIp) {

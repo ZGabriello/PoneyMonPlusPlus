@@ -3,10 +3,12 @@ package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.MainView;
+import java.util.List;
 import javafx.animation.AnimationTimer;
 
 /**
  * sous-classe du controller qui gère la logique du jeu.
+ *
  * @author Alex
  */
 public class GameControl {
@@ -14,16 +16,18 @@ public class GameControl {
     FieldModel model;
     AnimationTimer timer;
     Controller parent;
+    int controlledPoney = 0;
 
     /**
      * constructeur.
+     *
      * @param c Controlleur parent.
      */
     public GameControl(Controller c) {
         parent = c;
-        model = new FieldModel("test", 3);
+        model = new FieldModel("circular", 3);
         timer = new AnimationTimer() {
-            
+
             /**
              * Boucle principale du jeu.
              *
@@ -39,6 +43,7 @@ public class GameControl {
 
     /**
      * constructeur par copied'un autre GameControl.
+     *
      * @param c Controlleur parent.
      * @param gCon GameControler a copier.
      */
@@ -46,6 +51,24 @@ public class GameControl {
         this.parent = c;
         this.model = gCon.model;
         this.timer = gCon.timer;
+    }
+
+    /**
+     * Déplace le poney sur la voie de gauche.
+     */
+    public void goToLeftLane(int i) {
+        PoneyModel pm = model.getPoneyModel(i);
+
+        pm.goToLeftLane();
+    }
+
+    /**
+     * Déplace le poney sur la voie de droite.
+     */
+    public void goToRightLane(int i) {
+        PoneyModel pm = model.getPoneyModel(i);
+
+        pm.goToRightLane();
     }
 
     /**
@@ -64,7 +87,7 @@ public class GameControl {
      * vues suivies.
      */
     public void startGame() {
-
+        setDefaultControlledPoney();
         for (MainView view : parent.views) {
             view.setModel(model);
             view.createGameView();
@@ -111,6 +134,17 @@ public class GameControl {
             view.setActiveView("MenuView");
             view.deleteView("GameView");
             view.setModel(null);
+        }
+    }
+
+    public void setDefaultControlledPoney() {
+        controlledPoney = 1;
+        System.out.println("default poney");
+    }
+
+    void setControlledPoney(int i) {
+        if (i < model.getNbPoneys() - 1) {
+            controlledPoney = i;
         }
     }
 }
