@@ -132,7 +132,7 @@ public class GameView extends View {
             public void handle(MouseEvent arg0) {
                 if (pauseButton.getText().equals("Pause")) {
                     controller.gamePause();
-                } else if (pauseButton.getText().equals(Continuer)) {
+                } else if (pauseButton.getText().equals("Continuer")) {
                     controller.gameUnpause();
                 }
             }
@@ -144,11 +144,11 @@ public class GameView extends View {
     }
 
     public void pause() {
-        //pauseButton.setText("Continuer");
+        pauseButton.setText("Continuer");
     }
 
     public void unpause() {
-        //pauseButton.setText("Pause");
+        pauseButton.setText("Pause");
     }
 
     /**

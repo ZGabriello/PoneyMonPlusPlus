@@ -22,7 +22,7 @@ public class GameControl {
      */
     public GameControl(Controller c) {
         parent = c;
-        model = new FieldModel("test", 3);
+        model = new FieldModel("circular", 3);
         timer = new AnimationTimer() {
             
             /**
