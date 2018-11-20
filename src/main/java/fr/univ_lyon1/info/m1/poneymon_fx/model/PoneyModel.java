@@ -148,10 +148,8 @@ public abstract class PoneyModel extends Observable implements Serializable{
         }
     }
     
-    protected void nextLane() {
-        lanesPassed++;
-        double overProgress = distance - curLaneLength;
     protected void goToNextLane() {
+        lanesPassed++;
         double overDistance = distance - curLaneLength;
         setCurLane(curLane.getNext());
         setDistance(overDistance);

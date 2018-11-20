@@ -34,11 +34,9 @@ public class OnlineGameControl extends GameControl{
             public void handle(long currentNanoTime) {
                 
                 if (lobby.isIsHost()){
-                    System.out.println("host");
                     model.step();
                 }
                 else{
-                    System.out.println("client");
                     model.lookAtMe();
                 }
             }

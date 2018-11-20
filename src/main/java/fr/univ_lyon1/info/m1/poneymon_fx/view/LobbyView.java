@@ -137,32 +137,6 @@ public class LobbyView extends View{
     }
     
     
-    
-    
-    private Node createTitle(String title) {
-        HBox letters = new HBox(0);
-        letters.setAlignment(Pos.CENTER);
-
-        for (int i = 0; i < title.length(); i++) {
-            Text letter = new Text(title.charAt(i) + "");
-            letter.setFont(FONT);
-            letter.setFill(titleColors[i % titleColors.length]);
-            letters.getChildren().add(letter);
-
-            TranslateTransition tt =
-                    new TranslateTransition(Duration.seconds(2), letter);
-            tt.setDelay(Duration.millis(i * 50));
-            tt.setToY(-25);
-            tt.setAutoReverse(true);
-            tt.setCycleCount(TranslateTransition.INDEFINITE);
-            tt.play();
-        }
-
-        letters.setEffect(new GaussianBlur(2));
-
-        return letters;
-    }
-
     private MenuItem getMenuItem(int index) {
         return menuItems.get(index);
     }

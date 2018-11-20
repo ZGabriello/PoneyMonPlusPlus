@@ -77,12 +77,14 @@ public class GameControl {
      *
      * @param i position du poney dans le modèle
      */
-    public void usePower(int i) {
+    public void usePower(int i, String poneyType) {
         PoneyModel pm = model.getPoneyModel(i);
-        if (!pm.isIa()) {
-            model.getPoneyModel(i).usePower();
+        
+        if (pm.getClass().getSimpleName().equals(poneyType)) {
+            if (!pm.isIa()) {
+                model.getPoneyModel(i).usePower();
+            }
         }
-
     }
 
     /**

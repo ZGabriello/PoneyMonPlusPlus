@@ -85,8 +85,8 @@ public class Controller {
      *
      * @param i position du poney dans le modèle
      */
-    public void usePower(int i) {
-        currentGame.usePower(i);
+    public void usePower(int i,String poneyType) {
+        currentGame.usePower(i,poneyType);
     }
 
     /**
