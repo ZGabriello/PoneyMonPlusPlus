@@ -66,6 +66,7 @@ public class Controller {
         view.createMenuResolutionView();
         view.createOnlineServerView();
         view.createOnlineClientView();
+        view.createMenuChoixPoney();
     }
 
     /**
@@ -135,6 +136,15 @@ public class Controller {
         }
     }
 
+    /**
+     * Permet d'aller dans le menu choix poney.
+     */
+    public void menuChoixPoney() {
+        for (MainView view : views) {
+            view.setActiveView("MenuChoixPoneyView");
+        }
+    }
+    
     /**
      * Permet d'aller dans le menu paramètres.
      */

@@ -20,7 +20,7 @@ public class MainView {
 
     HashMap<String, View> views = new HashMap<>();
     String activeView;
-
+    MenuChoixPoneyView menuChoixPoney;
     FieldModel model;
     Controller controller;
     MenuControlesView menuControles;
@@ -92,6 +92,14 @@ public class MainView {
     }
 
     /**
+     * Crée et ajoute au cache une vue de choix des poneys.
+     */
+    public void createMenuChoixPoney() {
+        menuChoixPoney = new MenuChoixPoneyView(controller, width, height);
+        views.put("MenuChoixPoneyView", menuChoixPoney);
+    }
+
+    /**
      * Crée et ajoute au cache des vues les paramètres.
      */
     public void createMenuParametersView() {
@@ -141,6 +149,11 @@ public class MainView {
 
     public void deleteView(String view) {
         views.remove(view);
+    }
+    
+    
+    public String getMyChoicePoney() {
+        return this.menuChoixPoney.getTypePoney();
     }
 
     /**
