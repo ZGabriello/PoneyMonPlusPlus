@@ -21,8 +21,8 @@ import java.util.Random;
 public abstract class PoneyModel extends Observable implements Serializable {
 
     static final int SPEED_DIVIDER = 5;
-    static final double MIN_SPEED = 0;
-    static final double MAX_SPEED = 0.5;
+    double minSpeed = 0;
+    double maxSpeed = 0.5;
 
     boolean isTouched;
     double acceleration;
@@ -68,7 +68,7 @@ public abstract class PoneyModel extends Observable implements Serializable {
         lanesPassed = 0;
         ia = false;
 
-        speed = MIN_SPEED;
+        speed = minSpeed;
         acceleration = 0.002;
 
         this.states = new ArrayList<>();
@@ -243,10 +243,10 @@ public abstract class PoneyModel extends Observable implements Serializable {
      * Controle de la vitesse du poney.
      */
     private void controlSpeed() {
-        if (speed > MAX_SPEED) {
-            speed = MAX_SPEED;
-        } else if (speed < MIN_SPEED) {
-            speed = MIN_SPEED;
+        if (speed > maxSpeed) {
+            speed = maxSpeed;
+        } else if (speed < minSpeed) {
+            speed = minSpeed;
         }
     }
 
@@ -400,11 +400,11 @@ public abstract class PoneyModel extends Observable implements Serializable {
 
     public void multiplySpeed(int speedMultipler) {
         speed *= speedMultipler;
+        maxSpeed *= speedMultipler;
     }
 
     public void divideSpeed(int speedDivider) {
-        speed /= speedDivider;
-
+        maxSpeed /= speedDivider;
     }
 
     public int getPosition() {

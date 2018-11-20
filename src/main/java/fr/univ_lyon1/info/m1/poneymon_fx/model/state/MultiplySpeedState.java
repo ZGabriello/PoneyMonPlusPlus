@@ -25,4 +25,15 @@ public class MultiplySpeedState extends State {
 
         pm.multiplySpeed(SPEED_MULTIPLIER);
     }
+    
+    /**
+     * Eliminer l'état du poney.
+     *
+     * @param pm un poneyModel
+     */
+    public void unapplyState(PoneyModel pm) {
+        super.unapplyState(pm);
+        
+        pm.divideSpeed(SPEED_MULTIPLIER);
+    }
 }

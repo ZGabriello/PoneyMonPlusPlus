@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 public class NyanPoneyModel extends PoneyModel {
 
-    public static final int SPEED_MULTIPLIER = 2;
+    public static final int SPEED_MULTIPLIER = 3;
 
     /**
      * Constructeur de NyanPoney sans modèle et autres paramètres, pour tests.
