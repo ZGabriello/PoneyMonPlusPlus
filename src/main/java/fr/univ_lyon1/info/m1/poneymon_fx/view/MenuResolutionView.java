@@ -29,10 +29,10 @@ public class MenuResolutionView extends View {
 
     private int currentItem = 0;
 
-    final private int widthSize;
-    final private int heightSize;
+    private final int widthSize;
+    private int heightSize;
 
-    static final private int[] widthHeight = {1024,
+    private static final int[] widthHeight = {1024,
         768,
         1200,
         900,

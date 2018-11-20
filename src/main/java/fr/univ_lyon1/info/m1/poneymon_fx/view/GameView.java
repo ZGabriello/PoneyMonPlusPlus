@@ -23,8 +23,8 @@ public class GameView extends View {
 
     Group root;
 
-    final private int widthGame;
-    final private int heightGame;
+    private final int widthGame;
+    private final int heightGame;
 
     /**
      * Les boutons.
