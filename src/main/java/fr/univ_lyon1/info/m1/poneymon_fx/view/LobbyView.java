@@ -81,7 +81,7 @@ public class LobbyView extends View {
         Task task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                while (true) {
+                while (Thread.currentThread().isAlive()) {
 
                     Platform.runLater(() -> {
                         for (int i = 0; i < getChildren().size(); i++) {
@@ -91,6 +91,7 @@ public class LobbyView extends View {
                     });
                     Thread.sleep(1000);
                 }
+                return null;
             }
         };
         Thread th = new Thread(task);

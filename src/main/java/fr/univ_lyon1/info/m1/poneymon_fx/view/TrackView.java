@@ -63,8 +63,8 @@ public class TrackView extends Canvas {
     }
 
     private void initialize() {
-        double fakeWidth = width - PADDING;
-        double fakeHeight = height - PADDING;
+        double fakeWidth = (double) width - PADDING;
+        double fakeHeight = (double) height - PADDING;
 
         double widthScale = fakeWidth / track.getWidth();
         double heightScale = fakeHeight / track.getHeight();

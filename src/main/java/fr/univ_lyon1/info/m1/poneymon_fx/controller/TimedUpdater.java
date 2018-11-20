@@ -30,6 +30,7 @@ class TimedUpdater implements Runnable {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(TimedUpdater.class.getName()).log(Level.SEVERE, null, ex);
+            Thread.currentThread().interrupt();
         }
         while (!isClosed) {
             try {
@@ -41,6 +42,7 @@ class TimedUpdater implements Runnable {
                 this.parent.sendToAll("DATA", 'l' + parent.lobby.serializeLobby());
             } catch (JsonProcessingException | InterruptedException ex) {
                 Logger.getLogger(TimedUpdater.class.getName()).log(Level.SEVERE, null, ex);
+                Thread.currentThread().interrupt();
             } catch (IOException ex) {
                 Logger.getLogger(TimedUpdater.class.getName()).log(Level.SEVERE, null, ex);
             }

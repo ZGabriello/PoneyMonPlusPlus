@@ -35,7 +35,7 @@ public class Line implements Serializable {
     double slope;
 
     static final int numberOfAngles = 8; // doit être un multiple de 8
-    static final double minAngle = PI / (numberOfAngles / 2);
+    static final double minAngle = PI / ((double) numberOfAngles / 2);
     public static final double laneWidth = 0.5; // longueur d'une voie
     static final double slopeInf = 100;
 
