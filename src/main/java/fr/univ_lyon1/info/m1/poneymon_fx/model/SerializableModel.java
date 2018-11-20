@@ -49,6 +49,7 @@ public class SerializableModel implements Serializable{
             infos = p.infos;
             lanesPassed = p.lanesPassed;
             distance = p.distance;
+            
             //strategy = p.strategy;
 
         }

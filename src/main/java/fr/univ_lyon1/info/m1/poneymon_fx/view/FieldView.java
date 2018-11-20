@@ -78,7 +78,6 @@ public class FieldView implements Observer {
         scale = tview.getScale();
         xOffset = tview.getxOffset();
         yOffset = tview.getyOffset();
-        
         field.addObserver(this);
     }
 
@@ -142,9 +141,9 @@ public class FieldView implements Observer {
         Notification n = (Notification) o;
         switch (n.name) {
             case "START":
-                if (nbPoneys == -1) {
-                    initialize((StartNotification) n);
-                }
+                
+                initialize((StartNotification) n);
+                
                 break;
             case "PROGRESS":
                 progress((ProgressNotification) n);

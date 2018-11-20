@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.notification.PowerNotification;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.TrackModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.track.Line;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.strategy.ImStillHereNyanStrategy;
@@ -184,7 +185,7 @@ public class FieldModel extends Observable implements Serializable {
      * @param m modèle à copier.
      */
     public void copy(SerializableModel m) {
-        //this.progresses = m.progresses;
+        
         for (int i = 0; i < poneys.size(); i++) {
             poneys.get(i).nbTurns = m.poneys.get(i).nbTurns;
             poneys.get(i).infos = m.poneys.get(i).infos;
@@ -192,13 +193,14 @@ public class FieldModel extends Observable implements Serializable {
             poneys.get(i).acceleration = m.poneys.get(i).acceleration;
             poneys.get(i).distance = m.poneys.get(i).distance;
             poneys.get(i).lanesPassed = m.poneys.get(i).lanesPassed;
+            if (m.poneys.get(i).powerState!=poneys.get(i).powerState){
+                poneys.get(i).powerState=m.poneys.get(i).powerState;
+                notifyObservers(new PowerNotification(m.poneys.get(i).powerState));
+            }
             poneys.get(i).setOnRightLane();
             coords.set(i, new double[] {poneys.get(i).infos[0], poneys.get(i).infos[1]});
             angles[i] = poneys.get(i).infos[2];
         }
-        step();
-        setChanged();
-        notifyObservers(new ProgressNotification(coords,angles));
     }
 
     /**
